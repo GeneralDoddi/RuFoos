@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Challenge player"
+            android:id="@+id/challengePlayer" android:layout_gravity="center_horizontal"
+            android:onClick="buttonClick"/>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Challenge team"
+            android:id="@+id/challengeTeam" android:layout_gravity="center_horizontal"
+            android:onClick="buttonClick"/>
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="My challenges"
+            android:id="@+id/myChallenges" android:layout_gravity="center_horizontal"
+            android:onClick="buttonClick"/>
+</LinearLayout>
