@@ -14,6 +14,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.springframework.web.client.RestTemplate;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+
 /**
  * Created by BearThor on 3.11.2014.
  */
@@ -54,6 +57,21 @@ public class UserServiceData implements UserService {
                 e.printStackTrace();
             }
         return user;
+    }
+
+    public User getUserByUserName2(String username)
+    {
+        try {
+            final String url = BASE_URL + "/users/getuserbyname/" + username;
+            RestTemplate restTemplate = new RestTemplate();
+            restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+            User user = restTemplate.getForObject(url, User.class);
+            return user;
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 }
 

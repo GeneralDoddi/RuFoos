@@ -9,4 +9,5 @@ public interface UserService {
 
         public int addUser(User user);
         public User getUserByUsername(String username);
+        public User getUserByUsername2(String username);
 }
