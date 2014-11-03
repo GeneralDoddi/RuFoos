@@ -5,7 +5,7 @@ import com.example.RuFoos.domain.User;
 /**
  * Created by BearThor on 3.11.2014.
  */
-public interface UserData {
+public interface UserService {
 
         public int addUser(User user);
         public User getUserByUsername(String username);
