@@ -59,7 +59,7 @@ public class UserServiceData implements UserService {
         return user;
     }
 
-    public User getUserByUserName2(String username)
+    public User getUserByUsername2(String username)
     {
         try {
             final String url = BASE_URL + "/users/getuserbyname/" + username;

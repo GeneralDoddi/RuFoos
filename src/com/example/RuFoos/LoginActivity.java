@@ -23,7 +23,7 @@ public class LoginActivity extends Activity {
         new Thread(new Runnable() {
             public void run() {
                 UserService service = new UserServiceData();
-                User user = service.getUserByUsername2("doddi");
+                User user = service.getUserByUsername("doddi");
                 System.out.println(user.toString());
             }
         }).start();
