@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
  */
 public class StreamConverter {
 
-    private static String convertInputStreamToString(InputStream inputStream) throws IOException {
+    public String convertInputStreamToString(InputStream inputStream) throws IOException {
         BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
         String line = "";
         String result = "";
