@@ -1,0 +1,12 @@
+<resources>
+    <!-- A dark Holo shade of blue -->
+    <color name="rubar_dark">#A80002</color>
+    <!-- A light Holo shade of blue -->
+    <color name="rubar_light">#C50D12</color>
+
+    <color name="red_pressed">@android:color/holo_red_dark</color>
+    <color name="red_normal">@android:color/holo_red_light</color>
+
+
+
+</resources>
