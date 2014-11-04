@@ -9,6 +9,8 @@ import com.example.RuFoos.domain.User;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
+import java.util.List;
+
 /**
  * Created by Gadi on 2.11.2014.
  */
@@ -24,7 +26,11 @@ public class LoginActivity extends Activity {
             public void run() {
                 UserService service = new UserServiceData();
                 User user = service.getUserByUsername("doddi");
-                System.out.println(user.toString());
+                User user2 = new User("rabbi","bebb@babb.is","qwerty");
+                int ble = service.addUser(user2);
+                List<User> userlist = service.getAllUsers();
+
+                System.out.println(userlist);
             }
         }).start();
     }
