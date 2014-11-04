@@ -180,7 +180,6 @@ router.post('/teams/addteam', function(req,res){
 });
 
 router.post('/teams/teamupdate', function(req,res){
-	//TODO UTFAERA TEAMUPDATE
 	teams.findOne({'name': req.body.name}, function(err, response){
 		if(err){
 			console.log("Error: " + err);
@@ -210,7 +209,7 @@ router.post('/teams/teamupdate', function(req,res){
 	});
 });
 
-router.post('/pickupmatch/signup', function(req, res){
+/*router.post('/pickupmatch/signup', function(req, res){
 	var newPickup = new pickup();
 	console.log(req.body);
 		user.find({'userName': req.body.userName}, function(err, response){
@@ -284,38 +283,34 @@ router.post('/pickupmatch/signup', function(req, res){
 		  	});
 		}
 	});
-});
+});*/
 
-router.post('/pickupmatch/signupTest', function(req, res){
-	var newPickup = new pickupTest();
-		user.find({'userName': req.body.player}, function(err, response){
+router.post('/pickupmatch/signup', function(req, res){
+	var newPickup = new pickup();
+		user.find({'userName': req.body.userName}, function(err, response){
 			if(err){
 				console.log("Error: " + err);
 				res.status(503).send(err);
 			}
 			else{
-				//pickup.find('')
-				pickupTest.find('',function(err,response){
+				pickup.find('',function(err,response){
 				if(err){
 					console.log("Error: " + err);
 					res.status(503).send(err);
 				}
 				else{
-					//console.log(response);
 					service.setFound(false);
-					//console.log(service.getFound());
 					response.forEach(function(pickupMatch){
-						//console.log(pickupMatch.players);
-						//if(!pickupMatch.full){
-							if(pickupMatch.players.indexOf(req.body.player) != -1){
-								res.status(503).send("Player aldready signed up");
+
+						if(pickupMatch.players.indexOf(req.body.player) != -1){
+							res.status(503).send("Player aldready signed up");
+							service.setFound(true);
+						}
+						else{
+							if(pickupMatch.players.size <= 4){
+								pickupMatch.players.push(req.body.userName);
 								service.setFound(true);
-							}
-							else{
-								pickupMatch.players.push(req.body.player);
 								pickupMatch.save(function(err, b){
-									service.setFound(true);
-									//console.log(service.getFound());
 									if(err){
 										console.log(err);
 										res.status(503).send(err);
@@ -326,12 +321,12 @@ router.post('/pickupmatch/signupTest', function(req, res){
 									}
 								});
 							}
-						//}		
+						}		
 					});
 					console.log(service.getFound())
-					if(service.getFound() == false){
+					if(!service.getFound()){
 						console.log("inserting");
-						newPickup.players.push(req.body.player);
+						newPickup.players.push(req.body.userName);
 						newPickup.save(function(err, b){
 							if(err){
 								console.log(err);

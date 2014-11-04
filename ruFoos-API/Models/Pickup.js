@@ -5,10 +5,7 @@ var Schema = mongoose.Schema;
 
 var PickupSchema = new Schema( {
 
-	player1: String,
-	player2: String,
-	player3: String,
-	player4: String,
+	players: [String],
 	full: { type: Boolean, default: false}
 });
 
