@@ -12,4 +12,5 @@ public interface UserService {
         public int addUser(User user);
         public User getUserByUsername(String username);
         public List<User> getAllUsers();
+        public int updateUser(User User);
 }

@@ -10,6 +10,7 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -42,18 +43,10 @@ public class UserServiceData implements UserService {
             String jsonString = mapper.writeValueAsString(user);
             StringEntity se = new StringEntity(jsonString);
             httpPost.setEntity(se);
-
-            // 7. Set some headers to inform server about the type of the content
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
-
-            // 8. Execute POST request to the given URL
             response = client.execute(httpPost);
-
-            // 9. receive response as inputStream
             InputStream inputStream = response.getEntity().getContent();
-
-            // 10. convert inputstream to string
             if (inputStream != null)
                 result = converter.convertInputStreamToString(inputStream);
             else
@@ -62,8 +55,6 @@ public class UserServiceData implements UserService {
         } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
         }
-
-        // 11. return result
         return response.getStatusLine().getStatusCode();
 
 
@@ -137,5 +128,34 @@ public class UserServiceData implements UserService {
 
         }
         return users;
+    }
+
+    @Override
+    public int updateUser(User user) {
+
+        final String url = "/users/updateuser";
+        HttpPut httpPut = new HttpPut(BASE_URL + url);
+        ObjectMapper mapper = new ObjectMapper();
+
+        HttpResponse response = null;
+        try {
+            String result = null;
+            String jsonString = mapper.writeValueAsString(user);
+            StringEntity se = new StringEntity(jsonString);
+            httpPut.setEntity(se);
+            httpPut.setHeader("Accept", "application/json");
+            httpPut.setHeader("Content-type", "application/json");
+            response = client.execute(httpPut);
+            InputStream inputStream = response.getEntity().getContent();
+            if (inputStream != null)
+                result = converter.convertInputStreamToString(inputStream);
+            else
+                result = "Did not work!";
+
+        } catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+        return response.getStatusLine().getStatusCode();
+
     }
 }
