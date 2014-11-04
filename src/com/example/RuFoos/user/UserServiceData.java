@@ -89,7 +89,7 @@ public class UserServiceData implements UserService {
                 String jsonResponse = converter.convertInputStreamToString(content);
                 System.out.println(jsonResponse);
                 user = mapper.readValue(jsonResponse, User.class);
-                System.out.println(user.toString());
+
             }
             else {
                 Log.e("Failed to get JSON object", "Error getting resource");
