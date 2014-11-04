@@ -14,6 +14,7 @@ public class User {
     protected String userName;
     protected String email;
     protected String password;
+    protected String player;
 
     public User() {
     }
@@ -57,6 +58,14 @@ public class User {
         this.password = password;
     }
 
+    public String getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(String player) {
+        this.player = player;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -64,6 +73,7 @@ public class User {
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", player='" + player + '\'' +
                 '}';
     }
 }

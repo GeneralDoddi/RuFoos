@@ -36,6 +36,7 @@ public class UserServiceData implements UserService {
         HttpPost httpPost = new HttpPost(BASE_URL + url);
         ObjectMapper mapper = new ObjectMapper();
         String result = null;
+        HttpResponse response = null;
         try {
 
             String jsonString = mapper.writeValueAsString(user);
@@ -47,10 +48,10 @@ public class UserServiceData implements UserService {
             httpPost.setHeader("Content-type", "application/json");
 
             // 8. Execute POST request to the given URL
-            HttpResponse httpResponse = client.execute(httpPost);
+            response = client.execute(httpPost);
 
             // 9. receive response as inputStream
-            InputStream inputStream = httpResponse.getEntity().getContent();
+            InputStream inputStream = response.getEntity().getContent();
 
             // 10. convert inputstream to string
             if (inputStream != null)
@@ -63,7 +64,7 @@ public class UserServiceData implements UserService {
         }
 
         // 11. return result
-        return 200;
+        return response.getStatusLine().getStatusCode();
 
 
     }
@@ -72,7 +73,9 @@ public class UserServiceData implements UserService {
     public User getUserByUsername(String username) {
         User user = new User();
         final String url = "/users/getuserbyname/";
-
+        StreamConverter converter = new StreamConverter();
+        StringBuilder builder = new StringBuilder();
+        HttpClient client = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(BASE_URL + url + username);
 
         try {
@@ -84,14 +87,11 @@ public class UserServiceData implements UserService {
                 HttpEntity entity = response.getEntity();
                 InputStream content = entity.getContent();
                 String jsonResponse = converter.convertInputStreamToString(content);
-
-
-                user = new ObjectMapper().readValue(jsonResponse, User.class);
-                /*List<User> points = mapper.readValue(jsonResponse,
-                        new TypeReference<List<User>>() {
-                        });*/
-
-            } else {
+                System.out.println(jsonResponse);
+                user = mapper.readValue(jsonResponse, User.class);
+                System.out.println(user.toString());
+            }
+            else {
                 Log.e("Failed to get JSON object", "Error getting resource");
             }
         } catch (ClientProtocolException e) {
@@ -99,10 +99,9 @@ public class UserServiceData implements UserService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return user;
     }
+
 
     @Override
     public List<User> getAllUsers() {
