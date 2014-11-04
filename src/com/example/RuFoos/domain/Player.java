@@ -1,9 +1,12 @@
 package com.example.RuFoos.domain;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+
 /**
  * Domain class for player in ruFoos
  * Created by BearThor on 2.11.2014.
  */
+@JsonAutoDetect(fieldVisibility= JsonAutoDetect.Visibility.ANY)
 public class Player {
 
     protected int wins;

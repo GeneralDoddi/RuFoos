@@ -1,30 +1,45 @@
 package com.example.RuFoos.domain;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+
 /**
  * * Domain class for user in ruFoos
  * Created by BearThor on 2.11.2014.
  */
+@JsonAutoDetect(fieldVisibility= JsonAutoDetect.Visibility.ANY)
+
 public class User {
 
-    protected String username;
+    protected String _id;
+    protected String userName;
     protected String email;
     protected String password;
+    protected String player;
 
     public User() {
     }
 
-    public User(String username, String email, String password) {
-        this.username = username;
+    public User(String userName, String email, String password) {
+
+        this.userName = userName;
         this.email = email;
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String get_id() {
+        return _id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void set_id(String _id) {
+        this._id = _id;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {
@@ -43,12 +58,22 @@ public class User {
         this.password = password;
     }
 
+    public String getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(String player) {
+        this.player = player;
+    }
+
     @Override
     public String toString() {
         return "User{" +
-                "username='" + username + '\'' +
+                "_id='" + _id + '\'' +
+                ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", player='" + player + '\'' +
                 '}';
     }
 }
