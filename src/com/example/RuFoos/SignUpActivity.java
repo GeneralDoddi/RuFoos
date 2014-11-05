@@ -2,10 +2,15 @@ package com.example.RuFoos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
+import com.example.RuFoos.domain.User;
+import com.example.RuFoos.user.UserService;
+import com.example.RuFoos.user.UserServiceData;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -24,55 +29,85 @@ public class SignUpActivity extends Activity {
             "^[a-zA-Z0-9_-]{6,20}$";
     private Pattern pattern;
     private Matcher matcher;
+
+    private EditText username;
+    private EditText email;
+    private EditText password;
+    private UserService userService = new UserServiceData();
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
+
+        username = (EditText) findViewById(R.id.username);
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
     }
+
 
     public void signUp(View view) {
-        EditText username = (EditText) findViewById(R.id.username);
-        EditText email = (EditText) findViewById(R.id.email);
-        EditText password = (EditText) findViewById(R.id.password);
-        EditText password2 = (EditText) findViewById(R.id.password);
-        StringBuilder errorMsg = new StringBuilder();
-        boolean error = false;
-        dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Errors");
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-            }
-        });
-        pattern = Pattern.compile(USERNAME_PATTERN);
-        // Username check
-        matcher = pattern.matcher(username.getText());
-        if(!matcher.matches()) {
-            errorMsg.append("- Invalid username \n");
-            error = true;
-        }
 
-        pattern = Pattern.compile(EMAIL_PATTERN);
-        matcher = pattern.matcher(email.getText());
-        if(!matcher.matches()) {
-            errorMsg.append("- Invalid email address \n");
-            error = true;
-        }
+        AsyncRunner mTask = new AsyncRunner();
+        mTask.execute();
 
-        pattern = Pattern.compile(PASSWORD_PATTERN);
-        matcher = pattern.matcher(password.getText());
-        if(!matcher.matches()) {
-            errorMsg.append("- Password must contain 1 uppercase letter, 1 lowercase letter and a number. Password length must be 6 or more \n");
-            error = true;
-        }
-        if(password != password2) {
-            errorMsg.append("- Passwords don't match \n");
-            error = true;
-        }
-        if(error){
-            dialog.setMessage(errorMsg);
-            dialog.show();
-        }
-        else {
-            finish();
-        }
+
+        //Run api calls in threads like these
+
+
     }
+
+    private class AsyncRunner extends AsyncTask<String, Integer, String> {
+        String mTAG = "myAsyncTask";
+        User user = new User();
+
+        @Override
+        protected void onPreExecute() {
+            Toast.makeText(getApplicationContext(), "Verifying", Toast.LENGTH_LONG).show();
+
+            //displayProgressBar("Loading....");
+
+
+            user.setUserName(username.getText().toString());
+            user.setEmail(email.getText().toString());
+            user.setPassword(password.getText().toString());
+            System.out.println(user.toString());
+        }
+
+        @Override
+        protected String doInBackground(String... arg) {
+            Log.d(mTAG, "Just started doing stuff in asynctask");
+            if(user.getUserName() == ""){
+                //System.out.println(user.toString());
+                return "Username must be entered";
+            }
+            else  {
+
+                User isExistingUser = userService.getUserByUsername(username.getText().toString());
+
+                //System.out.println(isExistingUser.toString());
+
+                if (isExistingUser == null) {
+                    String userReturn = userService.addUser(user);
+
+                    return userReturn;
+
+                    //finish();
+
+                } else {
+                    return "Username exists";
+                }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+        }
+
+    }
+
 }
+
+
+
+

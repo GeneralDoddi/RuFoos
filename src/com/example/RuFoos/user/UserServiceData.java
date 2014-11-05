@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -31,41 +32,52 @@ public class UserServiceData implements UserService {
     private HttpClient client = new DefaultHttpClient();
 
     @Override
-    public int addUser(User user) {
+    public String addUser(User user) {
 
-        final String url = "/users/adduser";
+        final String url = "/users/register";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
         ObjectMapper mapper = new ObjectMapper();
         String result = null;
         HttpResponse response = null;
+
+
+        String jsonString = null;
         try {
 
-            String jsonString = mapper.writeValueAsString(user);
+            jsonString = mapper.writeValueAsString(user);
+
             StringEntity se = new StringEntity(jsonString);
             httpPost.setEntity(se);
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
             response = client.execute(httpPost);
+
             InputStream inputStream = response.getEntity().getContent();
-            if (inputStream != null)
-                result = converter.convertInputStreamToString(inputStream);
-            else
-                result = "Did not work!";
 
-        } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
+            if (inputStream != null) {
+                String json = null;
+
+                json = converter.convertInputStreamToString(inputStream);
+                JsonNode actualObj = mapper.readTree(json);
+                result = String.valueOf(actualObj.get("response").asText());
+                System.out.println(json);
+                return result;
+            }
+
+        } catch (IOException e) {
+            return "Error processing input, please try again";
         }
-        return response.getStatusLine().getStatusCode();
 
-
+        return result;
     }
+
 
     @Override
     public User getUserByUsername(String username) {
         User user = new User();
         final String url = "/users/getuserbyname/";
         StreamConverter converter = new StreamConverter();
-        StringBuilder builder = new StringBuilder();
+
         HttpClient client = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(BASE_URL + url + username);
 
@@ -78,18 +90,20 @@ public class UserServiceData implements UserService {
                 HttpEntity entity = response.getEntity();
                 InputStream content = entity.getContent();
                 String jsonResponse = converter.convertInputStreamToString(content);
-                System.out.println(jsonResponse);
+                if (jsonResponse.contentEquals("null")) {
+                    return null;
+                }
                 user = mapper.readValue(jsonResponse, User.class);
 
-            }
-            else {
-                Log.e("Failed to get JSON object", "Error getting resource");
+            } else {
+                System.out.printf(response.getStatusLine().toString());
             }
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return user;
     }
 
