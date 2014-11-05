@@ -1,6 +1,7 @@
 package com.example.RuFoos.user;
 
 import android.util.Log;
+import com.example.RuFoos.domain.QuickMatch;
 import com.example.RuFoos.domain.User;
 import com.example.RuFoos.extentions.StreamConverter;
 import org.apache.http.HttpEntity;
@@ -53,7 +54,15 @@ public class UserServiceData implements UserService {
             response = client.execute(httpPost);
 
             InputStream inputStream = response.getEntity().getContent();
+            if (inputStream != null)
+                result = converter.convertInputStreamToString(inputStream);
+            else
+                result = "Did not work!";
 
+        } catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+        return response.getStatusLine().getStatusCode();
             if (inputStream != null) {
                 String json = null;
 
@@ -95,15 +104,15 @@ public class UserServiceData implements UserService {
                 }
                 user = mapper.readValue(jsonResponse, User.class);
 
-            } else {
-                System.out.printf(response.getStatusLine().toString());
+            }
+            else {
+                Log.e("Failed to get JSON object", "Error getting resource");
             }
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return user;
     }
 
@@ -125,7 +134,6 @@ public class UserServiceData implements UserService {
                 InputStream content = entity.getContent();
                 String jsonResponse = converter.convertInputStreamToString(content);
 
-
                 //user = new ObjectMapper().readValue(jsonResponse, User.class);
                 users = mapper.readValue(jsonResponse,
                         new TypeReference<List<User>>() {
@@ -138,10 +146,55 @@ public class UserServiceData implements UserService {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-
-
         }
         return users;
+    }
+    @Override
+    public QuickMatch quickMatchSignUp(User user) {
+        final String url = "/pickupmatch/signup";
+        HttpPost httpPost = new HttpPost(BASE_URL + url);
+        ObjectMapper mapper = new ObjectMapper();
+        String result = null;
+        HttpResponse response = null;
+        QuickMatch quickMatch = new QuickMatch();
+
+        try {
+
+            String jsonString = mapper.writeValueAsString(user);
+            StringEntity se = new StringEntity(jsonString);
+            httpPost.setEntity(se);
+
+            // 7. Set some headers to inform server about the type of the content
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+
+            // 8. Execute POST request to the given URL
+            response = client.execute(httpPost);
+
+            // 9. receive response as inputStream
+            InputStream inputStream = response.getEntity().getContent();
+
+            // 10. convert inputstream to string
+            if (inputStream != null) {
+                result = converter.convertInputStreamToString(inputStream);
+                if(response.getStatusLine().getStatusCode() == 201) {
+                    quickMatch = mapper.readValue(result, QuickMatch.class);
+                }
+                else if(response.getStatusLine().getStatusCode() == 503) {
+                    quickMatch = null;
+                }
+
+                //System.out.println("qui: " + quickMatch.getId() + " " + quickMatch.getVersion() + " " + quickMatch.isFull() + " " + quickMatch.getPlayers()[1]);
+            }
+            else
+                result = "Did not work!";
+            System.out.println("result: " + result);
+
+        } catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+        // 11. return result
+        return quickMatch;
     }
 
     @Override
@@ -172,4 +225,65 @@ public class UserServiceData implements UserService {
         return response.getStatusLine().getStatusCode();
 
     }
+
+    @Override
+    public int getQuickMatchId(){
+        // Get id with id gotten
+        return 0;
+    }
+
+    @Override
+    public QuickMatch leaveQuickMatch(User user){
+        final String url = "/pickupmatch/removesignup";
+        HttpPost httpPost = new HttpPost(BASE_URL + url);
+        ObjectMapper mapper = new ObjectMapper();
+        String result = "";
+        HttpResponse response = null;
+        QuickMatch quickMatch = new QuickMatch();
+
+        try {
+            String jsonString = mapper.writeValueAsString(user);
+            StringEntity se = new StringEntity(jsonString);
+            httpPost.setEntity(se);
+
+            // 7. Set some headers to inform server about the type of the content
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+
+            // 8. Execute POST request to the given URL
+            response = client.execute(httpPost);
+
+            // 9. receive response as inputStream
+            InputStream inputStream = response.getEntity().getContent();
+
+            // 10. convert inputstream to string
+            if (inputStream != null) {
+                result = converter.convertInputStreamToString(inputStream);
+                //System.out.println("result: " + result);
+                if(response.getStatusLine().getStatusCode() == 201) {
+                    //System.out.println("got 201");
+                    quickMatch = mapper.readValue(result, QuickMatch.class);
+                }
+                else if(response.getStatusLine().getStatusCode() == 503) {
+                    System.out.println("got 503");
+                    quickMatch = null;
+                }
+                else {
+                    System.out.println("Got something else");
+                }
+
+                System.out.println("qui: " + quickMatch.getId() + " " + quickMatch.getVersion() + " " + quickMatch.isFull() + " " + quickMatch.getPlayers());
+            }
+            else
+                result = "Did not work!";
+            //System.out.println("result " + result);
+
+        } catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+        // 11. return result
+        //System.out.println("status " + response.getStatusLine().getStatusCode());
+        return quickMatch;
+    }
 }
+

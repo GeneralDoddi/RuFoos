@@ -1,5 +1,6 @@
 package com.example.RuFoos.user;
 
+import com.example.RuFoos.domain.QuickMatch;
 import com.example.RuFoos.domain.User;
 
 import java.util.List;
@@ -9,8 +10,12 @@ import java.util.List;
  */
 public interface UserService {
 
-        public String addUser(User user);
-        public User getUserByUsername(String username);
-        public List<User> getAllUsers();
-        public int updateUser(User User);
+    public int addUser(User user);
+    public User getUserByUsername(String username);
+    public List<User> getAllUsers();
+    public QuickMatch quickMatchSignUp(User user);
+    public int updateUser(User User);
+    public int getQuickMatchId();
+    public QuickMatch leaveQuickMatch(User user);
+
 }

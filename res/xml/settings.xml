@@ -5,4 +5,9 @@
             android:title="Sound effects"
             android:defaultValue="true">
     </SwitchPreference>
+    <SwitchPreference
+            android:key="vibration"
+            android:title="Vibrate"
+            android:defaultValue="true">
+    </SwitchPreference>-->
 </PreferenceScreen>

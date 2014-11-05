@@ -9,7 +9,7 @@
         <activity android:name="LoginActivity"
                   android:label="RUFoos">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
@@ -17,6 +17,7 @@
         <activity android:name="FoosActivity" android:label="RUFoos" />
         <activity android:name="SettingsActivity" android:label="Settings" />
         <activity android:name="ChallengeActivity" android:label="Challenge" />
+        <activity android:name="QuickMatchActivity" android:label="Quick Match details" />
     </application>
 </manifest>
 

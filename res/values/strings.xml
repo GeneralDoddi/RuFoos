@@ -2,4 +2,8 @@
 <resources>
     <string name="app_name">RuFoos</string>
     <string name="phone_hint"></string>
+    <string-array name="quickMatchPlayers">
+        <item name="player1">test</item>
+        <item name="player2">test2</item>
+    </string-array>
 </resources>
