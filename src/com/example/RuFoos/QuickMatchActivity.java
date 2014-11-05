@@ -24,8 +24,6 @@ public class QuickMatchActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quickmatch);
-        //String[] players;
-        //ers.add("doddi");
 
         //ArrayAdapter adapter = new ArrayAdapter<String>(this, R.layout.quickmatch, players);
         /*Resources res = getResources();
@@ -41,7 +39,7 @@ public class QuickMatchActivity extends Activity{
             public void run() {
                 UserService service = new UserServiceData();
                 // TODO: Make right user leave (logged in user)
-                QuickMatch quickMatch = service.leaveQuickMatch(service.getUserByUsername("bearthor"));
+                QuickMatch quickMatch = service.leaveQuickMatch(service.getUserByUsername("gadi"));
             }
         }).start();
         Context context = getApplicationContext();

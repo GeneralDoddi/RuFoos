@@ -10,7 +10,6 @@
             android:layout_height="0dip"
             android:orientation="horizontal"
             android:layout_weight="1" >
-
         <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
@@ -107,9 +106,17 @@
                     android:textSize="15sp"
                     android:textColor="#ffffff"
                     android:text="Settings" />
-
-
         </RelativeLayout>
+    <Button android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:text="Log out"
+            android:id="@+id/logout"
+            android:onClick="logout"
+            android:background="@drawable/flat_selector"
+            android:layout_margin="5dp"
+            android:textColor="#ffffff"
+            android:layout_weight="1" />
+
         <!--
         android:layout_alignBottom="@+id/imageButton"-->
         <!--<Button

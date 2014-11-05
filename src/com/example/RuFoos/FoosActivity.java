@@ -30,7 +30,9 @@ public class FoosActivity extends Activity{
         moveTaskToBack(true);
         FoosActivity.this.finish();
     }
-    public void exit(View view){
+
+    @Override
+    public void onBackPressed(){
         moveTaskToBack(true);
         FoosActivity.this.finish();
     }

@@ -15,11 +15,13 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,14 +36,11 @@ public class UserServiceData implements UserService {
 
     @Override
     public String addUser(User user) {
-
         final String url = "/users/register";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
         ObjectMapper mapper = new ObjectMapper();
         String result = null;
         HttpResponse response = null;
-
-
         String jsonString = null;
         try {
 
@@ -52,20 +51,10 @@ public class UserServiceData implements UserService {
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
             response = client.execute(httpPost);
-
             InputStream inputStream = response.getEntity().getContent();
-            if (inputStream != null)
-                result = converter.convertInputStreamToString(inputStream);
-            else
-                result = "Did not work!";
 
-        } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-        return response.getStatusLine().getStatusCode();
             if (inputStream != null) {
                 String json = null;
-
                 json = converter.convertInputStreamToString(inputStream);
                 JsonNode actualObj = mapper.readTree(json);
                 result = String.valueOf(actualObj.get("response").asText());
@@ -73,20 +62,24 @@ public class UserServiceData implements UserService {
                 return result;
             }
 
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
         } catch (IOException e) {
-            return "Error processing input, please try again";
+            e.printStackTrace();
         }
 
         return result;
     }
-
 
     @Override
     public User getUserByUsername(String username) {
         User user = new User();
         final String url = "/users/getuserbyname/";
         StreamConverter converter = new StreamConverter();
-
         HttpClient client = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(BASE_URL + url + username);
 
@@ -104,9 +97,6 @@ public class UserServiceData implements UserService {
                 }
                 user = mapper.readValue(jsonResponse, User.class);
 
-            }
-            else {
-                Log.e("Failed to get JSON object", "Error getting resource");
             }
         } catch (ClientProtocolException e) {
             e.printStackTrace();

@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface UserService {
 
-    public int addUser(User user);
+    public String addUser(User user);
     public User getUserByUsername(String username);
     public List<User> getAllUsers();
     public QuickMatch quickMatchSignUp(User user);

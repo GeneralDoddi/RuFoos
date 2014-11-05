@@ -40,6 +40,7 @@ public class LoginActivity extends Activity {
 
         username = (EditText)findViewById(R.id.username);
         password = (EditText)findViewById(R.id.password);
+
     }
     @Override
     protected void onResume() {
@@ -89,34 +90,4 @@ public class LoginActivity extends Activity {
         startActivity(new Intent(this, SignUpActivity.class));
     }
 
-   /* public void buttonClick(View view) {
-        Button button = (Button) view;
-        int id = button.getId();
-
-        if (id == R.id.login) {
-
-
-
-
-            startActivity(new Intent(this, FoosActivity.class));
-            //TODO: check if user exists and password is right
-            boolean allGood = true;
-            if(allGood) {
-                System.out.println("Logging in");
-                startActivity(new Intent(this, FoosActivity.class));
-            }
-            else {
-                dialog = new AlertDialog.Builder(this);
-                dialog.setTitle("Invalid username/password");
-                dialog.setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                    }
-                });
-                dialog.show();
-            }
-        }
-        else if (id == R.id.signup) {
-            startActivity(new Intent(this, SignUpActivity.class));
-        }
-    }*/
 }
