@@ -6,6 +6,7 @@ var Schema = mongoose.Schema;
 var PickupSchema = new Schema( {
 
 	players: [String],
+	ready: [Boolean],
 	full: { type: Boolean, default: false}
 });
 
