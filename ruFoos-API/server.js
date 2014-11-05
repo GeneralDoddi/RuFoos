@@ -9,7 +9,7 @@ var express = require('express'),
 	mongoose = require('mongoose'),
 	cors = require('cors'),
 	competition = require('./Models/Competition.js'),
-	match = require('./Models/Match.js'),
+	//match = require('./Models/Match.js'),
 	team = require('./Models/Team.js'),
 	user = require('./Models/User.js'),
 	pickup = require('./Models/Pickup.js'),
@@ -310,6 +310,10 @@ router.post('/pickupmatch/signup', function(req, res){
 							console.log(pickupMatch.players.length)
 							if(pickupMatch.players.length <= 4){
 								pickupMatch.players.push(req.body.userName);
+								if(pickupMatch.players.length == 4){
+									pickupMatch.full = true;
+								}
+							}
 								service.setFound(true);
 								pickupMatch.save(function(err, b){
 									if(err){
@@ -322,7 +326,7 @@ router.post('/pickupmatch/signup', function(req, res){
 									}
 								});
 							}
-						}		
+								
 					});
 					console.log(service.getFound())
 					if(!service.getFound()){
