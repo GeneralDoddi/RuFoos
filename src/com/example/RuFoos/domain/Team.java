@@ -1,53 +1,55 @@
 package com.example.RuFoos.domain;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+
 /**
  * * Domain class for team in ruFoos
  * Created by BearThor on 2.11.2014.
  */
+@JsonAutoDetect(fieldVisibility= JsonAutoDetect.Visibility.ANY)
 public class Team {
 
-    protected String teamName;
-    protected String player1;
-    protected String player2;
+    protected String name;
+    protected String p1;
+    protected String p2;
     protected int wins;
     protected int losses;
     protected int underTable;
 
     public Team() {
-
     }
 
-    public Team(String teamName, String player1, String player2, int wins, int losses, int underTable) {
-        this.teamName = teamName;
-        this.player1 = player1;
-        this.player2 = player2;
+    public Team(String name, String p1, String p2, int wins, int losses, int underTable) {
+        this.name = name;
+        this.p1 = p1;
+        this.p2 = p2;
         this.wins = wins;
         this.losses = losses;
         this.underTable = underTable;
     }
 
-    public String getTeamName() {
-        return teamName;
+    public String getName() {
+        return name;
     }
 
-    public void setTeamName(String teamName) {
-        this.teamName = teamName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPlayer1() {
-        return player1;
+    public String getP1() {
+        return p1;
     }
 
-    public void setPlayer1(String player1) {
-        this.player1 = player1;
+    public void setP1(String p1) {
+        this.p1 = p1;
     }
 
-    public String getPlayer2() {
-        return player2;
+    public String getP2() {
+        return p2;
     }
 
-    public void setPlayer2(String player2) {
-        this.player2 = player2;
+    public void setP2(String p2) {
+        this.p2 = p2;
     }
 
     public int getWins() {
@@ -74,12 +76,14 @@ public class Team {
         this.underTable = underTable;
     }
 
+
+
     @Override
     public String toString() {
         return "Team{" +
-                "teamName='" + teamName + '\'' +
-                ", player1='" + player1 + '\'' +
-                ", player2='" + player2 + '\'' +
+                "name='" + name + '\'' +
+                ", p1='" + p1 + '\'' +
+                ", p2='" + p2 + '\'' +
                 ", wins=" + wins +
                 ", losses=" + losses +
                 ", underTable=" + underTable +
