@@ -181,8 +181,12 @@ public class MatchServiceData implements MatchService {
 
         String jsonString = null;
         try {
+            //HARDCODED TOKEN
+            String token = ",\"token\": \"f0d37126533f3083e571e9a521a2073d64add7f9fb366c82b415dc103e99a85f9523dd7ac376e88efb456ed98ff6ce036f9a1acd879e3d0ed900efe9bfbbc040\"}";
             jsonString = mapper.writeValueAsString(teamMatch);
-
+            String regex = "\\}";
+            jsonString = jsonString.replaceAll(regex, token);
+            System.out.println(jsonString);
             StringEntity se = new StringEntity(jsonString);
             httpPost.setEntity(se);
 
