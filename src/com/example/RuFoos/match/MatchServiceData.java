@@ -88,7 +88,7 @@ public class MatchServiceData implements MatchService {
     @Override
     public QuickMatch getQuickMatchById(String id){
         QuickMatch quickMatch = new QuickMatch();
-        final String url = "/pickupmatch/getpickupmath/";
+        final String url = "/pickupmatch/getpickupmatch/";
         StreamConverter converter = new StreamConverter();
         HttpClient client = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(BASE_URL + url + id);
@@ -112,6 +112,7 @@ public class MatchServiceData implements MatchService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("MatchServicedata quickmatch result: " + quickMatch.getId() + " " + quickMatch.getPlayers() + " " + quickMatch.getVersion() + " " + quickMatch.isFull());
         return quickMatch;
     }
 
@@ -146,6 +147,7 @@ public class MatchServiceData implements MatchService {
                 if(response.getStatusLine().getStatusCode() == 201) {
                     //System.out.println("got 201");
                     quickMatch = mapper.readValue(result, QuickMatch.class);
+                    System.out.println("qui: " + quickMatch.getId() + " " + quickMatch.getVersion() + " " + quickMatch.isFull() + " " + quickMatch.getPlayers());
                 }
                 else if(response.getStatusLine().getStatusCode() == 503) {
                     System.out.println("got 503");
@@ -154,8 +156,6 @@ public class MatchServiceData implements MatchService {
                 else {
                     System.out.println("Got something else");
                 }
-
-                System.out.println("qui: " + quickMatch.getId() + " " + quickMatch.getVersion() + " " + quickMatch.isFull() + " " + quickMatch.getPlayers());
             }
             else
                 result = "Did not work!";

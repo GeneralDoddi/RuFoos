@@ -2,29 +2,20 @@ package com.example.RuFoos;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.*;
 import com.example.RuFoos.domain.QuickMatch;
-import com.example.RuFoos.domain.User;
 import com.example.RuFoos.match.MatchService;
 import com.example.RuFoos.match.MatchServiceData;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class QuickMatchActivity extends Activity{
-
-    // Array of strings...
-    String[] countryArray = {"India", "Pakistan", "USA", "UK"};
 
     /**
      * Called when the activity is first created.
@@ -60,11 +51,7 @@ public class QuickMatchActivity extends Activity{
         for(int i=0; i < size; i++)
             array[i] = sharedpreferences.getString("pickupPlayers_" + i, null);*/
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.quickmatch_playerlist, countryArray);
 
-        ListView listView = (ListView) findViewById(R.id.country_list);
-        listView.setAdapter(adapter);
     }
 
     public void leaveQuickMatch(View view) {
@@ -112,45 +99,25 @@ public class QuickMatchActivity extends Activity{
             Log.d(mTAG, "Just started doing stuff in asynctask");
 
             MatchService service = new MatchServiceData();
+            System.out.println("argument 0 is " + arg[0]);
             quickMatch = service.getQuickMatchById(arg[0]);
             if(quickMatch == null){
                 System.out.println("get quickmatch error");
             }
             else {
                 System.out.println("quickmatch get is all good");
+                System.out.println("getByIdResult: " + quickMatch.getId() + " " + quickMatch.getPlayers() + " " + quickMatch.getVersion() + " " + quickMatch.isFull());
             }
 
-            String[] players = quickMatch.getPlayers();
-            /*for(int i = 0; i <= 0; i++){
-                System.out.println(players[i]);
-            }*/
-            /*try {
-                Thread.sleep(5000);
+            System.out.println("players in quickmatch " + quickMatch.getPlayers());
+            String[] players = new String[4];
+            for(int i = 0; i < quickMatch.getPlayers().length; i++) {
+                players[i] = i+1 + ". " + quickMatch.getPlayers()[i];
+                System.out.println("player " + players[i]);
             }
-            catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
-            /*Log.d(mTAG, "I got "+arg.length+" arguments and they are: ");
-            String result = null;
-            for (int i = 0 ; i < arg.length ; i++ ) {
-                result = arg[i]+",";
-                Log.d(mTAG, (i+1)+" => "+arg[i]);
+            for(int i = quickMatch.getPlayers().length; i < 4; i++) {
+                players[i]= i+1 + ". Waiting for player...";
             }
-
-            runOnUiThread(new Thread() {
-                public void run() {
-                    TextView output = (TextView) findViewById(R.id.output);
-                    output.setText("I am done");
-                }
-            });
-
-            try {
-                Thread.sleep(1000);
-            }
-            catch (InterruptedException e) {
-                e.printStackTrace();
-            }*/
-
             return players;
         }
 
@@ -158,7 +125,16 @@ public class QuickMatchActivity extends Activity{
         protected void onPostExecute(String[] result) {
             Log.d(mTAG, "Inside onPostExecute");
             TextView output = (TextView) findViewById(R.id.output);
-            output.setText("Result of the computation is: "+ result[0]);
+
+            displayList(result);
         }
+    }
+
+    public void displayList(String[] players) {
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                R.layout.quickmatch_playerlist, players);
+
+        ListView listView = (ListView) findViewById(R.id.country_list);
+        listView.setAdapter(adapter);
     }
 }

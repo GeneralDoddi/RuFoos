@@ -114,7 +114,6 @@ public class UserServiceData implements UserService {
                 InputStream content = entity.getContent();
                 String jsonResponse = converter.convertInputStreamToString(content);
 
-                //user = new ObjectMapper().readValue(jsonResponse, User.class);
                 users = mapper.readValue(jsonResponse,
                         new TypeReference<List<User>>() {
                         });
