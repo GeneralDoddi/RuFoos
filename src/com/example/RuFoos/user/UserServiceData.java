@@ -15,13 +15,11 @@ import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.codehaus.jackson.JsonNode;
-import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +34,7 @@ public class UserServiceData implements UserService {
 
     @Override
     public String addUser(User user) {
+
         final String url = "/users/register";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
         ObjectMapper mapper = new ObjectMapper();
@@ -62,15 +61,9 @@ public class UserServiceData implements UserService {
                 return result;
             }
 
-        } catch (JsonProcessingException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        };
 
         return result;
     }
@@ -80,6 +73,7 @@ public class UserServiceData implements UserService {
         User user = new User();
         final String url = "/users/getuserbyname/";
         StreamConverter converter = new StreamConverter();
+
         HttpClient client = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(BASE_URL + url + username);
 
@@ -98,15 +92,11 @@ public class UserServiceData implements UserService {
                 user = mapper.readValue(jsonResponse, User.class);
 
             }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return user;
     }
-
-
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();

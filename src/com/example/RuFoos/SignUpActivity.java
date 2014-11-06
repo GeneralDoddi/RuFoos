@@ -2,6 +2,7 @@ package com.example.RuFoos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,6 +34,7 @@ public class SignUpActivity extends Activity {
     private EditText username;
     private EditText email;
     private EditText password;
+    private EditText password2;
     private UserService userService = new UserServiceData();
 
     public void onCreate(Bundle savedInstanceState) {
@@ -42,17 +44,42 @@ public class SignUpActivity extends Activity {
         username = (EditText) findViewById(R.id.username);
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
+        password2 = (EditText) findViewById(R.id.password2);
     }
 
 
     public void signUp(View view) {
 
-        AsyncRunner mTask = new AsyncRunner();
-        mTask.execute();
+        switch (view.getId()) {
+            case (R.id.signup):
+                boolean invalid = false;
 
+                if (username.getText().toString().equals("")) {
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Please enter a userame", Toast.LENGTH_SHORT).show();
+                } else if (password.getText().equals("")) {
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Please enter your Password", Toast.LENGTH_SHORT).show();
+                } else if (password.length() < 6) {
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                }else if(!(password2.getText().equals(password))){
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Passwords must match", Toast.LENGTH_SHORT).show();
+                } else if (email.getText().equals("")) {
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Please enter your Email ID", Toast.LENGTH_SHORT).show();
+                }
+                else if (invalid == false) {
+                    AsyncRunner mTask = new AsyncRunner();
 
-        //Run api calls in threads like these
-
+                    mTask.execute();
+                }
+                break;
+            case (R.id.cancel):
+                SignUpActivity.this.finish();
+                break;
+        }
 
     }
 
@@ -63,10 +90,6 @@ public class SignUpActivity extends Activity {
         @Override
         protected void onPreExecute() {
             Toast.makeText(getApplicationContext(), "Verifying", Toast.LENGTH_LONG).show();
-
-            //displayProgressBar("Loading....");
-
-
             user.setUserName(username.getText().toString());
             user.setEmail(email.getText().toString());
             user.setPassword(password.getText().toString());
@@ -76,36 +99,39 @@ public class SignUpActivity extends Activity {
         @Override
         protected String doInBackground(String... arg) {
             Log.d(mTAG, "Just started doing stuff in asynctask");
-            if(user.getUserName() == ""){
-                //System.out.println(user.toString());
-                return "Username must be entered";
-            }
-            else  {
+            String userReturn = null;
 
-                User isExistingUser = userService.getUserByUsername(username.getText().toString());
-
-                //System.out.println(isExistingUser.toString());
-
-                if (isExistingUser == null) {
-                    String userReturn = userService.addUser(user);
-
+            User isExistingUser = userService.getUserByUsername(username.getText().toString());
+            if (isExistingUser == null) {
+                userReturn = userService.addUser(user);
+                if (userReturn.equals("Sucessfully Registered")) {
                     return userReturn;
-
-                    //finish();
-
-                } else {
-                    return "Username exists";
+                }
+                else{
+                    return userReturn;
                 }
             }
-        }
+            else{
+                return "Username already exists";
 
+            }
+
+        }
         @Override
         protected void onPostExecute(String result) {
-            Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+
+            if(result.equals("Sucessfully Registered")) {
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                Intent i = new Intent();
+                startActivity(new Intent(getApplicationContext(), FoosActivity.class));
+                finish();
+
+            }
+            else{
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+            }
         }
-
     }
-
 }
 
 
