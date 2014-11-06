@@ -1,6 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              tools:context=".ListActivity" >
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You have been signed up for a Quick Match, please wait for game to fill up"
+            android:id="@+id/quickmatchSignupText" android:layout_gravity="center_horizontal"
+            />
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Leave Quick Match"
+            android:id="@+id/leaveQuickmatch"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/flat_selector"
+            android:textColor="#ffffff"
+            android:layout_margin="5dp"
+            android:onClick="leaveQuickMatch" />
+    <TextView
+            android:id="@+id/output"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello world"/>
 
-<LinearLayout
+    <Button
+            android:id="@+id/startTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="asynctask"
+            android:layout_below="@id/output"
+            android:onClick="startTask"/>
+    <ListView
+            android:id="@+id/country_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+    </ListView>
+</LinearLayout>
+
+
+<!--<LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
@@ -19,7 +61,12 @@
             android:background="@drawable/flat_selector"
             android:textColor="#ffffff"
             android:layout_margin="5dp"
-            android:onClick="leaveQuickMatch" />
+            android:onClick="leaveQuickMatch" />-->
+    <!--<ListView
+            android:id="@+id/playerlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+    </ListView>-->
     <!--<LinearLayout android:layout_width="fill_parent"
                   android:layout_height="fill_parent"
                   android:id="@+id/quickMatchLayout"
@@ -28,4 +75,4 @@
                   android:layout_height="wrap_content"
                   android:text="test" />
     </LinearLayout>-->
-</LinearLayout>
+<!--</LinearLayout>-->

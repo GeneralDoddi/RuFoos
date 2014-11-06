@@ -6,4 +6,5 @@
         <item name="player1">test</item>
         <item name="player2">test2</item>
     </string-array>
+    <string name="action_settings">Settings</string>
 </resources>
