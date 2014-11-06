@@ -13,9 +13,9 @@
         <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:text="Quick Match"
-                android:id="@+id/quickMatch"
-                android:onClick="buttonClick"
+                android:text="Pickup Match"
+                android:id="@+id/pickupMatch"
+                android:onClick="signUpForPickup"
                 android:background="@drawable/flat_selector"
                 android:layout_margin="5dp"
                 android:textColor="#ffffff"

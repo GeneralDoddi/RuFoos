@@ -13,9 +13,5 @@ public interface UserService {
     public String addUser(User user);
     public User getUserByUsername(String username);
     public List<User> getAllUsers();
-    public QuickMatch quickMatchSignUp(User user);
     public int updateUser(User User);
-    public int getQuickMatchId();
-    public QuickMatch leaveQuickMatch(User user);
-
 }

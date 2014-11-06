@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import com.example.RuFoos.domain.QuickMatch;
+import com.example.RuFoos.match.MatchService;
+import com.example.RuFoos.match.MatchServiceData;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
@@ -37,25 +39,48 @@ public class FoosActivity extends Activity{
         FoosActivity.this.finish();
     }
 
+    public void signUpForPickup(View view) {
+        new Thread(new Runnable() {
+            public void run() {
+                MatchService service = new MatchServiceData();
+                UserService userservice = new UserServiceData();
+                // TODO: sign up logged in user
+                QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername("doddi"));
+
+                SharedPreferences sharedPreferences = getSharedPreferences
+                        (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("matchId", quickMatch.getId());
+                editor.commit();
+
+                /*if(quickMatch != null) {
+                    SharedPreferences sharedPreferences = getSharedPreferences
+                            (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putInt("pickupPlayers_size", quickMatch.getPlayers().length);
+                    for(int i=0; i < quickMatch.getPlayers().length; i++){
+                        System.out.println("player " + i + " " + quickMatch.getPlayers()[i]);
+                        editor.putString("pickupPlayers_" + i, quickMatch.getPlayers()[i]);
+                    }
+                    editor.commit();
+                }*/
+
+                //System.out.println("Quickmatch " + quickMatch);
+ /*               if(quickMatch == null) {
+                    // TODO: throw error
+                }
+   */         }
+        }).start();
+        startActivity(new Intent(this, QuickMatchActivity.class));
+    }
+
     public void buttonClick(View view) {
         Button button = (Button) view;
         int id = button.getId();
 
-        if (id == R.id.quickMatch) {
-            new Thread(new Runnable() {
-                public void run() {
-                    UserService service = new UserServiceData();
-                    // TODO: sign up logged in user
-                    QuickMatch quickMatch = service.quickMatchSignUp(service.getUserByUsername("bearthor"));
-                    //System.out.println("Quickmatch " + quickMatch);
-                    if(quickMatch == null) {
-                        // TODO: throw error
-                    }
-                }
-            }).start();
-            startActivity(new Intent(this, QuickMatchActivity.class));
-        }
-        else if(id == R.id.challenge) {
+       if(id == R.id.challenge) {
             startActivity(new Intent(this, ChallengeActivity.class));
         }
         else if(id == R.id.matches) {

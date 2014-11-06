@@ -89,5 +89,4 @@ public class LoginActivity extends Activity {
     public void signUp(View view) {
         startActivity(new Intent(this, SignUpActivity.class));
     }
-
 }
