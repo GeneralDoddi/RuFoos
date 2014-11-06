@@ -2,10 +2,8 @@ package com.example.RuFoos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -13,23 +11,13 @@ import com.example.RuFoos.domain.User;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 /**
  * Created by Gadi on 2.11.2014.
  */
 public class SignUpActivity extends Activity {
 
     private AlertDialog.Builder dialog;
-    private static final String USERNAME_PATTERN = "^[a-zA-Z0-9_-]{3,15}$";
-    private static final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final String PASSWORD_PATTERN =
-            "^[a-zA-Z0-9_-]{6,20}$";
-    private Pattern pattern;
-    private Matcher matcher;
+
 
     private EditText username;
     private EditText email;
@@ -84,21 +72,20 @@ public class SignUpActivity extends Activity {
     }
 
     private class AsyncRunner extends AsyncTask<String, Integer, String> {
-        String mTAG = "myAsyncTask";
+
         User user = new User();
 
         @Override
         protected void onPreExecute() {
-            Toast.makeText(getApplicationContext(), "Verifying", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Verifying", Toast.LENGTH_SHORT).show();
             user.setUserName(username.getText().toString());
             user.setEmail(email.getText().toString());
             user.setPassword(password.getText().toString());
-            System.out.println(user.toString());
         }
 
         @Override
         protected String doInBackground(String... arg) {
-            Log.d(mTAG, "Just started doing stuff in asynctask");
+
             String userReturn = null;
 
             User isExistingUser = userService.getUserByUsername(username.getText().toString());
@@ -122,10 +109,7 @@ public class SignUpActivity extends Activity {
 
             if(result.equals("Sucessfully Registered")) {
                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-                Intent i = new Intent();
-                startActivity(new Intent(getApplicationContext(), FoosActivity.class));
                 finish();
-
             }
             else{
                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();

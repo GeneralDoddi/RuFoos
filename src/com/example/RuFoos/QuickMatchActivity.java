@@ -14,9 +14,12 @@ import com.example.RuFoos.match.MatchServiceData;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 
 public class QuickMatchActivity extends Activity{
-
+    private Timer autoUpdate;
     /**
      * Called when the activity is first created.
      */
@@ -25,33 +28,41 @@ public class QuickMatchActivity extends Activity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quickmatch);
 
-        QuickMatch quickMatch;
-        /*new Thread(new Runnable() {
+        queryList();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        autoUpdate = new Timer();
+        autoUpdate.schedule(new TimerTask() {
+            @Override
             public void run() {
-                MatchService service = new MatchServiceData();
-                quickMatch = service.getQuickMatchById(id);
-                if(quickMatch == null){
-                    System.out.println("get quickmatch error");
-                }
-                else {
-                    System.out.println("quickmatch get is all good");
-                }
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        queryList();
+                    }
+                });
             }
-        }).start();*/
+        }, 0, 10000); // updates every 10 seconds
+    }
 
-        /*MatchService service = new MatchServiceData();
-        QuickMatch quickMatch = service.getQuickMatchById(id);
-        if(quickMatch == null){
-            System.out.println("get quickmatch error");
+    @Override
+    public void onPause() {
+        autoUpdate.cancel();
+        super.onPause();
+    }
+
+    public void queryList(){
+        AsyncRunner pickupSignup = new AsyncRunner();
+        SharedPreferences sharedpreferences = getSharedPreferences
+                (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+
+        String id = sharedpreferences.getString("matchId", "error");
+        if(id != "error") {
+            pickupSignup.execute(id);
         }
-        else {
-            System.out.println("quickmatch get is all good");
-        }*/
-        /*String array[] = new String[size];
-        for(int i=0; i < size; i++)
-            array[i] = sharedpreferences.getString("pickupPlayers_" + i, null);*/
-
-
     }
 
     public void leaveQuickMatch(View view) {
@@ -60,6 +71,7 @@ public class QuickMatchActivity extends Activity{
                 UserService userservice = new UserServiceData();
                 MatchService service = new MatchServiceData();
                 // TODO: Make right user leave (logged in user)
+                // TODO: remove matchId from sharedpreferences
                 QuickMatch quickMatch = service.leaveQuickMatch(userservice.getUserByUsername("gadi"));
             }
         }).start();
@@ -72,31 +84,17 @@ public class QuickMatchActivity extends Activity{
         QuickMatchActivity.this.finish();
     }
 
-    //Method called on clicking button
-    public void startTask(View view) {
-        AsyncRunner pickupSignup = new AsyncRunner();
-
-        // Fetch pickup players from preferences
-        SharedPreferences sharedpreferences = getSharedPreferences
-                (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-        String id = sharedpreferences.getString("matchId", "error");
-        System.out.println("Preftest " + id);
-        pickupSignup.execute(id);
-    }
-
     private class AsyncRunner extends AsyncTask<String, Void, String[]> {
-        String mTAG = "myAsyncTask";
+        String mTAG = "pickupSignup";
         QuickMatch quickMatch;
 
         @Override
         protected void onPreExecute() {
-            TextView output = (TextView)findViewById(R.id.output);
-            output.setText("Hello from onPreExecute");
         }
 
         @Override
         protected String[] doInBackground(String...arg) {
-            Log.d(mTAG, "Just started doing stuff in asynctask");
+            Log.d(mTAG, "Fetching players");
 
             MatchService service = new MatchServiceData();
             System.out.println("argument 0 is " + arg[0]);
@@ -123,9 +121,6 @@ public class QuickMatchActivity extends Activity{
 
         @Override
         protected void onPostExecute(String[] result) {
-            Log.d(mTAG, "Inside onPostExecute");
-            TextView output = (TextView) findViewById(R.id.output);
-
             displayList(result);
         }
     }
@@ -134,7 +129,7 @@ public class QuickMatchActivity extends Activity{
         ArrayAdapter adapter = new ArrayAdapter<String>(this,
                 R.layout.quickmatch_playerlist, players);
 
-        ListView listView = (ListView) findViewById(R.id.country_list);
+        ListView listView = (ListView) findViewById(R.id.player_list);
         listView.setAdapter(adapter);
     }
 }

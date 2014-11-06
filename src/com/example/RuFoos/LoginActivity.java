@@ -3,31 +3,29 @@ package com.example.RuFoos;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 import com.example.RuFoos.domain.User;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
-import com.example.RuFoos.user.UserService;
-import com.example.RuFoos.user.UserServiceData;
 
-import java.util.List;
 
 /**
- * Created by Gadi on 2.11.2014.
+ * Created by BearThor on 2.11.2014.
  */
+
 public class LoginActivity extends Activity {
 
-    private EditText username,password;
-    public static final String MyPREFERENCES = "MyPrefs" ;
-    public static final String name = "nameKey";
-    public static final String pass = "passwordKey";
-    SharedPreferences sharedpreferences;
+    public static final String MyPREFERENCES = "MyPrefs";
+    public static final String token = "token";
+    public static final String user = "username";
+    public SharedPreferences sharedpreferences;
+    private EditText username, password;
     private AlertDialog.Builder dialog;
 
     /**
@@ -37,56 +35,82 @@ public class LoginActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-
-        username = (EditText)findViewById(R.id.username);
-        password = (EditText)findViewById(R.id.password);
+        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        username = (EditText) findViewById(R.id.username);
+        password = (EditText) findViewById(R.id.password);
 
     }
+
     @Override
     protected void onResume() {
-        sharedpreferences=getSharedPreferences(MyPREFERENCES,
-                Context.MODE_PRIVATE);
-        if (sharedpreferences.contains(name))
-        {
-            if(sharedpreferences.contains(pass)){
-                Intent i = new Intent(this,
-                        FoosActivity.class);
-                startActivity(i);
-            }
+
+        if (sharedpreferences.contains(token)) {
+            Intent i = new Intent(this, FoosActivity.class);
+            startActivity(i);
+
         }
         super.onResume();
     }
 
     public void login(View view) {
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        String u = username.getText().toString();
-        String p = password.getText().toString();
 
-        //TODO: check if user exists and password is right
-        boolean allGood = true;
-        if(allGood) {
-            System.out.println("Logging in");
-            startActivity(new Intent(this, FoosActivity.class));
-        }
-        else {
-            dialog = new AlertDialog.Builder(this);
-            dialog.setTitle("Invalid username/password");
-            dialog.setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
+        switch(view.getId()){
+
+            case (R.id.login):
+                boolean invalid = false;
+                if(username.getText().toString().equals("")){
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Username is required", Toast.LENGTH_SHORT).show();
                 }
-            });
-            dialog.show();
+                else if(password.getText().toString().equals("")){
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Password is required", Toast.LENGTH_SHORT).show();
+                }
+                else if(invalid = false){
+                    AsyncRunner mTask = new AsyncRunner();
+                    mTask.execute();
+                }
         }
-
-        final UserService userService = new UserServiceData();
-        editor.putString(name, u);
-        editor.putString(pass, p);
-        editor.commit();
-        Intent i = new Intent(this,com.example.RuFoos.FoosActivity.class);
-        startActivity(i);
     }
-
     public void signUp(View view) {
         startActivity(new Intent(this, SignUpActivity.class));
     }
+    private class AsyncRunner extends AsyncTask<String, Integer, User> {
+
+
+        User loginUser = new User(username.getText().toString(),null,password.getText().toString());
+
+        @Override
+        protected User doInBackground(String ...args) {
+
+            final UserService userService = new UserServiceData();
+            User user = userService.loginUser(loginUser);
+            loginUser.setToken(user.getToken());
+            loginUser.setResponse(user.getResponse());
+
+            return user;
+        }
+
+        @Override
+        protected void onPostExecute(User resultUser) {
+            boolean errorInput = false;
+            if(loginUser.getResponse().equals("User not exist")){
+                errorInput = true;
+                Toast.makeText(getApplicationContext(), "Username does not exist", Toast.LENGTH_SHORT).show();
+            }
+            else if(loginUser.getResponse().equals("Invalid Password")){
+                errorInput = true;
+                Toast.makeText(getApplicationContext(), "Invalid password", Toast.LENGTH_SHORT).show();
+            }
+            else if(errorInput = false){
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", LoginActivity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("token", resultUser.getToken());
+                editor.putString("username", resultUser.getUserName());
+                editor.commit();
+                startActivity(new Intent(getApplicationContext(), FoosActivity.class));
+            }
+        }
+    }
+
 }

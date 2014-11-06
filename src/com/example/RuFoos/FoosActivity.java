@@ -45,34 +45,23 @@ public class FoosActivity extends Activity{
                 MatchService service = new MatchServiceData();
                 UserService userservice = new UserServiceData();
                 // TODO: sign up logged in user
-                //service.leaveQuickMatch(userservice.getUserByUsername("marino"));
-                QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername("marino"));
-
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                //String username = sharedPreferences.getString("name", "error");
+                //if(username != "error"){
+                    service.leaveQuickMatch(userservice.getUserByUsername("gadi"));
+                    //service.leaveQuickMatch(userservice.getUserByUsername(username));
+                    QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername("gadi"));
+                    //QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername(username));
 
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("matchId", quickMatch.getId());
-                editor.commit();
+                    if(quickMatch != null) {
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("matchId", quickMatch.getId());
+                        editor.commit();
 
-                /*if(quickMatch != null) {
-                    SharedPreferences sharedPreferences = getSharedPreferences
-                            (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putInt("pickupPlayers_size", quickMatch.getPlayers().length);
-                    for(int i=0; i < quickMatch.getPlayers().length; i++){
-                        System.out.println("player " + i + " " + quickMatch.getPlayers()[i]);
-                        editor.putString("pickupPlayers_" + i, quickMatch.getPlayers()[i]);
                     }
-                    editor.commit();
-                }*/
-
-                //System.out.println("Quickmatch " + quickMatch);
- /*               if(quickMatch == null) {
-                    // TODO: throw error
-                }
-   */         }
+                //}
+            }
         }).start();
         startActivity(new Intent(this, QuickMatchActivity.class));
     }
@@ -80,8 +69,7 @@ public class FoosActivity extends Activity{
     public void buttonClick(View view) {
         Button button = (Button) view;
         int id = button.getId();
-
-       if(id == R.id.challenge) {
+        if(id == R.id.challenge) {
             startActivity(new Intent(this, ChallengeActivity.class));
         }
         else if(id == R.id.matches) {
