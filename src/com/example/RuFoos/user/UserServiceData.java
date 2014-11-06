@@ -2,6 +2,7 @@ package com.example.RuFoos.user;
 
 import android.util.Log;
 import com.example.RuFoos.domain.User;
+import com.example.RuFoos.extentions.PojoMapper;
 import com.example.RuFoos.extentions.StreamConverter;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -13,6 +14,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.type.TypeReference;
 
@@ -31,33 +33,39 @@ public class UserServiceData implements UserService {
     private HttpClient client = new DefaultHttpClient();
 
     @Override
-    public int addUser(User user) {
+    public String addUser(User user) {
 
-        final String url = "/users/adduser";
+        final String url = "/users/register";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
         ObjectMapper mapper = new ObjectMapper();
         String result = null;
         HttpResponse response = null;
+        String jsonString = null;
         try {
 
-            String jsonString = mapper.writeValueAsString(user);
+            jsonString = mapper.writeValueAsString(user);
+
             StringEntity se = new StringEntity(jsonString);
             httpPost.setEntity(se);
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
             response = client.execute(httpPost);
             InputStream inputStream = response.getEntity().getContent();
-            if (inputStream != null)
-                result = converter.convertInputStreamToString(inputStream);
-            else
-                result = "Did not work!";
+
+            if (inputStream != null) {
+                String json = null;
+                json = converter.convertInputStreamToString(inputStream);
+                JsonNode actualObj = mapper.readTree(json);
+                result = String.valueOf(actualObj.get("response").asText());
+                System.out.println(json);
+                return result;
+            }
 
         } catch (Exception e) {
-            Log.d("InputStream", e.getLocalizedMessage());
-        }
-        return response.getStatusLine().getStatusCode();
+            e.printStackTrace();
+        };
 
-
+        return result;
     }
 
     @Override
@@ -65,7 +73,7 @@ public class UserServiceData implements UserService {
         User user = new User();
         final String url = "/users/getuserbyname/";
         StreamConverter converter = new StreamConverter();
-        StringBuilder builder = new StringBuilder();
+
         HttpClient client = new DefaultHttpClient();
         HttpGet httpGet = new HttpGet(BASE_URL + url + username);
 
@@ -78,22 +86,17 @@ public class UserServiceData implements UserService {
                 HttpEntity entity = response.getEntity();
                 InputStream content = entity.getContent();
                 String jsonResponse = converter.convertInputStreamToString(content);
-                System.out.println(jsonResponse);
+                if (jsonResponse.contentEquals("null")) {
+                    return null;
+                }
                 user = mapper.readValue(jsonResponse, User.class);
 
             }
-            else {
-                Log.e("Failed to get JSON object", "Error getting resource");
-            }
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return user;
     }
-
-
     @Override
     public List<User> getAllUsers() {
         List<User> users = new ArrayList<User>();
@@ -111,8 +114,6 @@ public class UserServiceData implements UserService {
                 InputStream content = entity.getContent();
                 String jsonResponse = converter.convertInputStreamToString(content);
 
-
-                //user = new ObjectMapper().readValue(jsonResponse, User.class);
                 users = mapper.readValue(jsonResponse,
                         new TypeReference<List<User>>() {
                         });
@@ -124,8 +125,6 @@ public class UserServiceData implements UserService {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
-
-
         }
         return users;
     }
@@ -158,4 +157,42 @@ public class UserServiceData implements UserService {
         return response.getStatusLine().getStatusCode();
 
     }
+
+    @Override
+    public User loginUser(User user) {
+        final String url = "/users/login";
+        HttpPost httpPost = new HttpPost(BASE_URL + url);
+        ObjectMapper mapper = new ObjectMapper();
+
+        User returnUser = new User();
+        String result = null;
+        HttpResponse response = null;
+        String jsonString = null;
+        try {
+
+            jsonString = mapper.writeValueAsString(user);
+
+            StringEntity se = new StringEntity(jsonString);
+            httpPost.setEntity(se);
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+            response = client.execute(httpPost);
+            InputStream inputStream = response.getEntity().getContent();
+
+
+                String json = null;
+                json = converter.convertInputStreamToString(inputStream);
+                PojoMapper pMapper = new PojoMapper();
+                returnUser = (User) pMapper.fromJson(json,User.class);
+
+                return returnUser;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        };
+
+        return returnUser;
+    }
 }
+

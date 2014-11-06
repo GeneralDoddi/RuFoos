@@ -9,8 +9,9 @@ import java.util.List;
  */
 public interface UserService {
 
-        public int addUser(User user);
-        public User getUserByUsername(String username);
-        public List<User> getAllUsers();
-        public int updateUser(User User);
+    public String addUser(User user);
+    public User getUserByUsername(String username);
+    public List<User> getAllUsers();
+    public int updateUser(User User);
+    public User loginUser(User User);
 }

@@ -7,13 +7,7 @@
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Sign up"
-                android:id="@+id/signup"
-                android:layout_alignParentBottom="true" android:layout_alignParentStart="true"
-                android:onClick="signUp"/>
+
         <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -45,6 +39,21 @@
                 android:id="@+id/password2"
                 android:hint="Type in password again"
                 android:layout_below="@+id/password" android:layout_alignParentStart="true"/>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Cancel"
+                android:id="@+id/cancel"
+                android:layout_above="@+id/signup" android:layout_alignParentStart="true"
+                android:onClick="signUp"/>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Sign up"
+                android:id="@+id/signup"
+                android:layout_alignParentBottom="true" android:layout_alignParentStart="true"
+                android:onClick="signUp"/>
+
     </RelativeLayout>
 </LinearLayout>
 

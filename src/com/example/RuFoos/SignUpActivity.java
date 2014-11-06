@@ -2,13 +2,14 @@ package com.example.RuFoos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import android.widget.Toast;
+import com.example.RuFoos.domain.User;
+import com.example.RuFoos.user.UserService;
+import com.example.RuFoos.user.UserServiceData;
 
 /**
  * Created by Gadi on 2.11.2014.
@@ -16,63 +17,107 @@ import java.util.regex.Pattern;
 public class SignUpActivity extends Activity {
 
     private AlertDialog.Builder dialog;
-    private static final String USERNAME_PATTERN = "^[a-zA-Z0-9_-]{3,15}$";
-    private static final String EMAIL_PATTERN =
-            "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-                    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-    private static final String PASSWORD_PATTERN =
-            "^[a-zA-Z0-9_-]{6,20}$";
-    private Pattern pattern;
-    private Matcher matcher;
+
+
+    private EditText username;
+    private EditText email;
+    private EditText password;
+    private EditText password2;
+    private UserService userService = new UserServiceData();
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
+
+        username = (EditText) findViewById(R.id.username);
+        email = (EditText) findViewById(R.id.email);
+        password = (EditText) findViewById(R.id.password);
+        password2 = (EditText) findViewById(R.id.password2);
     }
 
+
     public void signUp(View view) {
-        EditText username = (EditText) findViewById(R.id.username);
-        EditText email = (EditText) findViewById(R.id.email);
-        EditText password = (EditText) findViewById(R.id.password);
-        EditText password2 = (EditText) findViewById(R.id.password);
-        StringBuilder errorMsg = new StringBuilder();
-        boolean error = false;
-        dialog = new AlertDialog.Builder(this);
-        dialog.setTitle("Errors");
-        dialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
+
+        switch (view.getId()) {
+            case (R.id.signup):
+                boolean invalid = false;
+
+                if (username.getText().toString().equals("")) {
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Please enter a userame", Toast.LENGTH_SHORT).show();
+                } else if (password.getText().equals("")) {
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Please enter your Password", Toast.LENGTH_SHORT).show();
+                } else if (password.length() < 6) {
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
+                }else if(!((password2.getText().toString()).equals(password.getText().toString()))){
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Passwords must match", Toast.LENGTH_SHORT).show();
+                } else if (email.getText().equals("")) {
+                    invalid = true;
+                    Toast.makeText(getApplicationContext(), "Please enter your Email ID", Toast.LENGTH_SHORT).show();
+                }
+                else if (invalid == false) {
+                    AsyncRunner mTask = new AsyncRunner();
+
+                    mTask.execute();
+                }
+                break;
+            case (R.id.cancel):
+                SignUpActivity.this.finish();
+                break;
+        }
+
+    }
+
+    private class AsyncRunner extends AsyncTask<String, Integer, String> {
+
+        User user = new User();
+
+        @Override
+        protected void onPreExecute() {
+            Toast.makeText(getApplicationContext(), "Verifying", Toast.LENGTH_SHORT).show();
+            user.setUserName(username.getText().toString());
+            user.setEmail(email.getText().toString());
+            user.setPassword(password.getText().toString());
+        }
+
+        @Override
+        protected String doInBackground(String... arg) {
+
+            String userReturn = null;
+
+            User isExistingUser = userService.getUserByUsername(username.getText().toString());
+            if (isExistingUser == null) {
+                userReturn = userService.addUser(user);
+                if (userReturn.equals("Sucessfully Registered")) {
+                    return userReturn;
+                }
+                else{
+                    return userReturn;
+                }
             }
-        });
-        pattern = Pattern.compile(USERNAME_PATTERN);
-        // Username check
-        matcher = pattern.matcher(username.getText());
-        if(!matcher.matches()) {
-            errorMsg.append("- Invalid username \n");
-            error = true;
-        }
+            else{
+                return "Username already exists";
 
-        pattern = Pattern.compile(EMAIL_PATTERN);
-        matcher = pattern.matcher(email.getText());
-        if(!matcher.matches()) {
-            errorMsg.append("- Invalid email address \n");
-            error = true;
-        }
+            }
 
-        pattern = Pattern.compile(PASSWORD_PATTERN);
-        matcher = pattern.matcher(password.getText());
-        if(!matcher.matches()) {
-            errorMsg.append("- Password must contain 1 uppercase letter, 1 lowercase letter and a number. Password length must be 6 or more \n");
-            error = true;
         }
-        if(password != password2) {
-            errorMsg.append("- Passwords don't match \n");
-            error = true;
-        }
-        if(error){
-            dialog.setMessage(errorMsg);
-            dialog.show();
-        }
-        else {
-            finish();
+        @Override
+        protected void onPostExecute(String result) {
+
+            if(result.equals("Sucessfully Registered")) {
+                Toast.makeText(getApplicationContext(), "Registration was successful, please log in", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+            else{
+                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }
+
+
+
+

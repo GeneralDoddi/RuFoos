@@ -3,112 +3,117 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical" >
+              android:orientation="vertical"
+        >
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:orientation="horizontal"
-            android:layout_weight="1" >
-
+            android:layout_weight="0.4" >
         <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:text="Quick Match"
-                android:id="@+id/quickMatch"
-                android:onClick="buttonClick"
+                android:text="Pickup Match"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/pickupMatch"
+                android:onClick="signUpForPickup"
                 android:background="@drawable/flat_selector"
-                android:layout_margin="5dp"
+                android:layout_margin="1dp"
                 android:textColor="#ffffff"
+                android:drawableLeft="@drawable/lightning"
                 android:layout_weight="1" />
-
-        <Button
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:text="Challenge"
-                android:id="@+id/challenge"
-                android:onClick="buttonClick"
-                android:background="@drawable/flat_selector"
-                android:layout_margin="5dp"
-                android:textColor="#ffffff"
-                android:layout_weight="1"/>
     </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:orientation="horizontal"
-            android:layout_weight="1" >
+            android:layout_weight="0.4" >
+        <Button
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:text="Challenge"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/challenge"
+                android:onClick="buttonClick"
+                android:background="@drawable/flat_selector"
+                android:layout_margin="1dp"
+                android:textColor="#ffffff"
+                android:layout_weight="0.5"/>
+    </LinearLayout>
 
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:orientation="horizontal"
+            android:layout_weight="0.4" >
         <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="Matches"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/matches"
                 android:onClick="buttonClick"
                 android:background="@drawable/flat_selector"
-                android:layout_margin="5dp"
+                android:layout_margin="1dp"
                 android:textColor="#ffffff"
-                android:layout_weight="1" />
+                android:layout_weight="0.5" />
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:orientation="horizontal"
+            android:layout_weight="0.5" >
+        <Button
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:text="Competitions"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/competitions"
+                android:onClick="buttonClick"
+                android:background="@drawable/flat_selector"
+                android:layout_margin="1dp"
+                android:textColor="#ffffff"
+                android:layout_weight="0.5" />
 
         <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="Teams"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/teams"
                 android:onClick="buttonClick"
                 android:background="@drawable/flat_selector"
-                android:layout_margin="5dp"
+                android:layout_margin="1dp"
                 android:textColor="#ffffff"
-                android:layout_weight="1"/>
+                android:layout_weight="0.5"/>
     </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:orientation="horizontal"
-            android:layout_weight="1" >
+            android:layout_weight="0.4" >
 
-        <Button
+       <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:text="Competitions"
-                android:id="@+id/competitions"
+                android:text="Settings"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/settings"
                 android:onClick="buttonClick"
                 android:background="@drawable/flat_selector"
-                android:layout_margin="5dp"
+                android:layout_margin="1dp"
                 android:textColor="#ffffff"
-                android:layout_weight="1" />
-        <RelativeLayout
-                android:id="@+id/settings"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_centerHorizontal="true"
-                android:clickable="true"
-                android:layout_margin="5dp"
-                android:background="@drawable/flat_selector">
-            <ImageButton
-                    android:id="@+id/imageButton"
-                    android:layout_width="80dip"
-                    android:layout_height="80dip"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="25dp"
-                    android:background="@drawable/ic_action_settings" />
-            <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="95dp"
-
-                    android:textSize="15sp"
-                    android:textColor="#ffffff"
-                    android:text="Settings" />
+                android:drawableTop="@drawable/ic_action_settings"
+                android:paddingTop="20dip"
+                android:drawablePadding="-10dip"
+                android:layout_weight="1"/>
 
 
-        </RelativeLayout>
+
+
         <!--
         android:layout_alignBottom="@+id/imageButton"-->
         <!--<Button

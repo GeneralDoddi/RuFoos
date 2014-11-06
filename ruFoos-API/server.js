@@ -9,14 +9,15 @@ var express = require('express'),
 	mongoose = require('mongoose'),
 	cors = require('cors'),
 	competition = require('./Models/Competition.js'),
-	//match = require('./Models/Match.js'),
+	competitionmatch = require('./Models/CompetitionMatch.js'),
 	team = require('./Models/Team.js'),
 	user = require('./Models/User.js'),
 	pickup = require('./Models/Pickup.js'),
+	pickupmath = require('./Models/PickupMatch.js'),
 	service = require('./Services/service.js');
 
 var app = express();
-var port = process.env.PORT || 10000;
+var port = process.env.PORT || 9091;
 var router = express.Router();
 var ObjectId = mongoose.Types.ObjectId;
 
@@ -287,7 +288,7 @@ router.post('/teams/teamupdate', function(req,res){
 
 router.post('/pickupmatch/signup', function(req, res){
 	var newPickup = new pickup();
-		user.find({'userName': req.body.userName}, function(err, response){
+		user.find({'userName': req.body.userName}, function(err){
 			if(err){
 				console.log("Error: " + err);
 				res.status(503).send(err);
@@ -310,10 +311,6 @@ router.post('/pickupmatch/signup', function(req, res){
 							console.log(pickupMatch.players.length)
 							if(pickupMatch.players.length <= 4){
 								pickupMatch.players.push(req.body.userName);
-								if(pickupMatch.players.length == 4){
-									pickupMatch.full = true;
-								}
-							}
 								service.setFound(true);
 								pickupMatch.save(function(err, b){
 									if(err){
@@ -326,7 +323,7 @@ router.post('/pickupmatch/signup', function(req, res){
 									}
 								});
 							}
-								
+						}		
 					});
 					console.log(service.getFound())
 					if(!service.getFound()){
@@ -347,6 +344,38 @@ router.post('/pickupmatch/signup', function(req, res){
 		  	});
 		}
 	});
+});
+
+router.post('/pickupmatch/removesignup', function(req, res){
+	user.find({'userName': req.body.userName}, function(err){
+		if(err){
+			console.log(err);
+			res.status(503).send(err);
+		}
+		else{
+			pickup.find({'players': req.body.userName}, function(err, response){
+				if(err){
+					console.log(err);
+					res.status(503).send(err);
+				}
+				else{
+					var index = response[0].players.indexOf(req.body.userName);
+					console.log(index);
+					response[0].players = response[0].players.slice(index+1);
+					response[0].save(function(err,b){
+						if(err){
+								console.log(err);
+								res.status(503).send(err);
+							}
+							else{
+								console.log(b);
+								res.status(201).send(b);
+							}
+					});
+			}
+		});
+	}
+  });
 });
 
 // RuFoos GET Methods: 

@@ -7,20 +7,6 @@
     <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-        <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Login"
-                android:id="@+id/login"
-                android:layout_above="@+id/signup" android:layout_alignParentStart="true"
-                android:onClick="buttonClick"/>
-        <Button
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="Sign up"
-                android:id="@+id/signup"
-                android:layout_alignParentBottom="true" android:layout_alignParentStart="true"
-                android:onClick="buttonClick"/>
         <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -36,6 +22,20 @@
                 android:id="@+id/password"
                 android:hint="password"
                 android:layout_below="@+id/username" android:layout_alignParentStart="true"/>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Login"
+                android:id="@+id/login"
+                android:layout_above="@+id/login" android:layout_alignParentStart="true"
+                android:onClick="login"/>
+        <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="Sign up"
+                android:id="@+id/signup"
+                android:layout_alignParentBottom="true" android:layout_alignParentStart="true"
+                android:onClick="signUp"/>
     </RelativeLayout>
 </LinearLayout>
 

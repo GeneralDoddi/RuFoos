@@ -27,10 +27,11 @@ public class ChallengeActivity extends Activity {
 
         }
         else if (id == R.id.challengeTeam) {
-            startActivity(new Intent(this, SignUpActivity.class));
+            startActivity(new Intent(this, TeamMatchRegistrationActivity.class));
         }
         else if(id == R.id.myChallenges) {
 
         }
     }
+
 }

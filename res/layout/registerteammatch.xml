@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"        >
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:orientation="horizontal"
+            android:layout_weight="0.1"
+            android:layout_marginTop="5dip">
+
+        <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginTop="10dip"
+                android:layout_marginLeft="5dip"
+                android:textAlignment="center"
+                android:text="Winner"
+                android:layout_weight="0.3"
+                android:id="@+id/textView2"/>
+
+        <Spinner
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:id="@+id/WinningTeam"
+                android:background="@drawable/flat_selector"
+                android:textColor="#ffffff"
+                android:layout_weight="0.7"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:orientation="horizontal"
+            android:layout_weight="0.1"
+            android:layout_marginTop="5dip">
+
+        <TextView
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginTop="10dip"
+                android:layout_marginLeft="5dip"
+                android:textAlignment="center"
+                android:text="Loser"
+                android:layout_weight="0.3"
+                android:id="@+id/textView3"/>
+
+        <Spinner
+                android:layout_width="0dip"
+                android:layout_height="wrap_content"
+                android:id="@+id/LosingTeam"
+                android:background="@drawable/flat_selector"
+                android:textColor="#ffffff"
+                android:layout_weight="0.7"/>
+    </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:orientation="horizontal"
+            android:layout_weight="0.1"
+            android:layout_marginTop="5dip">
+        <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Under the table?"
+                android:id="@+id/underTheTable"/>
+        </LinearLayout>
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dip"
+            android:orientation="horizontal"
+            android:layout_weight="0.7"
+            android:layout_marginTop="5dip">
+
+        <Button
+                android:layout_width="0dip"
+                android:layout_height="60dip"
+                android:text="Register match"
+                android:id="@+id/registerMatch"
+                android:onClick="buttonClick"
+
+                android:background="@drawable/flat_selector"
+                android:layout_margin="1dp"
+                android:textColor="#ffffff"
+                android:layout_weight="1" />
+
+
+    </LinearLayout>
+</LinearLayout>
