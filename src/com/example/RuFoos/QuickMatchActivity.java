@@ -29,6 +29,8 @@ public class QuickMatchActivity extends Activity{
     private boolean isFull = false;
     private Vibrator v;
     private boolean isReady = false;
+    private boolean confirmed = false;
+    private boolean hasPopped = false;
     /**
      * Called when the activity is first created.
      */
@@ -41,6 +43,7 @@ public class QuickMatchActivity extends Activity{
         dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // TODO: post to api
+                confirmed = true;
                 confirmReady();
             }
         });
@@ -87,15 +90,20 @@ public class QuickMatchActivity extends Activity{
             pickupSignup.execute(id);
         }
         if(isFull){
-            autoUpdate.cancel();
-            if(v.hasVibrator()){
-                v.vibrate(500);
+            //autoUpdate.cancel();
+
+            if(!confirmed) {
+                if(v.hasVibrator()){
+                    v.vibrate(500);
+                }
+                dialog.show();
+                hasPopped = true;
             }
-            dialog.show();
         }
 
         if(isReady){
             System.out.println("You're ready now!");
+            autoUpdate.cancel();
         }
     }
 
@@ -117,6 +125,8 @@ public class QuickMatchActivity extends Activity{
                 }
             }
         }).start();
+        View button = findViewById(R.id.leaveQuickmatch);
+        button.setVisibility(View.INVISIBLE);
     }
 
     public void leaveQuickMatch() {
@@ -180,6 +190,7 @@ public class QuickMatchActivity extends Activity{
                     players[i]= i+1 + ". Waiting for player...";
                 }
             }
+            System.out.println("IsReady? " + quickMatch.getReady().length);
             if(quickMatch.getReady().length >= 4) {
                 System.out.println("Ready!");
                 isReady = true;
