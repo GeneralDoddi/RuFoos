@@ -63,7 +63,7 @@ public class SignUpActivity extends Activity {
                 } else if (password.length() < 6) {
                     invalid = true;
                     Toast.makeText(getApplicationContext(), "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
-                }else if(!(password2.getText().equals(password))){
+                }else if(!((password2.getText().toString()).equals(password.getText().toString()))){
                     invalid = true;
                     Toast.makeText(getApplicationContext(), "Passwords must match", Toast.LENGTH_SHORT).show();
                 } else if (email.getText().equals("")) {
