@@ -1,11 +1,10 @@
 package com.example.RuFoos;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 
 /**
  * Created by Gadi on 2.11.2014.
@@ -28,7 +27,7 @@ public class ChallengeActivity extends Activity {
 
         }
         else if (id == R.id.challengeTeam) {
-
+            startActivity(new Intent(this, TeamMatchRegistrationActivity.class));
         }
         else if(id == R.id.myChallenges) {
 

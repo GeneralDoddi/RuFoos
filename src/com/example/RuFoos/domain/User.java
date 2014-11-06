@@ -1,16 +1,20 @@
 package com.example.RuFoos.domain;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 /**
  * * Domain class for user in ruFoos
  * Created by BearThor on 2.11.2014.
  */
 @JsonAutoDetect(fieldVisibility= JsonAutoDetect.Visibility.ANY)
+@JsonIgnoreProperties({"res"})
 
 public class User {
 
+    protected String Response;
     protected String _id;
+    protected String token;
     protected String userName;
     protected String email;
     protected String password;
@@ -24,6 +28,22 @@ public class User {
         this.userName = userName;
         this.email = email;
         this.password = password;
+    }
+
+    public String getResponse() {
+        return Response;
+    }
+
+    public void setResponse(String result) {
+        this.Response = result;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String get_id() {
@@ -70,6 +90,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "_id='" + _id + '\'' +
+                ", token='" + token + '\'' +
                 ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +

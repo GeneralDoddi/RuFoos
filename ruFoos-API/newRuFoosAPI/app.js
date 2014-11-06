@@ -7,7 +7,7 @@ var connect = require('connect');
 var bodyParser = require('body-parser');
 var app      = express();
 var router = express.Router();
-var port     = process.env.PORT || 10000;
+var port     = process.env.PORT || 9091;
 
 // Configuration
 app.use(express.static(__dirname + '/public'));

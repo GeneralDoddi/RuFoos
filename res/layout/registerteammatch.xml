@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/winnerText" android:layout_gravity="center_horizontal" android:text="winnerteam:"/>
+    <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/loserText" android:layout_gravity="center_horizontal" android:text="loserteam"/>
+    <CheckBox
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="under the table?"
+            android:id="@+id/checkBox" android:layout_gravity="center_horizontal" android:checked="false"/>
+    <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Register Match"
+            android:id="@+id/registerMatch" android:layout_gravity="center_horizontal" android:onClick="buttonClick"/>
+</LinearLayout>
