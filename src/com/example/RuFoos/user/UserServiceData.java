@@ -1,8 +1,8 @@
 package com.example.RuFoos.user;
 
 import android.util.Log;
-import com.example.RuFoos.domain.QuickMatch;
 import com.example.RuFoos.domain.User;
+import com.example.RuFoos.extentions.PojoMapper;
 import com.example.RuFoos.extentions.StreamConverter;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -156,6 +156,43 @@ public class UserServiceData implements UserService {
         }
         return response.getStatusLine().getStatusCode();
 
+    }
+
+    @Override
+    public User loginUser(User user) {
+        final String url = "/users/login";
+        HttpPost httpPost = new HttpPost(BASE_URL + url);
+        ObjectMapper mapper = new ObjectMapper();
+
+        User returnUser = new User();
+        String result = null;
+        HttpResponse response = null;
+        String jsonString = null;
+        try {
+
+            jsonString = mapper.writeValueAsString(user);
+
+            StringEntity se = new StringEntity(jsonString);
+            httpPost.setEntity(se);
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+            response = client.execute(httpPost);
+            InputStream inputStream = response.getEntity().getContent();
+
+
+                String json = null;
+                json = converter.convertInputStreamToString(inputStream);
+                PojoMapper pMapper = new PojoMapper();
+                returnUser = (User) pMapper.fromJson(json,User.class);
+
+                return returnUser;
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        };
+
+        return returnUser;
     }
 }
 
