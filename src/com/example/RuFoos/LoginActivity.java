@@ -23,6 +23,7 @@ public class LoginActivity extends Activity {
 
     public static final String MyPREFERENCES = "MyPrefs";
     public static final String token = "token";
+    public static final String user = "username";
     public SharedPreferences sharedpreferences;
     private EditText username, password;
     private AlertDialog.Builder dialog;
@@ -70,7 +71,7 @@ public class LoginActivity extends Activity {
                     mTask.execute();
                 }
         }
-        //TODO: check if user exists and password is right
+
         AsyncRunner mTask = new AsyncRunner();
 
         mTask.execute();
@@ -108,6 +109,7 @@ public class LoginActivity extends Activity {
             SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", LoginActivity.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString("token", resultUser.getToken());
+            editor.putString("username", resultUser.getUserName());
             editor.commit();
             Intent i = new Intent();
             startActivity(new Intent(getApplicationContext(), FoosActivity.class));
