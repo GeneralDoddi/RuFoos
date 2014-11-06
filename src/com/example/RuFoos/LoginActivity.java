@@ -16,7 +16,7 @@ import com.example.RuFoos.user.UserServiceData;
 
 
 /**
- * Created by BearThor on 2.11.2014.
+ * Created by Gadi on 2.11.2014.
  */
 
 public class LoginActivity extends Activity {
@@ -66,11 +66,14 @@ public class LoginActivity extends Activity {
                     invalid = true;
                     Toast.makeText(getApplicationContext(), "Password is required", Toast.LENGTH_SHORT).show();
                 }
-                else if(invalid = false){
-                    AsyncRunner mTask = new AsyncRunner();
-                    mTask.execute();
-                }
+
         }
+
+        AsyncRunner mTask = new AsyncRunner();
+
+        mTask.execute();
+
+
     }
     public void signUp(View view) {
         startActivity(new Intent(this, SignUpActivity.class));
@@ -102,14 +105,14 @@ public class LoginActivity extends Activity {
                 errorInput = true;
                 Toast.makeText(getApplicationContext(), "Invalid password", Toast.LENGTH_SHORT).show();
             }
-            else if(errorInput = false){
+
                 SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", LoginActivity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("token", resultUser.getToken());
                 editor.putString("username", resultUser.getUserName());
                 editor.commit();
                 startActivity(new Intent(getApplicationContext(), FoosActivity.class));
-            }
+
         }
     }
 
