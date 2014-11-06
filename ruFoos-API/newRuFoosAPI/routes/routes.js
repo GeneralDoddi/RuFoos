@@ -209,7 +209,7 @@ module.exports = function(router) {
 	});
 	
 	router.post('/pickupmatch/signup', function(req, res){
-		user.findOne({'token': req.body.token},'Player', function(err, response){
+		user.findOne({'userName': req.body.userName},'Player', function(err, response){
 			if(err || response == null){
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
@@ -281,7 +281,7 @@ module.exports = function(router) {
 	});
 
 	router.post('/pickupmatch/removesignup', function(req, res){
-		user.findOne({'token': req.body.token},'Player', function(err, response){
+		user.findOne({'userName': req.body.userName},'Player', function(err, response){
 			if(err || response == null){
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
@@ -546,43 +546,27 @@ module.exports = function(router) {
 	// RuFoos GET Methods: 
 	
 	router.get('/users/getuserbyname/:username', function(req, res){
-		user.findOne({'token': req.body.token},'Player', function(err, response){
-			if(err || response == null){
-				console.log("User not signed up");
-				res.status(401).send("Unauthorized access");
+		user.findOne({'userName' : req.params.username},'userName email',function(err, response){
+			if(err){
+				console.log("Error: " + err);
+				res.status(503).send(err);
 			}
 			else{
-				user.findOne({'userName' : req.params.username},'userName email',function(err, response){
-					if(err){
-						console.log("Error: " + err);
-						res.status(503).send(err);
-					}
-					else{
-						console.log(response);
-						res.json(response);
-					}
-				});
+				console.log(response);
+				res.json(response);
 			}
 		});
 	});
 	
 	router.get('/users/getplayerinfo/:playername', function(req,res){
-		user.findOne({'token': req.body.token},'Player', function(err, response){
-			if(err || response == null){
-				console.log("User not signed up");
-				res.status(401).send("Unauthorized access");
+		user.findOne({'userName' : req.params.playername},'Player',function(err, response){
+			if(err){
+				console.log("Error: " + err);
+				res.status(503).send(err);
 			}
 			else{
-				user.findOne({'userName' : req.params.playername},'Player',function(err, response){
-					if(err){
-						console.log("Error: " + err);
-						res.status(503).send(err);
-					}
-					else{
-						console.log(response);
-						res.json(response);
-					}
-				});
+				console.log(response);
+				res.json(response);
 			}
 		});
 	});

@@ -19,6 +19,7 @@
         <activity android:name="SettingsActivity" android:label="Settings" />
         <activity android:name="ChallengeActivity" android:label="Challenge" />
         <activity android:name="QuickMatchActivity" android:label="Quick Match details" />
+        <activity android:name="TeamMatchRegistrationActivity" android:label="Team Match Signup" />
     </application>
 </manifest>
 

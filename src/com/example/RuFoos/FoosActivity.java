@@ -45,8 +45,8 @@ public class FoosActivity extends Activity{
                 MatchService service = new MatchServiceData();
                 UserService userservice = new UserServiceData();
                 // TODO: sign up logged in user
-                service.leaveQuickMatch(userservice.getUserByUsername("gadi"));
-                QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername("gadi"));
+                //service.leaveQuickMatch(userservice.getUserByUsername("marino"));
+                QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername("marino"));
 
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);

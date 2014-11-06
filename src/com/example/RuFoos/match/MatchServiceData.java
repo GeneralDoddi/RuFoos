@@ -3,6 +3,7 @@ package com.example.RuFoos.match;
 import android.util.Log;
 import com.example.RuFoos.domain.Match;
 import com.example.RuFoos.domain.QuickMatch;
+import com.example.RuFoos.domain.TeamMatch;
 import com.example.RuFoos.domain.User;
 import com.example.RuFoos.extentions.StreamConverter;
 import com.example.RuFoos.match.MatchService;
@@ -167,6 +168,38 @@ public class MatchServiceData implements MatchService {
         // 11. return result
         //System.out.println("status " + response.getStatusLine().getStatusCode());
         return quickMatch;
+    }
+
+    @Override
+    public TeamMatch registerTeamMatch(TeamMatch teamMatch){
+        System.out.println("ENTERED");
+        final String url = "/pickupmatch/registerteammatch";
+        HttpPost httpPost = new HttpPost(BASE_URL + url);
+        ObjectMapper mapper = new ObjectMapper();
+        String result = null;
+        HttpResponse response = null;
+
+        String jsonString = null;
+        try {
+            jsonString = mapper.writeValueAsString(teamMatch);
+
+            StringEntity se = new StringEntity(jsonString);
+            httpPost.setEntity(se);
+
+            // 7. Set some headers to inform server about the type of the content
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+
+            // 8. Execute POST request to the given URL
+            response = client.execute(httpPost);
+
+            System.out.println(response);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return teamMatch;
     }
 
 }

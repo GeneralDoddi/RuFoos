@@ -2,6 +2,7 @@ package com.example.RuFoos.match;
 
 import com.example.RuFoos.domain.Match;
 import com.example.RuFoos.domain.QuickMatch;
+import com.example.RuFoos.domain.TeamMatch;
 import com.example.RuFoos.domain.User;
 
 /**
@@ -13,4 +14,5 @@ public interface MatchService {
     public QuickMatch quickMatchSignUp(User user);
     public QuickMatch getQuickMatchById(String id);
     public QuickMatch leaveQuickMatch(User user);
+    public TeamMatch registerTeamMatch(TeamMatch teamMatch);
 }
