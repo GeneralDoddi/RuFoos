@@ -1,17 +1,23 @@
 package com.example.RuFoos;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
+import android.widget.*;
 import com.example.RuFoos.domain.QuickMatch;
+import com.example.RuFoos.domain.Team;
 import com.example.RuFoos.domain.TeamMatch;
 import com.example.RuFoos.match.MatchService;
 import com.example.RuFoos.match.MatchServiceData;
+import com.example.RuFoos.team.TeamService;
+import com.example.RuFoos.team.TeamServiceData;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -19,19 +25,27 @@ import com.example.RuFoos.user.UserServiceData;
  */
 public class TeamMatchRegistrationActivity extends Activity {
 
-    private EditText winnerteam,loserteam;
+    private Spinner winTeam, loseTeam;
     private CheckBox underTable;
     private Button registerMatch;
-    private MatchService matchService;
+    private MatchService _matchService;
+    private TeamService _teamService;
+    private List<Team> teamList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registerteammatch);
 
-        winnerteam = (EditText)findViewById(R.id.winnerText);
-        loserteam  = (EditText)findViewById(R.id.loserText);
-        underTable = (CheckBox)findViewById(R.id.checkBox);
+        //load teams
+        getTeams();
+
+        //Get spinners
+        winTeam = (Spinner) findViewById(R.id.WinningTeam);
+        loseTeam = (Spinner) findViewById(R.id.LosingTeam);
+
+        ArrayAdapter<Team> = ArrayAdapter.createFromResource(this, teamList, android.R.layout.simple_spinner_item);
+
         registerMatch = (Button)findViewById(R.id.registerMatch);
     }
 
@@ -47,19 +61,35 @@ public class TeamMatchRegistrationActivity extends Activity {
                 public void run() {
                     TeamMatch newMatch = new TeamMatch();
 
-                    newMatch.setWinnerteam(winnerteam.getText().toString());
-                    newMatch.setLoserteam(loserteam.getText().toString());
+                    /*newMatch.setWinnerteam(winTeam.getText().toString());
+                    newMatch.setLoserteam(loseTeam.get*/
                     newMatch.setUnderTable(underTable.isChecked());
 
-                    matchService = new MatchServiceData();
+                    _matchService = new MatchServiceData();
                     UserService userservice = new UserServiceData();
                     MatchService service = new MatchServiceData();
                     // TODO: Make right user leave (logged in user)
                     System.out.println(newMatch);
-                    matchService.registerTeamMatch(newMatch);
+                    _matchService.registerTeamMatch(newMatch);
                 }
             }).start();
         }
+    }
+
+    public void getTeams()
+    {
+        new Thread(new Runnable() {
+            public void run() {
+                TeamService _teamService = new TeamServiceData();
+                teamList = _teamService.getAllTeams();
+                ArrayList<String> teamNames = new ArrayList<String>();
+
+                for(Team i : teamList)
+                {
+
+                }
+            }
+        }).start();
     }
 
 

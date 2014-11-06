@@ -3,7 +3,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical" >
+              android:orientation="vertical"
+        >
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -14,6 +15,7 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="Pickup Match"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/pickupMatch"
                 android:onClick="signUpForPickup"
                 android:background="@drawable/flat_selector"
@@ -32,6 +34,7 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="Challenge"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/challenge"
                 android:onClick="buttonClick"
                 android:background="@drawable/flat_selector"
@@ -49,6 +52,7 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="Matches"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/matches"
                 android:onClick="buttonClick"
                 android:background="@drawable/flat_selector"
@@ -65,6 +69,7 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="Competitions"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/competitions"
                 android:onClick="buttonClick"
                 android:background="@drawable/flat_selector"
@@ -76,6 +81,7 @@
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="Teams"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/teams"
                 android:onClick="buttonClick"
                 android:background="@drawable/flat_selector"
@@ -88,12 +94,13 @@
             android:layout_width="match_parent"
             android:layout_height="0dip"
             android:orientation="horizontal"
-            android:layout_weight="0.5" >
+            android:layout_weight="0.4" >
 
        <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="Settings"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/settings"
                 android:onClick="buttonClick"
                 android:background="@drawable/flat_selector"
@@ -102,10 +109,10 @@
                 android:drawableTop="@drawable/ic_action_settings"
                 android:paddingTop="20dip"
                 android:drawablePadding="-10dip"
-                android:layout_weight="0.5"/>
+                android:layout_weight="1"/>
 
 
-     
+
 
         <!--
         android:layout_alignBottom="@+id/imageButton"-->
