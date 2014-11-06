@@ -108,7 +108,7 @@ public class SignUpActivity extends Activity {
         protected void onPostExecute(String result) {
 
             if(result.equals("Sucessfully Registered")) {
-                Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Registration was successful, please log in", Toast.LENGTH_SHORT).show();
                 finish();
             }
             else{

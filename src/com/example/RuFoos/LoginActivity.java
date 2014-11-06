@@ -27,6 +27,7 @@ public class LoginActivity extends Activity {
     public SharedPreferences sharedpreferences;
     private EditText username, password;
     private AlertDialog.Builder dialog;
+    private boolean invalid = false;
 
     /**
      * Called when the activity is first created.
@@ -38,6 +39,7 @@ public class LoginActivity extends Activity {
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         username = (EditText) findViewById(R.id.username);
         password = (EditText) findViewById(R.id.password);
+
 
     }
 
@@ -57,7 +59,7 @@ public class LoginActivity extends Activity {
         switch(view.getId()){
 
             case (R.id.login):
-                boolean invalid = false;
+
                 if(username.getText().toString().equals("")){
                     invalid = true;
                     Toast.makeText(getApplicationContext(), "Username is required", Toast.LENGTH_SHORT).show();
@@ -66,21 +68,19 @@ public class LoginActivity extends Activity {
                     invalid = true;
                     Toast.makeText(getApplicationContext(), "Password is required", Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    AsyncRunner mTask = new AsyncRunner();
+                    mTask.execute();
+                }
 
         }
-
-        AsyncRunner mTask = new AsyncRunner();
-
-        mTask.execute();
-
-
     }
     public void signUp(View view) {
         startActivity(new Intent(this, SignUpActivity.class));
     }
     private class AsyncRunner extends AsyncTask<String, Integer, User> {
 
-
+        boolean error = false;
         User loginUser = new User(username.getText().toString(),null,password.getText().toString());
 
         @Override
@@ -96,22 +96,25 @@ public class LoginActivity extends Activity {
 
         @Override
         protected void onPostExecute(User resultUser) {
-            boolean errorInput = false;
+
+
             if(loginUser.getResponse().equals("User not exist")){
-                errorInput = true;
+                error = true;
                 Toast.makeText(getApplicationContext(), "Username does not exist", Toast.LENGTH_SHORT).show();
             }
             else if(loginUser.getResponse().equals("Invalid Password")){
-                errorInput = true;
+                error = true;
                 Toast.makeText(getApplicationContext(), "Invalid password", Toast.LENGTH_SHORT).show();
             }
-
+            else{
                 SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", LoginActivity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("token", resultUser.getToken());
                 editor.putString("username", resultUser.getUserName());
                 editor.commit();
                 startActivity(new Intent(getApplicationContext(), FoosActivity.class));
+            }
+
 
         }
     }
