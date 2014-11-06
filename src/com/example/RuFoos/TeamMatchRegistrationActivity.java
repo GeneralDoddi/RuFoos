@@ -44,7 +44,7 @@ public class TeamMatchRegistrationActivity extends Activity {
         winTeam = (Spinner) findViewById(R.id.WinningTeam);
         loseTeam = (Spinner) findViewById(R.id.LosingTeam);
 
-        ArrayAdapter<Team> = ArrayAdapter.createFromResource(this, teamList, android.R.layout.simple_spinner_item);
+//        ArrayAdapter<Team> = ArrayAdapter.createFromResource(this, teamList, android.R.layout.simple_spinner_item);
 
         registerMatch = (Button)findViewById(R.id.registerMatch);
     }

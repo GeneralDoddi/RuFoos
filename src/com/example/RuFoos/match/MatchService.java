@@ -15,4 +15,5 @@ public interface MatchService {
     public QuickMatch getQuickMatchById(String id);
     public QuickMatch leaveQuickMatch(User user);
     public TeamMatch registerTeamMatch(TeamMatch teamMatch);
+    public QuickMatch confirmPickup(String token);
 }
