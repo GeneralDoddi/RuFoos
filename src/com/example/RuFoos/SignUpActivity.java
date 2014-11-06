@@ -2,7 +2,6 @@ package com.example.RuFoos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -82,7 +81,6 @@ public class SignUpActivity extends Activity {
             user.setUserName(username.getText().toString());
             user.setEmail(email.getText().toString());
             user.setPassword(password.getText().toString());
-
         }
 
         @Override
@@ -111,9 +109,7 @@ public class SignUpActivity extends Activity {
 
             if(result.equals("Sucessfully Registered")) {
                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_SHORT).show();
-
                 finish();
-
             }
             else{
                 Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();

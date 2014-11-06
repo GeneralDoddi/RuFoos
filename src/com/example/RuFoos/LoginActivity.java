@@ -16,7 +16,7 @@ import com.example.RuFoos.user.UserServiceData;
 
 
 /**
- * Created by Gadi on 2.11.2014.
+ * Created by BearThor on 2.11.2014.
  */
 
 public class LoginActivity extends Activity {
@@ -71,23 +71,10 @@ public class LoginActivity extends Activity {
                     mTask.execute();
                 }
         }
-
-        AsyncRunner mTask = new AsyncRunner();
-
-        mTask.execute();
-
-
     }
-
-    //Intent i = new Intent(this,com.example.RuFoos.FoosActivity.class);
-    //startActivity(i);
-
-
     public void signUp(View view) {
         startActivity(new Intent(this, SignUpActivity.class));
     }
-
-
     private class AsyncRunner extends AsyncTask<String, Integer, User> {
 
 
@@ -99,20 +86,30 @@ public class LoginActivity extends Activity {
             final UserService userService = new UserServiceData();
             User user = userService.loginUser(loginUser);
             loginUser.setToken(user.getToken());
+            loginUser.setResponse(user.getResponse());
 
             return user;
         }
 
         @Override
         protected void onPostExecute(User resultUser) {
-            //System.out.println(resultUser.getToken());
-            SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", LoginActivity.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("token", resultUser.getToken());
-            editor.putString("username", resultUser.getUserName());
-            editor.commit();
-            Intent i = new Intent();
-            startActivity(new Intent(getApplicationContext(), FoosActivity.class));
+            boolean errorInput = false;
+            if(loginUser.getResponse().equals("User not exist")){
+                errorInput = true;
+                Toast.makeText(getApplicationContext(), "Username does not exist", Toast.LENGTH_SHORT).show();
+            }
+            else if(loginUser.getResponse().equals("Invalid Password")){
+                errorInput = true;
+                Toast.makeText(getApplicationContext(), "Invalid password", Toast.LENGTH_SHORT).show();
+            }
+            else if(errorInput = false){
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", LoginActivity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("token", resultUser.getToken());
+                editor.putString("username", resultUser.getUserName());
+                editor.commit();
+                startActivity(new Intent(getApplicationContext(), FoosActivity.class));
+            }
         }
     }
 

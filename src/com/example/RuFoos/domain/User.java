@@ -8,11 +8,11 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
  * Created by BearThor on 2.11.2014.
  */
 @JsonAutoDetect(fieldVisibility= JsonAutoDetect.Visibility.ANY)
-@JsonIgnoreProperties({"response","res"})
+@JsonIgnoreProperties({"res"})
 
 public class User {
 
-
+    protected String Response;
     protected String _id;
     protected String token;
     protected String userName;
@@ -28,6 +28,14 @@ public class User {
         this.userName = userName;
         this.email = email;
         this.password = password;
+    }
+
+    public String getResponse() {
+        return Response;
+    }
+
+    public void setResponse(String result) {
+        this.Response = result;
     }
 
     public String getToken() {
