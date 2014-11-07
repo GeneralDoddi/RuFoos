@@ -111,9 +111,15 @@
                 android:drawablePadding="-10dip"
                 android:layout_weight="1"/>
 
-        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+        <Button android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:text="Log out"
+                android:id="@+id/logout"
                 android:onClick="logout"
-                android:id="@+id/logout"/>
+                android:background="@drawable/flat_selector"
+                android:layout_margin="1dp"
+                android:textColor="#ffffff"
+                android:layout_weight="1" />
 
 
         <!--
