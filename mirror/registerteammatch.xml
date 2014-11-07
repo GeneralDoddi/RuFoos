@@ -1,4 +1,4 @@
-<!-- [ Mirror metadata ] generatedAt: 1415319441950 -->
+<!-- [ Mirror metadata ] generatedAt: 1415366881260 -->
 <!-- Generated screen file. Fill the id tags below with content with
 which to populate your previewed layout. For a complete specification
 of sample data, please see http://jimulabs.com/sample-data-specifications/ -->
@@ -11,25 +11,25 @@ of sample data, please see http://jimulabs.com/sample-data-specifications/ -->
         <WinningTeam>
             <items layout="@android:layout/simple_spinner_item" >
                 <_item>
-                    <text1>Dalmatian</text1>
+                    <text1>Apple</text1>
                 </_item>
                 <_item>
-                    <text1>Great Dane</text1>
+                    <text1>Orange</text1>
                 </_item>
                 <_item>
-                    <text1>Shi Tzu</text1>
+                    <text1>Pear</text1>
                 </_item>
                 <_item>
-                    <text1>Corgi</text1>
+                    <text1>Grapefruit</text1>
                 </_item>
                 <_item>
-                    <text1>Labrador</text1>
+                    <text1>Banana</text1>
                 </_item>
                 <_item>
-                    <text1>Doberman</text1>
+                    <text1>Lemon</text1>
                 </_item>
                 <_item>
-                    <text1>Chihuahua</text1>
+                    <text1>Carrot</text1>
                 </_item>
             </items>
                 </WinningTeam>
@@ -37,25 +37,25 @@ of sample data, please see http://jimulabs.com/sample-data-specifications/ -->
         <LosingTeam>
             <items layout="@android:layout/simple_spinner_item" >
                 <_item>
-                    <text1>Vancouver</text1>
+                    <text1>Apple</text1>
                 </_item>
                 <_item>
-                    <text1>Cairo</text1>
+                    <text1>Orange</text1>
                 </_item>
                 <_item>
-                    <text1>New York</text1>
+                    <text1>Pear</text1>
                 </_item>
                 <_item>
-                    <text1>San Francisco</text1>
+                    <text1>Grapefruit</text1>
                 </_item>
                 <_item>
-                    <text1>Seattle</text1>
+                    <text1>Banana</text1>
                 </_item>
                 <_item>
-                    <text1>Hong Kong</text1>
+                    <text1>Lemon</text1>
                 </_item>
                 <_item>
-                    <text1>Tokyo</text1>
+                    <text1>Carrot</text1>
                 </_item>
             </items>
                 </LosingTeam>

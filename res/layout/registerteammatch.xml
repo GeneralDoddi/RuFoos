@@ -24,7 +24,7 @@
 
         <Spinner
                 android:layout_width="0dip"
-                android:layout_height="wrap_content"
+                android:layout_height="50dip"
                 android:id="@+id/WinningTeam"
                 android:background="@drawable/flat_selector"
                 android:textColor="#ffffff"
@@ -50,7 +50,7 @@
 
         <Spinner
                 android:layout_width="0dip"
-                android:layout_height="wrap_content"
+                android:layout_height="50dip"
                 android:id="@+id/LosingTeam"
                 android:background="@drawable/flat_selector"
                 android:textColor="#ffffff"
@@ -63,8 +63,8 @@
             android:layout_weight="0.1"
             android:layout_marginTop="5dip">
         <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:text="Under the table?"
                 android:id="@+id/underTheTable"/>
         </LinearLayout>

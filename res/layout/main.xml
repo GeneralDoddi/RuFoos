@@ -21,8 +21,8 @@
                 android:background="@drawable/flat_selector"
                 android:layout_margin="1dp"
                 android:textColor="#ffffff"
-                android:drawableLeft="@drawable/lightning"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                />
     </LinearLayout>
 
     <LinearLayout
@@ -106,18 +106,19 @@
                 android:background="@drawable/flat_selector"
                 android:layout_margin="1dp"
                 android:textColor="#ffffff"
-                android:drawableTop="@drawable/ic_action_settings"
-                android:paddingTop="20dip"
+                android:paddingTop="10dip"
                 android:drawablePadding="-10dip"
                 android:layout_weight="1"/>
 
         <Button android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="Log out"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/logout"
                 android:onClick="logout"
                 android:background="@drawable/flat_selector"
                 android:layout_margin="1dp"
+                android:paddingTop="10dip"
                 android:textColor="#ffffff"
                 android:layout_weight="1" />
 
