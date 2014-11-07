@@ -64,9 +64,14 @@ public class TeamMatchRegistrationActivity extends Activity {
                     TeamMatch newMatch = new TeamMatch();
                     String t1 =  ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem().toString();
                     String t2 =  ((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem().toString();
+
+                   /* String t1 = "winningteam";
+                    String t2 = "losingteam";*/
+                    System.out.println(t1 + " - " + t2);
                     newMatch.setWinnerteam(t1);
                     newMatch.setLoserteam(t2);
                     newMatch.setUnderTable(underTable.isChecked());
+                    System.out.println("checked? " +  underTable.isChecked());
 
                     SharedPreferences sharedPreferences = getSharedPreferences
                             (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
@@ -106,7 +111,6 @@ public class TeamMatchRegistrationActivity extends Activity {
         protected Long doInBackground(URL... urls) {
             TeamService _teamService = new TeamServiceData();
             teamList = _teamService.getAllTeams();
-            System.out.println(teamList.size());
             return null;
         }
 
@@ -121,6 +125,7 @@ public class TeamMatchRegistrationActivity extends Activity {
             }
             winTeam = (Spinner) findViewById(R.id.WinningTeam);
             loseTeam = (Spinner) findViewById(R.id.LosingTeam);
+            underTable = (CheckBox) findViewById(R.id.underTheTable);
 
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(TeamMatchRegistrationActivity.this,
                     android.R.layout.simple_spinner_item , teamNames);

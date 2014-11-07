@@ -5,11 +5,8 @@
 
     <ImageView android:id="@+id/splash" android:layout_width="wrap_content"
                android:layout_height="fill_parent"
-               android:src="@drawable/ic_launcher"
+               android:src="@drawable/rufoos_logo_1920"
                android:layout_gravity="center"></ImageView>
 
-    <TextView android:layout_width="fill_parent"
-              android:layout_height="wrap_content"
-              android:text="Hello World, splash"/>
 
 </LinearLayout>
