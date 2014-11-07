@@ -43,6 +43,7 @@ public class ExhibitionRegistrationActivity extends Activity {
 
     public void buttonClick(View view){
         Button button = (Button) view;
+        ExhibitionMatch result;
         int id = button.getId();
 
         if(id == R.id.registerMatch){
