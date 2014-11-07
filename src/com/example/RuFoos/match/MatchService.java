@@ -1,9 +1,6 @@
 package com.example.RuFoos.match;
 
-import com.example.RuFoos.domain.Match;
-import com.example.RuFoos.domain.QuickMatch;
-import com.example.RuFoos.domain.TeamMatch;
-import com.example.RuFoos.domain.User;
+import com.example.RuFoos.domain.*;
 
 /**
  * Created by BearThor on 3.11.2014.
@@ -15,4 +12,5 @@ public interface MatchService {
     public QuickMatch getQuickMatchById(String id);
     public QuickMatch leaveQuickMatch(User user);
     public TeamMatch registerTeamMatch(TeamMatch teamMatch);
+    public ExhibitionMatch registerExhibitionMatch(ExhibitionMatch exhibitionMatch);
 }

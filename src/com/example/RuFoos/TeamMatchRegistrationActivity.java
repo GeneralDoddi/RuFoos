@@ -6,12 +6,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import com.example.RuFoos.domain.QuickMatch;
 import com.example.RuFoos.domain.TeamMatch;
 import com.example.RuFoos.match.MatchService;
 import com.example.RuFoos.match.MatchServiceData;
-import com.example.RuFoos.user.UserService;
-import com.example.RuFoos.user.UserServiceData;
+
 
 
 /**
@@ -29,9 +27,9 @@ public class TeamMatchRegistrationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registerteammatch);
 
-        winnerteam = (EditText)findViewById(R.id.winnerText);
-        loserteam  = (EditText)findViewById(R.id.loserText);
-        underTable = (CheckBox)findViewById(R.id.checkBox);
+        winnerteam = (EditText)findViewById(R.id.textView2);
+        loserteam  = (EditText)findViewById(R.id.textView3);
+        underTable = (CheckBox)findViewById(R.id.underTheTable);
         registerMatch = (Button)findViewById(R.id.registerMatch);
     }
 
@@ -52,10 +50,6 @@ public class TeamMatchRegistrationActivity extends Activity {
                     newMatch.setUnderTable(underTable.isChecked());
 
                     matchService = new MatchServiceData();
-                    UserService userservice = new UserServiceData();
-                    MatchService service = new MatchServiceData();
-                    // TODO: Make right user leave (logged in user)
-                    System.out.println(newMatch);
                     matchService.registerTeamMatch(newMatch);
                 }
             }).start();
