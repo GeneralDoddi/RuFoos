@@ -3,6 +3,7 @@ package com.example.RuFoos;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -43,52 +44,59 @@ public class ExhibitionRegistrationActivity extends Activity {
     }
 
     public void buttonClick(View view){
-        Button button = (Button) view;
-        ExhibitionMatch result;
-        int id = button.getId();
 
-        if(id == R.id.registerMatch){
-            new Thread(new Runnable() {
-                public void run() {
-                    List<String> winners = new ArrayList<String>();
-                    List<String> losers = new ArrayList<String>();
 
-                    ExhibitionMatch exhibitionMatch = new ExhibitionMatch();
+        AsyncRunner mTask = new AsyncRunner();
 
-                    winners.add(winner1.getText().toString());
-                    winners.add(winner2.getText().toString());
-                    exhibitionMatch.setWinners(winners);
+        mTask.execute();
 
-                    losers.add(loser1.getText().toString());
-                    losers.add(loser2.getText().toString());
-                    exhibitionMatch.setLosers(losers);
 
-                    exhibitionMatch.setUnderTable(underTable.isChecked());
-                    SharedPreferences sharedPreferences = getSharedPreferences
-                            (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-                    String token = sharedPreferences.getString("token", "error");
-                    System.out.println("token " + token);
-                    if(token == "error") {
-                        // TODO: throw error
-                    }
-                    else {
-                        matchService = new MatchServiceData();
-                        ExhibitionMatch result = matchService.registerExhibitionMatch(exhibitionMatch, token);
-                    }
-                }
-            }).start();
+    }
 
-            //Context context = getApplicationContext();
-            int duration = Toast.LENGTH_SHORT;
-            CharSequence text = null;
-            //if(result != null){
-                text = "Results have been posted";
-           /* }
-            else{
-                text = "Posting match has failed";
-            }*/
-            Toast.makeText(ExhibitionRegistrationActivity.this, text, duration).show();
+    public class AsyncRunner extends AsyncTask<String, Void, ExhibitionMatch> {
+        List<String> winners = new ArrayList<String>();
+        List<String> losers = new ArrayList<String>();
+        ExhibitionMatch exhibitionMatch = new ExhibitionMatch();
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            winners.add(winner1.getText().toString());
+            winners.add(winner2.getText().toString());
+            exhibitionMatch.setWinners(winners);
+
+            losers.add(loser1.getText().toString());
+            losers.add(loser2.getText().toString());
+            exhibitionMatch.setLosers(losers);
+
+            exhibitionMatch.setUnderTable(underTable.isChecked());
+
+        }
+
+        @Override
+        protected ExhibitionMatch doInBackground(String ...args) {
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+            String token = sharedPreferences.getString("token", "error");
+            matchService = new MatchServiceData();
+            ExhibitionMatch result = matchService.registerExhibitionMatch(exhibitionMatch, token);
+            return result;
+
+        }
+
+        @Override
+        protected void onPostExecute(ExhibitionMatch result) {
+
+            if(result == null) {
+                String error = "There was an error, please remain calm";
+                Toast.makeText(ExhibitionRegistrationActivity.this, error, Toast.LENGTH_SHORT).show();
+            }
+            else {
+                String success = "Registered";
+                Toast.makeText(ExhibitionRegistrationActivity.this, success, Toast.LENGTH_SHORT).show();
                 ExhibitionRegistrationActivity.this.finish();
+            }
         }
     }
 }
+
