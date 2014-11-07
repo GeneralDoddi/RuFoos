@@ -88,7 +88,7 @@
        <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:text="Settings"
+                android:text="Rules"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/settings"
                 android:onClick="buttonClick"
@@ -110,8 +110,6 @@
                 android:paddingTop="10dip"
                 android:textColor="#ffffff"
                 android:layout_weight="1" />
-
-
     </LinearLayout>
 </LinearLayout>
 
