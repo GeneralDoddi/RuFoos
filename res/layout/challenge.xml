@@ -12,7 +12,7 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/flat_selector"
             android:textColor="#ffffff"
-            android:layout_margin="5dp"
+            android:layout_margin="1dp"
             android:onClick="buttonClick"/>
     <Button
             android:layout_width="fill_parent"
@@ -22,7 +22,7 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/flat_selector"
             android:textColor="#ffffff"
-            android:layout_margin="5dp"
+            android:layout_margin="1dp"
             android:onClick="buttonClick"/>
     <Button
             android:layout_width="fill_parent"
@@ -32,6 +32,6 @@
             android:layout_gravity="center_horizontal"
             android:background="@drawable/flat_selector"
             android:textColor="#ffffff"
-            android:layout_margin="5dp"
+            android:layout_margin="1dp"
             android:onClick="buttonClick"/>
 </LinearLayout>
