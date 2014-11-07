@@ -11,7 +11,7 @@ import java.util.List;
 public interface TeamService {
 
         public Team getTeamByName(String name);
-        public int addTeam(Team team);
+        public String addTeam(Team team, String token);
         public List<Team> getAllTeams();
         public ArrayList<Team> getMyTeams(String username);
 }

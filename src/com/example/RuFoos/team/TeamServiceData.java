@@ -65,16 +65,20 @@ public class TeamServiceData implements TeamService {
     }
 
     @Override
-    public int addTeam(Team team) {
+    public String addTeam(Team team, String token) {
 
         final String url = "/teams/addteam";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
         ObjectMapper mapper = new ObjectMapper();
-
+        String result;
         HttpResponse response = null;
         try {
-            String result;
+
             String jsonString = mapper.writeValueAsString(team);
+            token = ",\"token\": \"" + token + "\"}";
+            String regex = "\\}";
+            System.out.println("DA string " + jsonString);
+            jsonString = jsonString.replaceAll(regex, token);
             System.out.printf(jsonString);
             StringEntity se = new StringEntity(jsonString);
             httpPost.setEntity(se);
@@ -100,7 +104,7 @@ public class TeamServiceData implements TeamService {
         }
 
         // 11. return result
-        return response.getStatusLine().getStatusCode();
+        return "Registered";
 
 
     }
