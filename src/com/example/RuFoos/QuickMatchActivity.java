@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -20,7 +19,6 @@ import com.example.RuFoos.match.MatchServiceData;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -105,7 +103,6 @@ public class QuickMatchActivity extends Activity{
             }
         }
 
-
         if(isReady){
             autoUpdate.cancel();
             String userName = sharedpreferences.getString("username", "error");
@@ -143,10 +140,7 @@ public class QuickMatchActivity extends Activity{
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 String token = sharedPreferences.getString("token", "error");
-                if(token == "error") {
-                    // TODO: throw error
-                }
-                else {
+                if(token != "error") {
                     QuickMatch quickMatch = service.confirmPickup(token);
                 }
             }
@@ -169,6 +163,7 @@ public class QuickMatchActivity extends Activity{
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("quickedUp", false);
+                editor.putString("matchId", "");
                 editor.commit();
                 boolean bool = sharedPreferences.getBoolean("quickedUp", true);
                 //System.out.println("WORKING?? " + bool);
@@ -341,10 +336,7 @@ public class QuickMatchActivity extends Activity{
                             (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                     String token = sharedPreferences.getString("token", "error");
                     String matchId = sharedPreferences.getString("matchId", "error");
-                    if(token == "error" || matchId == "error") {
-                        // TODO: throw error
-                    }
-                    else {
+                    if(token != "error" && matchId != "error") {
                         match = service.registerExhibitionMatch(match, token, matchId);
                     }
 
