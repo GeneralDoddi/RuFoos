@@ -59,4 +59,8 @@ public class QuickMatch {
     public void setPlayers(String[] players) {
         this.players = players;
     }
+
+    public boolean[] getReady() {
+        return ready;
+    }
 }

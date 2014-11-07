@@ -1,16 +1,21 @@
 package com.example.RuFoos;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import com.example.RuFoos.domain.QuickMatch;
 import com.example.RuFoos.match.MatchService;
 import com.example.RuFoos.match.MatchServiceData;
+
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
@@ -20,6 +25,12 @@ import java.util.TimerTask;
 
 public class QuickMatchActivity extends Activity{
     private Timer autoUpdate;
+    private AlertDialog.Builder dialog;
+    private boolean isFull = false;
+    private Vibrator v;
+    private boolean isReady = false;
+    private boolean confirmed = false;
+    private boolean hasPopped = false;
     /**
      * Called when the activity is first created.
      */
@@ -27,6 +38,21 @@ public class QuickMatchActivity extends Activity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.quickmatch);
+        dialog = new AlertDialog.Builder(this);
+        dialog.setTitle("QuickMatch ready");
+        dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // TODO: post to api
+                confirmed = true;
+                confirmReady();
+            }
+        });
+        dialog.setNegativeButton("Leave quickMatch", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                leaveQuickMatch();
+            }
+        });
+        v = (Vibrator) this.getSystemService(Context.VIBRATOR_SERVICE);
 
         queryList();
     }
@@ -44,7 +70,7 @@ public class QuickMatchActivity extends Activity{
                     }
                 });
             }
-        }, 0, 10000); // updates every 10 seconds
+        }, 0, 2000); // updates every 2 seconds
     }
 
     @Override
@@ -63,16 +89,58 @@ public class QuickMatchActivity extends Activity{
         if(id != "error") {
             pickupSignup.execute(id);
         }
+        if(isFull){
+            //autoUpdate.cancel();
+
+            if(!confirmed) {
+                if(v.hasVibrator()){
+                    v.vibrate(500);
+                }
+                dialog.show();
+                hasPopped = true;
+            }
+        }
+
+        if(isReady){
+            System.out.println("You're ready now!");
+            autoUpdate.cancel();
+        }
     }
 
-    public void leaveQuickMatch(View view) {
+    public void confirmReady() {
+        new Thread(new Runnable() {
+            public void run() {
+                MatchService service = new MatchServiceData();
+                // TODO: sign up logged in user
+                SharedPreferences sharedPreferences = getSharedPreferences
+                        (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                String token = sharedPreferences.getString("token", "error");
+                System.out.println("token " + token);
+                if(token == "error") {
+                    // TODO: throw error
+                }
+                else {
+                    System.out.println("Token " + token);
+                    QuickMatch quickMatch = service.confirmPickup(token);
+                }
+            }
+        }).start();
+        View button = findViewById(R.id.leaveQuickmatch);
+        button.setVisibility(View.INVISIBLE);
+    }
+
+    public void leaveQuickMatch() {
         new Thread(new Runnable() {
             public void run() {
                 UserService userservice = new UserServiceData();
                 MatchService service = new MatchServiceData();
                 // TODO: Make right user leave (logged in user)
-                // TODO: remove matchId from sharedpreferences
+                // TODO: remove matchId from sharedPreferences
+                SharedPreferences sharedPreferences = getSharedPreferences
+                        (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                //String username = sharedPreferences.getString("name", "error");
                 QuickMatch quickMatch = service.leaveQuickMatch(userservice.getUserByUsername("gadi"));
+                // QuickMatch quickMatch = service.leaveQuickMatch(userservice.getUserByUsername(username));
             }
         }).start();
         Context context = getApplicationContext();
@@ -113,8 +181,19 @@ public class QuickMatchActivity extends Activity{
                 players[i] = i+1 + ". " + quickMatch.getPlayers()[i];
                 System.out.println("player " + players[i]);
             }
-            for(int i = quickMatch.getPlayers().length; i < 4; i++) {
-                players[i]= i+1 + ". Waiting for player...";
+            if(quickMatch.isFull()){
+                isFull = true;
+                System.out.println("match is full man");
+            }
+            else {
+                for(int i = quickMatch.getPlayers().length; i < 4; i++) {
+                    players[i]= i+1 + ". Waiting for player...";
+                }
+            }
+            System.out.println("IsReady? " + quickMatch.getReady().length);
+            if(quickMatch.getReady().length >= 4) {
+                System.out.println("Ready!");
+                isReady = true;
             }
             return players;
         }
@@ -131,5 +210,13 @@ public class QuickMatchActivity extends Activity{
 
         ListView listView = (ListView) findViewById(R.id.player_list);
         listView.setAdapter(adapter);
+    }
+
+    public void onButtonClick(View view) {
+        Button button = (Button) view;
+        int id = button.getId();
+        if(id == R.id.leaveQuickmatch) {
+            leaveQuickMatch();
+        }
     }
 }

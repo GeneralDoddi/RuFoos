@@ -20,10 +20,52 @@
             android:background="@drawable/flat_selector"
             android:textColor="#ffffff"
             android:layout_margin="5dp"
-            android:onClick="leaveQuickMatch" />
+            android:onClick="onButtonClick" />
+    <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="New CheckBox"
+            android:id="@+id/checkBox" android:layout_gravity="right"/>
+
     <ListView
             android:id="@+id/player_list"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_weight="4">
     </ListView>
+
+    <CheckBox android:id="@+id/checkbox_p1"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/checkbox_p2"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/checkbox_p3"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/checkbox_p4"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:onClick="onCheckboxClicked"/>
+
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit Results"
+            android:id="@+id/sendResults"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/flat_selector"
+            android:textColor="#ffffff"
+            android:layout_margin="5dp"
+            android:onClick="onButtonClick" />
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Test"
+            android:id="@+id/info" android:layout_gravity="center_horizontal"
+            />
 </LinearLayout>
