@@ -2,11 +2,13 @@
 
 <LinearLayout
         android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:android="http://schemas.android.com/apk/res/android">
     <Button
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.5"
             android:text="Register Match"
             android:id="@+id/challengePlayer"
             android:layout_gravity="center_horizontal"
@@ -16,7 +18,8 @@
             android:onClick="buttonClick"/>
     <Button
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_weight="0.5"
             android:text="Register Team Match"
             android:id="@+id/challengeTeam"
             android:layout_gravity="center_horizontal"

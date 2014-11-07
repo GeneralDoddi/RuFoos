@@ -17,12 +17,14 @@
         <activity android:name=".LoginActivity" android:label="Login" />
         <activity android:name="SignUpActivity" android:label="SignUp" />
         <activity android:name="FoosActivity" android:label="Main Menu" />
-        <activity android:name="SettingsActivity" android:label="Settings" />
+        <activity android:name="SettingsActivity" android:label="Rules" />
         <activity android:name="ChallengeActivity" android:label="Challenge" />
         <activity android:name="QuickMatchActivity" android:label="Quick Match details" />
         <activity android:name="TeamMatchRegistrationActivity" android:label="Team Match Signup" />
         <activity android:name=".ExhibitionRegistrationActivity" android:label="Exhibition Match Signup"/>
         <activity android:name=".MatchListActivity" android:label="Match list"/>
+        <activity android:name=".AddTeamActivity" android:label="Create new team" />
+        <activity android:name=".TeamListActivity" android:label="My teams"/>
     </application>
 </manifest>
 
