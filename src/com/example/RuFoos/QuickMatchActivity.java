@@ -207,7 +207,7 @@ public class QuickMatchActivity extends Activity{
                 editor.putString("matchId", null);
                 editor.putBoolean("quickedUp", false);
                 editor.commit();
-                QuickMatchActivity.this.finish();
+
                 //System.out.println("get quickmatch error");
 
             }
@@ -247,11 +247,26 @@ public class QuickMatchActivity extends Activity{
     }
 
     public void displayList(String[] players) {
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.quickmatch_playerlist, players);
 
-        ListView listView = (ListView) findViewById(R.id.player_list);
-        listView.setAdapter(adapter);
+        SharedPreferences sharedPreferences = getSharedPreferences
+                (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        String matchId = sharedPreferences.getString("matchId", "error");
+        if(players == null){
+
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("matchId", null);
+            editor.putBoolean("quickedUp", false);
+            editor.commit();
+            QuickMatchActivity.this.finish();
+        }
+        else{
+            ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                    R.layout.quickmatch_playerlist, players);
+
+            ListView listView = (ListView) findViewById(R.id.player_list);
+            listView.setAdapter(adapter);
+        }
+
     }
 
     public void onButtonClick(View view) {
