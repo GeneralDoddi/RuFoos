@@ -185,7 +185,7 @@ public class UserServiceData implements UserService {
                 PojoMapper pMapper = new PojoMapper();
                 returnUser = (User) pMapper.fromJson(json,User.class);
 
-                return returnUser;
+
 
 
         } catch (Exception e) {
