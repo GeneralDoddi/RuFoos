@@ -110,7 +110,7 @@ public class TeamServiceData implements TeamService {
     public List<Team> getAllTeams() {
 
             List<Team> teams = new ArrayList<Team>();
-            final String url = "/users/getallusers";
+            final String url = "/teams/getallteams";
 
             HttpGet httpGet = new HttpGet(BASE_URL + url);
 
@@ -125,9 +125,9 @@ public class TeamServiceData implements TeamService {
                     String jsonResponse = converter.convertInputStreamToString(content);
 
 
-                    //user = new ObjectMapper().readValue(jsonResponse, User.class);
+
                     teams = mapper.readValue(jsonResponse,
-                            new TypeReference<List<User>>() {
+                            new TypeReference<List<Team>>() {
                             });
 
                 } else {

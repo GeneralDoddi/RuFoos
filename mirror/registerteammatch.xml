@@ -1,0 +1,63 @@
+<!-- [ Mirror metadata ] generatedAt: 1415319441950 -->
+<!-- Generated screen file. Fill the id tags below with content with
+which to populate your previewed layout. For a complete specification
+of sample data, please see http://jimulabs.com/sample-data-specifications/ -->
+<screen>
+    <_content layout="@layout/registerteammatch">
+        <!-- TextView Examples:
+        <textView2 text="@string/string_resource" />
+        <textView2 text="Text literal" textSize="14sp" /> -->
+        <textView2 />
+        <WinningTeam>
+            <items layout="@android:layout/simple_spinner_item" >
+                <_item>
+                    <text1>Dalmatian</text1>
+                </_item>
+                <_item>
+                    <text1>Great Dane</text1>
+                </_item>
+                <_item>
+                    <text1>Shi Tzu</text1>
+                </_item>
+                <_item>
+                    <text1>Corgi</text1>
+                </_item>
+                <_item>
+                    <text1>Labrador</text1>
+                </_item>
+                <_item>
+                    <text1>Doberman</text1>
+                </_item>
+                <_item>
+                    <text1>Chihuahua</text1>
+                </_item>
+            </items>
+                </WinningTeam>
+        <textView3 />
+        <LosingTeam>
+            <items layout="@android:layout/simple_spinner_item" >
+                <_item>
+                    <text1>Vancouver</text1>
+                </_item>
+                <_item>
+                    <text1>Cairo</text1>
+                </_item>
+                <_item>
+                    <text1>New York</text1>
+                </_item>
+                <_item>
+                    <text1>San Francisco</text1>
+                </_item>
+                <_item>
+                    <text1>Seattle</text1>
+                </_item>
+                <_item>
+                    <text1>Hong Kong</text1>
+                </_item>
+                <_item>
+                    <text1>Tokyo</text1>
+                </_item>
+            </items>
+                </LosingTeam>
+    </_content>
+</screen>
