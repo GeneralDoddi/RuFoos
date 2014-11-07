@@ -131,12 +131,15 @@ public class QuickMatchActivity extends Activity{
                     TextView t = (TextView)findViewById(R.id.ready_p1_guidelines);
                     t.setVisibility(View.VISIBLE);
 
+                    TextView tt1 = (TextView)findViewById(R.id.ready_notPlayerNumberOne);
+                    tt1.setVisibility(View.VISIBLE);
+
                 }
                 else{
-                    
+                    TextView tt1 = (TextView)findViewById(R.id.ready_notPlayerNumberOne);
+                    tt1.setVisibility(View.VISIBLE);
                 }
-                TextView w1 = (TextView)findViewById(R.id.ready_notPlayerNumberOne);
-                w1.setVisibility(View.VISIBLE);
+
 
             }
 
