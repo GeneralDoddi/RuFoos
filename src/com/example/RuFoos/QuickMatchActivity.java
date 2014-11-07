@@ -165,6 +165,7 @@ public class QuickMatchActivity extends Activity{
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("matchId", null);
                 editor.putBoolean("quickedUp", false);
                 editor.commit();
                 boolean bool = sharedPreferences.getBoolean("quickedUp", true);
