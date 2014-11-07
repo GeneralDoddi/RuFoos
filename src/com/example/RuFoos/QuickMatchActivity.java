@@ -107,7 +107,7 @@ public class QuickMatchActivity extends Activity{
 
 
         if(isReady){
-            autoUpdate.cancel();
+            //autoUpdate.cancel();
             String userName = sharedpreferences.getString("username", "error");
             if(userName != "error") {
                 if(matchPlayers[0].contains(userName)){
@@ -343,15 +343,15 @@ public class QuickMatchActivity extends Activity{
                         match = service.registerExhibitionMatch(match, token, matchId);
                     }
 
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("matchId", null);
+                    editor.putBoolean("quickedUp", false);
+                    editor.apply();
+                    QuickMatchActivity.this.finish();
                 }
             }).start();
-            SharedPreferences sharedPreferences = getSharedPreferences
-                    (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("matchId", null);
-            editor.putBoolean("quickedUp", false);
-            editor.commit();
-            QuickMatchActivity.this.finish();
+
+
         }
         else {
             Context context = getApplicationContext();
