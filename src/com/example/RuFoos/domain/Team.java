@@ -1,6 +1,8 @@
 package com.example.RuFoos.domain;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
 
 /**
  * * Domain class for team in ruFoos
@@ -9,23 +11,33 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 @JsonAutoDetect(fieldVisibility= JsonAutoDetect.Visibility.ANY)
 public class Team {
 
+    protected String id;
     protected String name;
     protected String p1;
     protected String p2;
     protected int wins;
     protected int losses;
     protected int underTable;
+    protected int version;
 
     public Team() {
     }
 
-    public Team(String name, String p1, String p2, int wins, int losses, int underTable) {
+    @JsonCreator
+    public Team(@JsonProperty("_id") String id, @JsonProperty("__v") int version,
+                @JsonProperty("name") String name, @JsonProperty("p1") String p1,
+                @JsonProperty("p2") String p2, @JsonProperty("wins") int wins,
+                @JsonProperty("losses") int losses, @JsonProperty("underTable") int underTable)
+     {
+        this.id = id;
         this.name = name;
         this.p1 = p1;
         this.p2 = p2;
         this.wins = wins;
         this.losses = losses;
         this.underTable = underTable;
+        this.version = version;
+
     }
 
     public String getName() {

@@ -25,27 +25,33 @@ import java.util.List;
  */
 public class TeamMatchRegistrationActivity extends Activity {
 
-    private Spinner winTeam, loseTeam;
+
     private CheckBox underTable;
     private Button registerMatch;
     private MatchService _matchService;
     private TeamService _teamService;
     private List<Team> teamList;
+    private ArrayList<String> teamNames;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registerteammatch);
 
+        Spinner winTeam = (Spinner) findViewById(R.id.WinningTeam);
+        Spinner loseTeam = (Spinner) findViewById(R.id.LosingTeam);
         //load teams
         getTeams();
 
-        //Get spinners
-        winTeam = (Spinner) findViewById(R.id.WinningTeam);
-        loseTeam = (Spinner) findViewById(R.id.LosingTeam);
+        ArrayAdapter adapter = new ArrayAdapter<String>(this,
+                R.layout.registerteammatch, teamNames);
 
-        ArrayAdapter<Team> = ArrayAdapter.createFromResource(this, teamList, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
+
+        //THIS IS ALL BROKEN FUUUUUUUUUUUUUUUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe.. e
+        //winTeam.setAdapter(adapter);
+        //loseTeam.setAdapter(adapter);
         registerMatch = (Button)findViewById(R.id.registerMatch);
     }
 
@@ -60,9 +66,10 @@ public class TeamMatchRegistrationActivity extends Activity {
             new Thread(new Runnable() {
                 public void run() {
                     TeamMatch newMatch = new TeamMatch();
-
-                    /*newMatch.setWinnerteam(winTeam.getText().toString());
-                    newMatch.setLoserteam(loseTeam.get*/
+                    Team t1 = (Team) ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem();
+                    Team t2 = (Team) ((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem();
+                    newMatch.setWinnerteam(t1.getName());
+                    newMatch.setLoserteam(t2.getName());
                     newMatch.setUnderTable(underTable.isChecked());
 
                     _matchService = new MatchServiceData();
@@ -82,14 +89,28 @@ public class TeamMatchRegistrationActivity extends Activity {
             public void run() {
                 TeamService _teamService = new TeamServiceData();
                 teamList = _teamService.getAllTeams();
-                ArrayList<String> teamNames = new ArrayList<String>();
+
 
                 for(Team i : teamList)
                 {
-
+                    teamNames.add(i.getName());
+                    System.out.println(i.getName());
                 }
+
+                System.out.println(teamList.size());
+                //Get spinners
+
             }
         }).start();
+    }
+
+    public void addItemsOnSpinner()
+    {
+
+
+
+
+
     }
 
 
