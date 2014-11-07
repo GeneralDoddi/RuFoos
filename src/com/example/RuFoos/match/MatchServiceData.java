@@ -17,6 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -286,5 +287,35 @@ public class MatchServiceData implements MatchService {
             Log.d("InputStream", e.getLocalizedMessage());
         }
         return quickMatch;
+    }
+
+    @Override
+    public List<Match> getMatches(String username){
+        List<Match> matches = new ArrayList<Match>();
+        final String url = "/users/" + username + "/matches";
+        StreamConverter converter = new StreamConverter();
+        HttpClient client = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(BASE_URL + url);
+
+        try {
+            HttpResponse response = client.execute(httpGet);
+            StatusLine statusLine = response.getStatusLine();
+            int statusCode = statusLine.getStatusCode();
+
+            if (statusCode == 200 || statusCode == 201) {
+                HttpEntity entity = response.getEntity();
+                InputStream content = entity.getContent();
+                String jsonResponse = converter.convertInputStreamToString(content);
+                if (jsonResponse.contentEquals("null")) {
+                    return null;
+                }
+                //matches = mapper.readValue(jsonResponse, Match.class);
+            }
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+       return matches;
     }
 }

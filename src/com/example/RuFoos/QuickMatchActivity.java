@@ -228,40 +228,32 @@ public class QuickMatchActivity extends Activity{
     }
 
     public void onCheckboxClicked(View view) {
-        // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
 
-        // Check which checkbox was clicked
         switch(view.getId()) {
             case R.id.checkbox_p1:
                 if(checked) {
-                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[0]);
                 }
                 else{
-                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[0]);
                     winners.remove(location);
                 }
                 break;
             case R.id.checkbox_p2:
                 if(checked) {
-                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[1]);
                 }
                 else{
-                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[1]);
                     winners.remove(location);
                 }
                 break;
             case R.id.checkbox_p3:
                 if(checked) {
-                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[2]);
                 }
                 else{
-                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[2]);
                     winners.remove(location);
                 }

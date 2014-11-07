@@ -1,5 +1,8 @@
 package com.example.RuFoos.domain;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +12,6 @@ import java.util.List;
  */
 public class Match {
 
-    // Exhibition match objects
     private String id;
     private int version;
     private List<String> winners;
@@ -27,7 +29,10 @@ public class Match {
     public TeamMatch(@JsonProperty("_id")String id,@JsonProperty("__v") int version,@JsonProperty("winnerteam") String winnerteam,@JsonProperty("loserteam") String loserteam,@JsonProperty("undertable") boolean underTable) {
 */
         // Exhibition match
-    public Match(String id, int version, List<String> winners, List<String> losers, Date date, boolean underTable) {
+    @JsonCreator
+    public Match(@JsonProperty("_id") String id, @JsonProperty("__v") int version,
+                 @JsonProperty("winners") List<String> winners, @JsonProperty("losers") List<String> losers,
+                 @JsonProperty("date") Date date, @JsonProperty("underTable") boolean underTable) {
         this.id = id;
         this.version = version;
         this.winners = winners;
@@ -37,7 +42,10 @@ public class Match {
     }
 
     // Team match
-    public Match(String id, int version, String winnerteam, String loserteam, boolean underTable) {
+    @JsonCreator
+    public Match(@JsonProperty("_id") String id, @JsonProperty("__v") int version,
+                 @JsonProperty("winnerteam") String winnerteam, @JsonProperty("loserteam") String loserteam,
+                 @JsonProperty("underTable") boolean underTable) {
         this.id = id;
         this.version = version;
         this.winnerteam = winnerteam;
@@ -45,9 +53,67 @@ public class Match {
         this.underTable = underTable;
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
 
+    public int getVersion() {
+        return version;
+    }
 
+    public void setVersion(int version) {
+        this.version = version;
+    }
 
+    public List<String> getWinners() {
+        return winners;
+    }
 
+    public void setWinners(List<String> winners) {
+        this.winners = winners;
+    }
+
+    public List<String> getLosers() {
+        return losers;
+    }
+
+    public void setLosers(List<String> losers) {
+        this.losers = losers;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public String getWinnerteam() {
+        return winnerteam;
+    }
+
+    public void setWinnerteam(String winnerteam) {
+        this.winnerteam = winnerteam;
+    }
+
+    public String getLoserteam() {
+        return loserteam;
+    }
+
+    public void setLoserteam(String loserteam) {
+        this.loserteam = loserteam;
+    }
+
+    public boolean isUnderTable() {
+        return underTable;
+    }
+
+    public void setUnderTable(boolean underTable) {
+        this.underTable = underTable;
+    }
 }

@@ -16,4 +16,5 @@ public interface MatchService {
     public TeamMatch registerTeamMatch(TeamMatch teamMatch, String token);
     public QuickMatch confirmPickup(String token);
     public ExhibitionMatch registerExhibitionMatch(ExhibitionMatch exhibitionMatch, String token, String pickupId);
+    public List<Match> getMatches(String username);
 }
