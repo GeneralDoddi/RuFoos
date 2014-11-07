@@ -47,13 +47,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="315df507-4aba-4244-8a72-ca77bede61c5" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/RuFoos/ExhibitionRegistrationActivity.java" afterPath="$PROJECT_DIR$/src/com/example/RuFoos/ExhibitionRegistrationActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/RuFoos/match/MatchService.java" afterPath="$PROJECT_DIR$/src/com/example/RuFoos/match/MatchService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/RuFoos/match/MatchServiceData.java" afterPath="$PROJECT_DIR$/src/com/example/RuFoos/match/MatchServiceData.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/RuFoos/domain/QuickMatch.java" afterPath="$PROJECT_DIR$/src/com/example/RuFoos/domain/QuickMatch.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/RuFoos/QuickMatchActivity.java" afterPath="$PROJECT_DIR$/src/com/example/RuFoos/QuickMatchActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/example/RuFoos/TeamMatchRegistrationActivity.java" afterPath="$PROJECT_DIR$/src/com/example/RuFoos/TeamMatchRegistrationActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/res/layout/quickmatch.xml" afterPath="$PROJECT_DIR$/res/layout/quickmatch.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="RuFoos.iws" />
@@ -105,8 +98,8 @@
       <file leaf-file-name="TeamMatchRegistrationActivity.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/example/RuFoos/TeamMatchRegistrationActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.3276699" vertical-offset="834" max-vertical-offset="1530">
-              <caret line="76" column="63" selection-start-line="76" selection-start-column="63" selection-end-line="76" selection-end-column="63" />
+            <state vertical-scroll-proportion="0.4101942" vertical-offset="834" max-vertical-offset="1530">
+              <caret line="78" column="70" selection-start-line="78" selection-start-column="70" selection-end-line="78" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -745,7 +738,7 @@
       <workItem from="1415313179580" duration="2247000" />
       <workItem from="1415317000552" duration="3697000" />
       <workItem from="1415322104896" duration="4340000" />
-      <workItem from="1415353836043" duration="1499000" />
+      <workItem from="1415353836043" duration="1827000" />
     </task>
     <task id="LOCAL-00001" summary="Structure">
       <created>1415012601013</created>
@@ -795,11 +788,15 @@
       <created>1415315789657</created>
       <updated>1415315789657</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Registered quickmatch.&#10;Tokens ready.">
+      <created>1415355402339</created>
+      <updated>1415355402339</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="108486000" />
+    <option name="totallyTimeSpent" value="108814000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="754" extended-state="6" />
@@ -820,7 +817,7 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32840723" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
       <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32352942" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Android" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28947368" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Android" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28947368" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -863,7 +860,8 @@
     <MESSAGE value="Updates player list every 10 seconds." />
     <MESSAGE value=".asjkdf" />
     <MESSAGE value="Marino - take it home." />
-    <option name="LAST_COMMIT_MESSAGE" value="Marino - take it home." />
+    <MESSAGE value="Registered quickmatch.&#10;Tokens ready." />
+    <option name="LAST_COMMIT_MESSAGE" value="Registered quickmatch.&#10;Tokens ready." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1290,8 +1288,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/example/RuFoos/TeamMatchRegistrationActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3276699" vertical-offset="834" max-vertical-offset="1530">
-          <caret line="76" column="63" selection-start-line="76" selection-start-column="63" selection-end-line="76" selection-end-column="63" />
+        <state vertical-scroll-proportion="0.4101942" vertical-offset="834" max-vertical-offset="1530">
+          <caret line="78" column="70" selection-start-line="78" selection-start-column="70" selection-end-line="78" selection-end-column="70" />
           <folding />
         </state>
       </provider>
