@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import com.example.RuFoos.domain.ExhibitionMatch;
 import com.example.RuFoos.domain.QuickMatch;
 import com.example.RuFoos.domain.Team;
 import com.example.RuFoos.domain.TeamMatch;
@@ -65,12 +66,21 @@ public class TeamMatchRegistrationActivity extends Activity {
                     newMatch.setLoserteam(loseTeam.get*/
                     newMatch.setUnderTable(underTable.isChecked());
 
-                    _matchService = new MatchServiceData();
-                    UserService userservice = new UserServiceData();
-                    MatchService service = new MatchServiceData();
-                    // TODO: Make right user leave (logged in user)
-                    System.out.println(newMatch);
-                    _matchService.registerTeamMatch(newMatch);
+                    SharedPreferences sharedPreferences = getSharedPreferences
+                            (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                    String token = sharedPreferences.getString("token", "error");
+                    System.out.println("token " + token);
+                    if(token == "error") {
+                        // TODO: throw error
+                    }
+                    else {
+                        _matchService = new MatchServiceData();
+                        UserService userservice = new UserServiceData();
+                        MatchService service = new MatchServiceData();
+                        // TODO: Make right user leave (logged in user)
+                        System.out.println(newMatch);
+                        _matchService.registerTeamMatch(newMatch, token);
+                    }
                 }
             }).start();
         }

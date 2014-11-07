@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+import com.example.RuFoos.domain.ExhibitionMatch;
 import com.example.RuFoos.domain.QuickMatch;
 import com.example.RuFoos.match.MatchService;
 import com.example.RuFoos.match.MatchServiceData;
@@ -19,6 +19,8 @@ import com.example.RuFoos.match.MatchServiceData;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,6 +33,10 @@ public class QuickMatchActivity extends Activity{
     private boolean isReady = false;
     private boolean confirmed = false;
     private boolean hasPopped = false;
+    private List<String> winners = new ArrayList<String>();
+    private List<String> losers = new ArrayList<String>();
+    private String[] matchPlayers;
+    private boolean underTable = false;
     /**
      * Called when the activity is first created.
      */
@@ -177,6 +183,7 @@ public class QuickMatchActivity extends Activity{
 
             System.out.println("players in quickmatch " + quickMatch.getPlayers());
             String[] players = new String[4];
+            matchPlayers = quickMatch.getPlayers();
             for(int i = 0; i < quickMatch.getPlayers().length; i++) {
                 players[i] = i+1 + ". " + quickMatch.getPlayers()[i];
                 System.out.println("player " + players[i]);
@@ -217,6 +224,108 @@ public class QuickMatchActivity extends Activity{
         int id = button.getId();
         if(id == R.id.leaveQuickmatch) {
             leaveQuickMatch();
+        }
+    }
+
+    public void onCheckboxClicked(View view) {
+        // Is the view now checked?
+        boolean checked = ((CheckBox) view).isChecked();
+
+        // Check which checkbox was clicked
+        switch(view.getId()) {
+            case R.id.checkbox_p1:
+                if(checked) {
+                    System.out.println("Adding p1 to winners.");
+                    winners.add(matchPlayers[0]);
+                }
+                else{
+                    System.out.println("removing p1");
+                    int location = winners.indexOf(matchPlayers[0]);
+                    winners.remove(location);
+                }
+                break;
+            case R.id.checkbox_p2:
+                if(checked) {
+                    System.out.println("Adding p1 to winners.");
+                    winners.add(matchPlayers[1]);
+                }
+                else{
+                    System.out.println("removing p1");
+                    int location = winners.indexOf(matchPlayers[1]);
+                    winners.remove(location);
+                }
+                break;
+            case R.id.checkbox_p3:
+                if(checked) {
+                    System.out.println("Adding p1 to winners.");
+                    winners.add(matchPlayers[2]);
+                }
+                else{
+                    System.out.println("removing p1");
+                    int location = winners.indexOf(matchPlayers[2]);
+                    winners.remove(location);
+                }
+                break;
+            case R.id.checkbox_p4:
+                if(checked) {
+                    System.out.println("Adding p1 to winners.");
+                    winners.add(matchPlayers[3]);
+                }
+                else{
+                    System.out.println("removing p1");
+                    int location = winners.indexOf(matchPlayers[3]);
+                    winners.remove(location);
+                }
+                break;
+            case R.id.underTable:
+                underTable = true;
+                break;
+
+        }
+    }
+
+    public void submitResults(View view){
+        if(winners.size() == 2){
+            // TODO: post results
+            for(int i = 0; i < matchPlayers.length; i++) {
+                if(!winners.contains(matchPlayers[i])){
+                    losers.add(matchPlayers[i]);
+                }
+            }
+            autoUpdate.cancel();
+            System.out.println("Winners " + winners);
+            System.out.println("Losers " + losers);
+
+            new Thread(new Runnable() {
+                public void run() {
+                    ExhibitionMatch match = new ExhibitionMatch();
+                    match.setLosers(losers);
+                    match.setWinners(winners);
+                    match.setUnderTable(underTable);
+                    MatchService service = new MatchServiceData();
+                    SharedPreferences sharedPreferences = getSharedPreferences
+                            (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                    String token = sharedPreferences.getString("token", "error");
+                    System.out.println("token " + token);
+                    if(token == "error") {
+                        // TODO: throw error
+                    }
+                    else {
+                        System.out.println("Token " + token);
+                        match = service.registerExhibitionMatch(match, token);
+                    }
+
+                }
+            }).start();
+
+        }
+        else {
+            Context context = getApplicationContext();
+            CharSequence text = "There can only be two winners.";
+            int duration = Toast.LENGTH_SHORT;
+
+            Toast toast = Toast.makeText(context, text, duration);
+            toast.show();
         }
     }
 }

@@ -34,7 +34,7 @@
             android:layout_weight="4">
     </ListView>
 
-    <CheckBox android:id="@+id/checkbox_p1"
+    <!--<CheckBox android:id="@+id/checkbox_p1"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:onClick="onCheckboxClicked"/>
@@ -49,8 +49,33 @@
     <CheckBox android:id="@+id/checkbox_p4"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:onClick="onCheckboxClicked"/>
+              android:onClick="onCheckboxClicked"/>-->
 
+    <CheckBox android:id="@+id/checkbox_p1"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Player 1"
+              android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/checkbox_p2"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Player 2"
+              android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/checkbox_p3"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Player 3"
+              android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/checkbox_p4"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Player 4"
+              android:onClick="onCheckboxClicked"/>
+    <CheckBox android:id="@+id/underTable"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Under the table?"
+              android:onClick="onCheckboxClicked"/>
     <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -60,12 +85,5 @@
             android:background="@drawable/flat_selector"
             android:textColor="#ffffff"
             android:layout_margin="5dp"
-            android:onClick="onButtonClick" />
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Test"
-            android:id="@+id/info" android:layout_gravity="center_horizontal"
-            />
+            android:onClick="submitResults" />
 </LinearLayout>

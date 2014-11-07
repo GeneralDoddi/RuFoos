@@ -3,8 +3,6 @@ package com.example.RuFoos.domain;
 import org.codehaus.jackson.annotate.JsonCreator;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Gadi on 5.11.2014.
@@ -20,7 +18,7 @@ public class QuickMatch {
     }
 
     @JsonCreator
-    public QuickMatch(@JsonProperty("_id") String id, @JsonProperty("__v") int version, @JsonProperty("full") boolean full, @JsonProperty("players") String[] players, @JsonProperty("ready") boolean[] ready) {
+        public QuickMatch(@JsonProperty("_id") String id, @JsonProperty("__v") int version, @JsonProperty("full") boolean full, @JsonProperty("players") String[] players, @JsonProperty("ready") boolean[] ready) {
         this.id = id;
         this.version = version;
         this.full = full;
