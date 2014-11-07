@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -19,6 +20,7 @@ import com.example.RuFoos.match.MatchServiceData;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -46,6 +48,7 @@ public class QuickMatchActivity extends Activity{
         dialog.setTitle("QuickMatch ready");
         dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
+                // TODO: post to api
                 confirmed = true;
                 confirmReady();
             }
@@ -89,22 +92,47 @@ public class QuickMatchActivity extends Activity{
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         String id = sharedpreferences.getString("matchId", "error");
-
         if(id != "error") {
             pickupSignup.execute(id);
         }
         if(isFull){
-            if(!confirmed) {
-                //TODO: check if vibration is turned on in settings
+            if(!confirmed && !hasPopped) {
                 if(v.hasVibrator()){
                     v.vibrate(500);
                 }
                 dialog.show();
+                hasPopped = true;
             }
         }
 
+
         if(isReady){
             autoUpdate.cancel();
+            String userName = sharedpreferences.getString("username", "error");
+            if(userName != "error") {
+                if(matchPlayers[0].contains(userName)){
+                    //Win text
+                    TextView w1 = (TextView)findViewById(R.id.win_text);
+                    w1.setVisibility(View.VISIBLE);
+
+                    //Player checkboxes
+                    LinearLayout l1 = (LinearLayout)findViewById(R.id.checkbox_wrapper);
+                    l1.setVisibility(View.VISIBLE);
+
+                    //Submit registration
+                    Button b1 = (Button)findViewById(R.id.sendResults);
+                    b1.setVisibility(View.VISIBLE);
+
+                    //Under the Table
+                    CheckBox c1 = (CheckBox)findViewById(R.id.underTable);
+                    c1.setVisibility(View.VISIBLE);
+                }
+                else{
+
+                }
+
+            }
+
         }
     }
 
@@ -133,14 +161,14 @@ public class QuickMatchActivity extends Activity{
         new Thread(new Runnable() {
             public void run() {
                 MatchService service = new MatchServiceData();
+                // TODO: remove matchId from sharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("quickedUp", false);
-                editor.putString("matchId", "");
                 editor.commit();
                 boolean bool = sharedPreferences.getBoolean("quickedUp", true);
-                System.out.println("WORKING?? " + bool);
+                //System.out.println("WORKING?? " + bool);
                 String token = sharedPreferences.getString("token", "error");
                 if(token != "error") {
                     QuickMatch quickMatch = service.leaveQuickMatch(token);
@@ -169,13 +197,21 @@ public class QuickMatchActivity extends Activity{
             Log.d(mTAG, "Fetching players");
 
             MatchService service = new MatchServiceData();
-            System.out.println("argument 0 is " + arg[0]);
+            //System.out.println("argument 0 is " + arg[0]);
             quickMatch = service.getQuickMatchById(arg[0]);
             if(quickMatch == null){
-                System.out.println("get quickmatch error");
+                SharedPreferences sharedPreferences = getSharedPreferences
+                        (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("matchId", null);
+                editor.putBoolean("quickedUp", false);
+                editor.commit();
+                QuickMatchActivity.this.finish();
+                //System.out.println("get quickmatch error");
+
             }
             else {
-                System.out.println("quickmatch get is all good");
+                //System.out.println("quickmatch get is all good");
                 //System.out.println("getByIdResult: " + quickMatch.getId() + " " + quickMatch.getPlayers() + " " + quickMatch.getVersion() + " " + quickMatch.isFull());
 
                 String[] players = new String[4];
@@ -226,32 +262,40 @@ public class QuickMatchActivity extends Activity{
     }
 
     public void onCheckboxClicked(View view) {
+        // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
 
+        // Check which checkbox was clicked
         switch(view.getId()) {
             case R.id.checkbox_p1:
                 if(checked) {
+                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[0]);
                 }
                 else{
+                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[0]);
                     winners.remove(location);
                 }
                 break;
             case R.id.checkbox_p2:
                 if(checked) {
+                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[1]);
                 }
                 else{
+                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[1]);
                     winners.remove(location);
                 }
                 break;
             case R.id.checkbox_p3:
                 if(checked) {
+                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[2]);
                 }
                 else{
+                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[2]);
                     winners.remove(location);
                 }
@@ -300,6 +344,12 @@ public class QuickMatchActivity extends Activity{
 
                 }
             }).start();
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("matchId", null);
+            editor.putBoolean("quickedUp", false);
+            editor.commit();
             QuickMatchActivity.this.finish();
         }
         else {
