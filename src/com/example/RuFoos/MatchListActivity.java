@@ -27,6 +27,7 @@ public class MatchListActivity extends Activity {
 
     private List<String> matchlist = new ArrayList<String>();
     private String[] test = {"asdf", "asdæfkj", "asdlfjaweio"};
+    private ArrayList<Match> displayMatches = new ArrayList<Match>();
 
     /**
      * Called when the activity is first created.
@@ -36,9 +37,9 @@ public class MatchListActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.matchlist);
 
-        getMatches();
+        generateMatches();
 
-        MyAdapter adapter = new MyAdapter(this, generateData());
+        MyAdapter adapter = new MyAdapter(this, getMatches());
         ListView listView = (ListView) findViewById(R.id.listview);
         listView.setAdapter(adapter);
     }
@@ -56,11 +57,11 @@ public class MatchListActivity extends Activity {
         return theseMatches;
     }
 
-    public void getMatches(){
+    private void generateMatches(){
         AsyncRunner getMatchesTask = new AsyncRunner();
         getMatchesTask.execute();
 
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             public void run() {
                 MatchService service = new MatchServiceData();
 
@@ -74,7 +75,13 @@ public class MatchListActivity extends Activity {
                     System.out.println("here " + matches);
                 }
             }
-        }).start();
+        }).start();*/
+        System.out.println("displayMatches1 " + displayMatches);
+    }
+
+    private ArrayList<Match> getMatches() {
+        System.out.println("display3" + displayMatches);
+        return displayMatches;
     }
 
     public void buttonClick(View view) {
@@ -84,7 +91,7 @@ public class MatchListActivity extends Activity {
 
     private class AsyncRunner extends AsyncTask<String, Void, List<String>> {
         String mTAG = "getMatchesTask";
-        List<Match> matches = new ArrayList<Match>();
+        ArrayList<Match> matches = new ArrayList<Match>();
 
         @Override
         protected void onPreExecute() {
@@ -117,7 +124,8 @@ public class MatchListActivity extends Activity {
                     //}
                 }
             }
-
+            displayMatches = matches;
+            System.out.println("display 2 " + displayMatches);
             return matchlist;
         }
 
