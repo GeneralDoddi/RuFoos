@@ -6,11 +6,11 @@
     <LinearLayout android:layout_width="fill_parent"
                   android:layout_height="fill_parent"
                   android:orientation="vertical">
-            <TextView
-                    android:id="@+id/winners"
+        <TextView
+                    android:id="@+id/teamname"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="20sp"
+                    android:textSize="22sp"
                     android:paddingTop="10dp"
                     android:paddingRight="10dp"
                     android:paddingLeft="10dp"
@@ -18,35 +18,41 @@
                     android:textColor="#000000">
                     </TextView>
         <TextView
-                android:id="@+id/losers"
+                android:id="@+id/p"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:padding="10dp"
+                android:textSize="16sp"
+                android:padding="7dp"
                 android:textColor="#000000">
 
             </TextView>
         <TextView
-                android:id="@+id/time"
+                android:id="@+id/wins"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/label"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:paddingLeft="5dp"
-                android:textColor="@color/titlecolor">
+                android:textColor="@color/winner">
                 </TextView>
         <TextView
-                android:id="@+id/wentunder"
+            android:id="@+id/losses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label"
+            android:textSize="14sp"
+            android:paddingLeft="5dp"
+            android:textColor="@color/loser">
+    </TextView>
+        <TextView
+                android:id="@+id/table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/label"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 android:paddingLeft="5dp"
-                android:textColor="@color/wentunder"
+                android:textColor="@color/titlecolor"
                 >
         </TextView>
-
-
     </LinearLayout>
-
 </RelativeLayout>

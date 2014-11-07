@@ -79,9 +79,7 @@ public class TeamListActivity extends Activity {
                 teams = service.getMyTeams(userName);
             }
 
-
             displayTeams = teams;
-            System.out.println("display 2 " + displayTeams);
             return teamlist;
         }
 
