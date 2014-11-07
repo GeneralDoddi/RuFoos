@@ -36,7 +36,7 @@ public class MatchServiceData implements MatchService {
     }
 
     @Override
-    public QuickMatch quickMatchSignUp(User user) {
+    public QuickMatch quickMatchSignUp(User user, String token) {
         final String url = "/pickupmatch/signup";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
         ObjectMapper mapper = new ObjectMapper();
@@ -47,6 +47,11 @@ public class MatchServiceData implements MatchService {
         try {
 
             String jsonString = mapper.writeValueAsString(user);
+            token = ",\"token\": \"" + token + "\"}";
+            String regex = "\\}";
+            System.out.println("DA string " + jsonString);
+            jsonString = jsonString.replaceAll(regex, token);
+
             StringEntity se = new StringEntity(jsonString);
             httpPost.setEntity(se);
 
@@ -116,7 +121,7 @@ public class MatchServiceData implements MatchService {
     }
 
     @Override
-    public QuickMatch leaveQuickMatch(User user){
+    public QuickMatch leaveQuickMatch(String token){
         final String url = "/pickupmatch/removesignup";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
         ObjectMapper mapper = new ObjectMapper();
@@ -125,7 +130,11 @@ public class MatchServiceData implements MatchService {
         QuickMatch quickMatch = new QuickMatch();
 
         try {
-            String jsonString = mapper.writeValueAsString(user);
+            String jsonString = "{\"token\": \"" + token + "\"}";
+            //String jsonString = mapper.writeValueAsString(user);
+            //String regex = "\\}";
+            //jsonString = jsonString.replaceAll(regex, token);
+
             StringEntity se = new StringEntity(jsonString);
             httpPost.setEntity(se);
 
@@ -179,7 +188,6 @@ public class MatchServiceData implements MatchService {
 
         String jsonString = null;
         try {
-            //HARDCODED TOKEN
             token = ",\"token\": \"" + token + "\"}";
             jsonString = mapper.writeValueAsString(teamMatch);
             String regex = "\\}";
@@ -229,7 +237,7 @@ public class MatchServiceData implements MatchService {
     }
 
     @Override
-    public ExhibitionMatch registerExhibitionMatch(ExhibitionMatch exhibitionMatch, String token){
+    public ExhibitionMatch registerExhibitionMatch(ExhibitionMatch exhibitionMatch, String token, String pickupId){
         final String url = "/pickupmatch/registerquickmatch";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
         ObjectMapper mapper = new ObjectMapper();
@@ -238,8 +246,13 @@ public class MatchServiceData implements MatchService {
 
         String jsonString = null;
         try {
-            //HARDCODED TOKEN
-            token = ",\"token\": \"" + token + "\"}";
+            if(pickupId != null) {
+                token = ",\"token\": \"" + token + "\", \"pickupId\": \"" + pickupId + "\"}";
+            }
+            else {
+                token = ",\"token\": \"" + token + "\"}";
+            }
+
             jsonString = mapper.writeValueAsString(exhibitionMatch);
             String regex = "\\}";
             jsonString = jsonString.replaceAll(regex, token);

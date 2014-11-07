@@ -111,6 +111,7 @@ public class LoginActivity extends Activity {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("token", resultUser.getToken());
                 editor.putString("username", resultUser.getUserName());
+                editor.putBoolean("quickedUp", false);
                 editor.commit();
                 startActivity(new Intent(getApplicationContext(), FoosActivity.class));
             }

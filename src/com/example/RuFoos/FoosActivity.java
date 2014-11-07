@@ -35,6 +35,11 @@ public class FoosActivity extends Activity{
 
     @Override
     public void onBackPressed(){
+        SharedPreferences sharedpreferences = getSharedPreferences
+                (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putBoolean("quickedUp", false);
+        editor.commit();
         moveTaskToBack(true);
         FoosActivity.this.finish();
     }
@@ -47,19 +52,29 @@ public class FoosActivity extends Activity{
                 // TODO: sign up logged in user
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-                String username = sharedPreferences.getString("name", "error");
-                //if(username != "error"){
-                    service.leaveQuickMatch(userservice.getUserByUsername("gadi"));
-                    //service.leaveQuickMatch(userservice.getUserByUsername(username));
-                    QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername("gadi"));
-                    //QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername(username));
+                String username = sharedPreferences.getString("username", "error");
+                String token = sharedPreferences.getString("token", "error");
+                boolean quickedUp = sharedPreferences.getBoolean("quickedUp", false);
 
-                    if(quickMatch != null) {
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("matchId", quickMatch.getId());
-                        editor.commit();
+                System.out.println("Token: " + token);
+                if(username != "error"){
+                    // TODO: delete leaveQuickMatch from here
+
+                    //service.leaveQuickMatch(token);
+                    //service.leaveQuickMatch(userservice.getUserByUsername(username));
+                    System.out.println("Quicked up " + quickedUp);
+                    if(!quickedUp) {
+                        QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername(username), token);
+                        //QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername(username));
+
+                        if(quickMatch != null) {
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("matchId", quickMatch.getId());
+                            editor.putBoolean("quickedUp", true);
+                            editor.commit();
+                        }
                     }
-                //}
+                }
             }
         }).start();
         startActivity(new Intent(this, QuickMatchActivity.class));

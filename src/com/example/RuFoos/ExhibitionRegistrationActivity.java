@@ -79,7 +79,7 @@ public class ExhibitionRegistrationActivity extends Activity {
                     (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "error");
             matchService = new MatchServiceData();
-            ExhibitionMatch result = matchService.registerExhibitionMatch(exhibitionMatch, token);
+            ExhibitionMatch result = matchService.registerExhibitionMatch(exhibitionMatch, token, null);
             return result;
 
         }

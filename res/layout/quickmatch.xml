@@ -78,7 +78,7 @@
             android:background="@drawable/flat_selector"
             android:textColor="#ffffff"
             android:layout_margin="5dp"
-            android:onClick="onButtonClick" />
+            android:onClick="submitResults" />
 
     <TextView
             android:layout_width="wrap_content"
