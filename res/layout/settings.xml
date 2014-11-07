@@ -5,30 +5,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-    <RelativeLayout
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="Rules of the game"
-                android:id="@+id/textView" android:layout_alignParentTop="true" android:layout_centerHorizontal="true"
-                android:layout_marginTop="50dp"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="1 - No Spinning "
-                android:id="@+id/textView2"
-                android:layout_marginTop="81dp"
-                android:layout_below="@+id/textView" android:layout_centerHorizontal="true"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="2 - Kick-Off "
-                android:id="@+id/textView3"
-                android:layout_centerHorizontal="true" android:layout_below="@+id/textView2"/>
-    </RelativeLayout>
+            android:layout_height="match_parent"
+            android:id="@+id/scrollView" android:layout_gravity="center_horizontal"/>
 </LinearLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+                  android:layout_height="match_parent" android:orientation="vertical" android:id="@+id/linearLayout">
+        <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:id="@+id/teamname"
+                  android:hint="Username" android:layout_marginTop="61dp" android:layout_alignParentTop="true"
+                  android:layout_alignParentStart="true"
+                  android:layout_gravity="center_horizontal" android:text="Team name"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dip" android:orientation="horizontal"
+                      android:layout_weight="0.1" android:layout_marginTop="5dip">
+            <Spinner android:layout_width="0dip" android:layout_height="50dip" android:id="@+id/user1"
+                     android:background="@drawable/flat_selector" android:textColor="#000000"
+                     android:layout_margin="1dip" android:layout_weight="0.4"/>
+            <Spinner android:layout_width="0dip" android:layout_height="50dip" android:id="@+id/user2"
+                     android:background="@drawable/flat_selector" android:textColor="#000000"
+                     android:layout_margin="1dip" android:layout_weight="0.4"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dip" android:orientation="horizontal"
+                      android:layout_weight="0.7" android:layout_marginTop="5dip">
+            <Button android:layout_width="0dip" android:layout_height="60dip" android:text="Create Team"
+                    android:id="@+id/createTeam" android:onClick="buttonClick"
+                    android:background="@drawable/flat_selector" android:layout_margin="1dp" android:textColor="#ffffff"
+                    android:layout_weight="1"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
