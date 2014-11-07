@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -19,6 +20,7 @@ import com.example.RuFoos.match.MatchServiceData;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -103,6 +105,7 @@ public class QuickMatchActivity extends Activity{
             }
         }
 
+
         if(isReady){
             autoUpdate.cancel();
             String userName = sharedpreferences.getString("username", "error");
@@ -163,7 +166,6 @@ public class QuickMatchActivity extends Activity{
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("quickedUp", false);
-                editor.putString("matchId", "");
                 editor.commit();
                 boolean bool = sharedPreferences.getBoolean("quickedUp", true);
                 //System.out.println("WORKING?? " + bool);
