@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -19,6 +20,7 @@ import com.example.RuFoos.match.MatchServiceData;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -94,16 +96,43 @@ public class QuickMatchActivity extends Activity{
             pickupSignup.execute(id);
         }
         if(isFull){
-            if(!confirmed) {
+            if(!confirmed && !hasPopped) {
                 if(v.hasVibrator()){
                     v.vibrate(500);
                 }
                 dialog.show();
+                hasPopped = true;
             }
         }
 
+
         if(isReady){
             autoUpdate.cancel();
+            String userName = sharedpreferences.getString("username", "error");
+            if(userName != "error") {
+                if(matchPlayers[0].contains(userName)){
+                    //Win text
+                    TextView w1 = (TextView)findViewById(R.id.win_text);
+                    w1.setVisibility(View.VISIBLE);
+
+                    //Player checkboxes
+                    LinearLayout l1 = (LinearLayout)findViewById(R.id.checkbox_wrapper);
+                    l1.setVisibility(View.VISIBLE);
+
+                    //Submit registration
+                    Button b1 = (Button)findViewById(R.id.sendResults);
+                    b1.setVisibility(View.VISIBLE);
+
+                    //Under the Table
+                    CheckBox c1 = (CheckBox)findViewById(R.id.underTable);
+                    c1.setVisibility(View.VISIBLE);
+                }
+                else{
+
+                }
+
+            }
+
         }
     }
 
@@ -142,7 +171,7 @@ public class QuickMatchActivity extends Activity{
                 editor.putBoolean("quickedUp", false);
                 editor.commit();
                 boolean bool = sharedPreferences.getBoolean("quickedUp", true);
-                System.out.println("WORKING?? " + bool);
+                //System.out.println("WORKING?? " + bool);
                 String token = sharedPreferences.getString("token", "error");
                 if(token != "error") {
                     QuickMatch quickMatch = service.leaveQuickMatch(token);
@@ -171,13 +200,21 @@ public class QuickMatchActivity extends Activity{
             Log.d(mTAG, "Fetching players");
 
             MatchService service = new MatchServiceData();
-            System.out.println("argument 0 is " + arg[0]);
+            //System.out.println("argument 0 is " + arg[0]);
             quickMatch = service.getQuickMatchById(arg[0]);
             if(quickMatch == null){
-                System.out.println("get quickmatch error");
+                SharedPreferences sharedPreferences = getSharedPreferences
+                        (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("matchId", null);
+                editor.putBoolean("quickedUp", false);
+                editor.commit();
+                QuickMatchActivity.this.finish();
+                //System.out.println("get quickmatch error");
+
             }
             else {
-                System.out.println("quickmatch get is all good");
+                //System.out.println("quickmatch get is all good");
                 //System.out.println("getByIdResult: " + quickMatch.getId() + " " + quickMatch.getPlayers() + " " + quickMatch.getVersion() + " " + quickMatch.isFull());
 
                 String[] players = new String[4];
@@ -313,6 +350,12 @@ public class QuickMatchActivity extends Activity{
 
                 }
             }).start();
+            SharedPreferences sharedPreferences = getSharedPreferences
+                    (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("matchId", null);
+            editor.putBoolean("quickedUp", false);
+            editor.commit();
             QuickMatchActivity.this.finish();
         }
         else {
