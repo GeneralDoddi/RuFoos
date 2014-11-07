@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -19,6 +20,7 @@ import com.example.RuFoos.team.TeamServiceData;
 import com.example.RuFoos.user.UserService;
 import com.example.RuFoos.user.UserServiceData;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,23 +36,15 @@ public class TeamMatchRegistrationActivity extends Activity {
     private MatchService _matchService;
     private TeamService _teamService;
     private List<Team> teamList;
-    private ArrayList<String> teamNames;
+    private ArrayList<String> teamNames = new ArrayList<String>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registerteammatch);
 
-        winTeam = (Spinner) findViewById(R.id.WinningTeam);
-        loseTeam = (Spinner) findViewById(R.id.LosingTeam);
+        new loadDataTask().execute();
 
-        SpinnerAdapter adapter = new ArrayAdapter<String>(TeamMatchRegistrationActivity.this,
-                R.layout.registerexhibitionmatch, teamNames);
-
-        winTeam.setAdapter(adapter);
-        //loseTeam.setAdapter(adapter);
-        //load teams
-        getTeams();
 
         registerMatch = (Button)findViewById(R.id.registerMatch);
     }
@@ -68,10 +62,10 @@ public class TeamMatchRegistrationActivity extends Activity {
             new Thread(new Runnable() {
                 public void run() {
                     TeamMatch newMatch = new TeamMatch();
-                    //Team t1 = (Team) ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem();
-                    Team t2 = (Team) ((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem();
-                    //newMatch.setWinnerteam(t1.getName());
-                    newMatch.setLoserteam(t2.getName());
+                    String t1 =  ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem().toString();
+                    String t2 =  ((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem().toString();
+                    newMatch.setWinnerteam(t1);
+                    newMatch.setLoserteam(t2);
                     newMatch.setUnderTable(underTable.isChecked());
 
                     SharedPreferences sharedPreferences = getSharedPreferences
@@ -104,35 +98,41 @@ public class TeamMatchRegistrationActivity extends Activity {
             Toast.makeText(TeamMatchRegistrationActivity.this, text, duration).show();
             TeamMatchRegistrationActivity.this.finish();
         }
-        /*if(id == R.id.pickWinner)
-        {
-            //Create win Dialog
-            createWinDialog();
-        }*/
+
     }
 
-    public void getTeams()
-    {
-        new Thread(new Runnable() {
-            public void run() {
-                TeamService _teamService = new TeamServiceData();
-                teamList = _teamService.getAllTeams();
-                System.out.println(teamList.size());
+    private class loadDataTask extends AsyncTask<URL, Integer, Long> {
 
-                //Add teamnames to array of strings
-                for(Team i : teamList)
-                {
-                    teamNames.add(i.getName());
-                }
+        protected Long doInBackground(URL... urls) {
+            TeamService _teamService = new TeamServiceData();
+            teamList = _teamService.getAllTeams();
+            System.out.println(teamList.size());
+            return null;
+        }
 
+        protected void onProgressUpdate(Integer... progress) {
+
+        }
+
+        protected void onPostExecute(Long result) {
+            for(Team i : teamList)
+            {
+                teamNames.add(i.getName());
             }
-        }).start();
+            winTeam = (Spinner) findViewById(R.id.WinningTeam);
+            loseTeam = (Spinner) findViewById(R.id.LosingTeam);
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<String>(TeamMatchRegistrationActivity.this,
+                    android.R.layout.simple_spinner_item , teamNames);
+
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+            winTeam.setAdapter(adapter);
+            loseTeam.setAdapter(adapter);
+        }
     }
 
-    public void createWinDialog()
-    {
 
-    }
 
 
 }
