@@ -33,7 +33,7 @@
         <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:text="Challenge"
+                android:text="Register match"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/challenge"
                 android:onClick="buttonClick"
@@ -102,7 +102,7 @@
                 android:layout_height="match_parent"
                 android:text="Rules"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/settings"
+                android:id="@+id/rules"
                 android:onClick="buttonClick"
                 android:background="@drawable/flat_selector"
                 android:layout_margin="1dp"

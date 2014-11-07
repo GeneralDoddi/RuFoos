@@ -27,14 +27,11 @@ public class TeamAdapter extends ArrayAdapter<Team> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        // 1. Create inflater
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        // 2. Get rowView from inflater
         View rowView = inflater.inflate(R.layout.teamrow, parent, false);
 
-        // 3. Get the two text view from the rowView
         TextView team = (TextView) rowView.findViewById(R.id.teamname);
         TextView players = (TextView) rowView.findViewById(R.id.p);
         TextView wins = (TextView) rowView.findViewById(R.id.wins);
@@ -45,14 +42,16 @@ public class TeamAdapter extends ArrayAdapter<Team> {
         players.setText(list.get(position).getP1() + " and " + list.get(position).getP2());
         wins.setText("Wins: " + list.get(position).getWins());
         losses.setText("Losses: " + list.get(position).getLosses());
-        if(list.get(position).getUnderTable() > 0) {
+        if(list.get(position).getUnderTable() == 1) {
+            table.setText("This team has gone under the table " + list.get(position).getUnderTable() + " time.");
+        }
+        else if(list.get(position).getUnderTable() > 1) {
             table.setText("This team has gone under the table " + list.get(position).getUnderTable() + " times...");
         }
         else {
             table.setText("This team has never gone under the table!!!");
         }
 
-        // 5. retrn rowView
         return rowView;
     }
 }

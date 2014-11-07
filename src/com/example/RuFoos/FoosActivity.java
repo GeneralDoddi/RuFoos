@@ -90,7 +90,7 @@ public class FoosActivity extends Activity{
             startActivity(new Intent(this, TeamListActivity.class));
         }
 
-        else if(id == R.id.settings) {
+        else if(id == R.id.rules) {
             startActivity(new Intent(this, SettingsActivity.class));
         }
     }
