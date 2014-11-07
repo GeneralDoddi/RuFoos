@@ -17,6 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Created by BearThor on 3.11.2014.
@@ -168,7 +169,7 @@ public class MatchServiceData implements MatchService {
     }
 
     @Override
-    public TeamMatch registerTeamMatch(TeamMatch teamMatch){
+    public TeamMatch registerTeamMatch(TeamMatch teamMatch, String token){
         System.out.println("ENTERED");
         final String url = "/pickupmatch/registerteammatch";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
@@ -179,7 +180,7 @@ public class MatchServiceData implements MatchService {
         String jsonString = null;
         try {
             //HARDCODED TOKEN
-            String token = ",\"token\": \"f0d37126533f3083e571e9a521a2073d64add7f9fb366c82b415dc103e99a85f9523dd7ac376e88efb456ed98ff6ce036f9a1acd879e3d0ed900efe9bfbbc040\"}";
+            token = ",\"token\": \"" + token + "\"}";
             jsonString = mapper.writeValueAsString(teamMatch);
             String regex = "\\}";
             jsonString = jsonString.replaceAll(regex, token);
@@ -228,8 +229,7 @@ public class MatchServiceData implements MatchService {
     }
 
     @Override
-    public ExhibitionMatch registerExhibitionMatch(ExhibitionMatch exhibitionMatch){
-
+    public ExhibitionMatch registerExhibitionMatch(ExhibitionMatch exhibitionMatch, String token){
         final String url = "/pickupmatch/registerquickmatch";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
         ObjectMapper mapper = new ObjectMapper();
@@ -239,7 +239,7 @@ public class MatchServiceData implements MatchService {
         String jsonString = null;
         try {
             //HARDCODED TOKEN
-            String token = ",\"token\": \"f0d37126533f3083e571e9a521a2073d64add7f9fb366c82b415dc103e99a85f9523dd7ac376e88efb456ed98ff6ce036f9a1acd879e3d0ed900efe9bfbbc040\"}";
+            token = ",\"token\": \"" + token + "\"}";
             jsonString = mapper.writeValueAsString(exhibitionMatch);
             String regex = "\\}";
             jsonString = jsonString.replaceAll(regex, token);
@@ -340,5 +340,4 @@ public class MatchServiceData implements MatchService {
         //System.out.println("status " + response.getStatusLine().getStatusCode());
         return quickMatch;
     }
-
 }

@@ -2,6 +2,7 @@ package com.example.RuFoos;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -63,12 +64,17 @@ public class ExhibitionRegistrationActivity extends Activity {
                     exhibitionMatch.setLosers(losers);
 
                     exhibitionMatch.setUnderTable(underTable.isChecked());
-
-                    matchService = new MatchServiceData();
-                    ExhibitionMatch result = matchService.registerExhibitionMatch(exhibitionMatch);
-
-
-
+                    SharedPreferences sharedPreferences = getSharedPreferences
+                            (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                    String token = sharedPreferences.getString("token", "error");
+                    System.out.println("token " + token);
+                    if(token == "error") {
+                        // TODO: throw error
+                    }
+                    else {
+                        matchService = new MatchServiceData();
+                        ExhibitionMatch result = matchService.registerExhibitionMatch(exhibitionMatch, token);
+                    }
                 }
             }).start();
 
