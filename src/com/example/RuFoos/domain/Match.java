@@ -24,33 +24,19 @@ public class Match {
     public Match() {
     }
 
-
-/*    @JsonCreator
-    public TeamMatch(@JsonProperty("_id")String id,@JsonProperty("__v") int version,@JsonProperty("winnerteam") String winnerteam,@JsonProperty("loserteam") String loserteam,@JsonProperty("undertable") boolean underTable) {
-*/
-        // Exhibition match
     @JsonCreator
     public Match(@JsonProperty("_id") String id, @JsonProperty("__v") int version,
                  @JsonProperty("winners") List<String> winners, @JsonProperty("losers") List<String> losers,
-                 @JsonProperty("date") Date date, @JsonProperty("underTable") boolean underTable) {
+                 @JsonProperty("date") Date date, @JsonProperty("underTable") boolean underTable,
+                 @JsonProperty("winnerteam") String winnerteam, @JsonProperty("loserteam") String loserteam) {
         this.id = id;
         this.version = version;
         this.winners = winners;
         this.losers = losers;
         this.date = date;
         this.underTable = underTable;
-    }
-
-    // Team match
-    @JsonCreator
-    public Match(@JsonProperty("_id") String id, @JsonProperty("__v") int version,
-                 @JsonProperty("winnerteam") String winnerteam, @JsonProperty("loserteam") String loserteam,
-                 @JsonProperty("underTable") boolean underTable) {
-        this.id = id;
-        this.version = version;
         this.winnerteam = winnerteam;
         this.loserteam = loserteam;
-        this.underTable = underTable;
     }
 
     public String getId() {

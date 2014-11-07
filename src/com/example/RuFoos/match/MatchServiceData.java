@@ -309,7 +309,8 @@ public class MatchServiceData implements MatchService {
                 if (jsonResponse.contentEquals("null")) {
                     return null;
                 }
-                //matches = mapper.readValue(jsonResponse, Match.class);
+                matches = mapper.readValue(jsonResponse, mapper.getTypeFactory().constructCollectionType(List.class, Match.class));
+                System.out.println("System " + matches);
             }
         } catch (ClientProtocolException e) {
             e.printStackTrace();

@@ -78,5 +78,7 @@
         <item name="android:popupMenuStyle">@style/PopupMenu.Rufoos</item>
         <item name="android:dropDownListViewStyle">@style/DropDownListView.Rufoos</item>
     </style>
-
+    <color name="gray">#eaeaea</color>
+    <color name="titlebackgroundcolor">#00abd7</color>
+    <color name="titlecolor">#666666</color>
 </resources>
