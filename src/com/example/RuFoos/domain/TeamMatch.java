@@ -1,5 +1,8 @@
 package com.example.RuFoos.domain;
 
+import org.codehaus.jackson.annotate.JsonCreator;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 import java.util.Date;
 
 /**
@@ -8,6 +11,7 @@ import java.util.Date;
 public class TeamMatch {
 
     private String id;
+    private int version;
     private String winnerteam;
     private String loserteam;
     private boolean underTable;
@@ -15,11 +19,13 @@ public class TeamMatch {
     public TeamMatch() {
     }
 
-    public TeamMatch(String id, String winnerteam, String loserteam, boolean underTable) {
+    @JsonCreator
+    public TeamMatch(@JsonProperty("_id")String id,@JsonProperty("__v") int version,@JsonProperty("winnerteam") String winnerteam,@JsonProperty("loserteam") String loserteam,@JsonProperty("undertable") boolean underTable) {
         this.id = id;
         this.winnerteam = winnerteam;
         this.loserteam = loserteam;
         this.underTable = underTable;
+        this.version = version;
     }
 
     public TeamMatch(String winnerteam, String loserteam, boolean underTable) {

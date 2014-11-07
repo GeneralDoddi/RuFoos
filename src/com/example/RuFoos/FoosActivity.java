@@ -47,7 +47,7 @@ public class FoosActivity extends Activity{
                 // TODO: sign up logged in user
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-                //String username = sharedPreferences.getString("name", "error");
+                String username = sharedPreferences.getString("name", "error");
                 //if(username != "error"){
                     service.leaveQuickMatch(userservice.getUserByUsername("gadi"));
                     //service.leaveQuickMatch(userservice.getUserByUsername(username));
@@ -58,7 +58,6 @@ public class FoosActivity extends Activity{
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("matchId", quickMatch.getId());
                         editor.commit();
-
                     }
                 //}
             }

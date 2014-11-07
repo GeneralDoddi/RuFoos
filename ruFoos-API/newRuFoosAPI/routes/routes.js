@@ -115,8 +115,8 @@ module.exports = function(router) {
 	});
 	
 	router.post('/teams/addteam', function(req,res){
-		user.findOne({'token': req.body.token},'Player', function(err, response){
-			if(err || response == null){
+		user.findOne({'token': req.body.token},'Player', function(err, found){
+			if(err || found == null){
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
 			}

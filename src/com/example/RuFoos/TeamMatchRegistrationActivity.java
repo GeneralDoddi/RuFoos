@@ -1,11 +1,14 @@
 package com.example.RuFoos;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
+import com.example.RuFoos.domain.ExhibitionMatch;
 import com.example.RuFoos.domain.QuickMatch;
 import com.example.RuFoos.domain.Team;
 import com.example.RuFoos.domain.TeamMatch;
@@ -25,7 +28,7 @@ import java.util.List;
  */
 public class TeamMatchRegistrationActivity extends Activity {
 
-
+    private Spinner winTeam, loseTeam;
     private CheckBox underTable;
     private Button registerMatch;
     private MatchService _matchService;
@@ -38,20 +41,11 @@ public class TeamMatchRegistrationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registerteammatch);
 
-        Spinner winTeam = (Spinner) findViewById(R.id.WinningTeam);
-        Spinner loseTeam = (Spinner) findViewById(R.id.LosingTeam);
+
+
         //load teams
         getTeams();
 
-        ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.registerteammatch, teamNames);
-
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-
-        //THIS IS ALL BROKEN FUUUUUUUUUUUUUUUEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEe.. e
-        //winTeam.setAdapter(adapter);
-        //loseTeam.setAdapter(adapter);
         registerMatch = (Button)findViewById(R.id.registerMatch);
     }
 
@@ -63,23 +57,51 @@ public class TeamMatchRegistrationActivity extends Activity {
 
         if(id == R.id.registerMatch){
 
+           final boolean error = false;
+
             new Thread(new Runnable() {
                 public void run() {
                     TeamMatch newMatch = new TeamMatch();
-                    Team t1 = (Team) ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem();
+                    //Team t1 = (Team) ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem();
                     Team t2 = (Team) ((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem();
-                    newMatch.setWinnerteam(t1.getName());
+                    //newMatch.setWinnerteam(t1.getName());
                     newMatch.setLoserteam(t2.getName());
                     newMatch.setUnderTable(underTable.isChecked());
 
-                    _matchService = new MatchServiceData();
-                    UserService userservice = new UserServiceData();
-                    MatchService service = new MatchServiceData();
-                    // TODO: Make right user leave (logged in user)
-                    System.out.println(newMatch);
-                    _matchService.registerTeamMatch(newMatch);
+                    SharedPreferences sharedPreferences = getSharedPreferences
+                            (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                    String token = sharedPreferences.getString("token", "error");
+                    System.out.println("token " + token);
+                    if(token == "error") {
+                        error = true;
+                        // TODO: throw error
+                    }
+                    else {
+                        _matchService = new MatchServiceData();
+                        UserService userservice = new UserServiceData();
+                        MatchService service = new MatchServiceData();
+                        // TODO: Make right user leave (logged in user)
+                        System.out.println(newMatch);
+                        _matchService.registerTeamMatch(newMatch, token);
+                    }
                 }
             }).start();
+
+            CharSequence text = null;
+            if(!error)            {
+                text = "Results have been posted";
+            }
+            else{
+                text = "Error posting results";
+            }
+            int duration = Toast.LENGTH_SHORT;
+            Toast.makeText(TeamMatchRegistrationActivity.this, text, duration).show();
+            TeamMatchRegistrationActivity.this.finish();
+        }
+        if(id == R.id.pickWinner)
+        {
+            //Create win Dialog
+            createWinDialog();
         }
     }
 
@@ -89,27 +111,14 @@ public class TeamMatchRegistrationActivity extends Activity {
             public void run() {
                 TeamService _teamService = new TeamServiceData();
                 teamList = _teamService.getAllTeams();
-
-
-                for(Team i : teamList)
-                {
-                    teamNames.add(i.getName());
-                    System.out.println(i.getName());
-                }
-
                 System.out.println(teamList.size());
-                //Get spinners
 
             }
         }).start();
     }
 
-    public void addItemsOnSpinner()
+    public void createWinDialog()
     {
-
-
-
-
 
     }
 

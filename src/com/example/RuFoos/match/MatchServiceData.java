@@ -1,10 +1,7 @@
 package com.example.RuFoos.match;
 
 import android.util.Log;
-import com.example.RuFoos.domain.Match;
-import com.example.RuFoos.domain.QuickMatch;
-import com.example.RuFoos.domain.TeamMatch;
-import com.example.RuFoos.domain.User;
+import com.example.RuFoos.domain.*;
 import com.example.RuFoos.extentions.StreamConverter;
 import com.example.RuFoos.match.MatchService;
 import org.apache.http.HttpEntity;
@@ -20,6 +17,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Created by BearThor on 3.11.2014.
@@ -171,7 +169,7 @@ public class MatchServiceData implements MatchService {
     }
 
     @Override
-    public TeamMatch registerTeamMatch(TeamMatch teamMatch){
+    public TeamMatch registerTeamMatch(TeamMatch teamMatch, String token){
         System.out.println("ENTERED");
         final String url = "/pickupmatch/registerteammatch";
         HttpPost httpPost = new HttpPost(BASE_URL + url);
@@ -182,7 +180,7 @@ public class MatchServiceData implements MatchService {
         String jsonString = null;
         try {
             //HARDCODED TOKEN
-            String token = ",\"token\": \"f0d37126533f3083e571e9a521a2073d64add7f9fb366c82b415dc103e99a85f9523dd7ac376e88efb456ed98ff6ce036f9a1acd879e3d0ed900efe9bfbbc040\"}";
+            token = ",\"token\": \"" + token + "\"}";
             jsonString = mapper.writeValueAsString(teamMatch);
             String regex = "\\}";
             jsonString = jsonString.replaceAll(regex, token);
@@ -199,6 +197,30 @@ public class MatchServiceData implements MatchService {
 
             System.out.println(response);
 
+            InputStream inputStream = response.getEntity().getContent();
+
+            // 10. convert inputstream to string
+            if (inputStream != null) {
+                result = converter.convertInputStreamToString(inputStream);
+                //System.out.println("result: " + result);
+                if(response.getStatusLine().getStatusCode() == 201) {
+                    //System.out.println("got 201");
+                    teamMatch = mapper.readValue(result, TeamMatch.class);
+                    System.out.println("qui: " + teamMatch.getId() + " Winners: " + teamMatch.getWinnerteam() + " LosersL " + teamMatch.getLoserteam() + " UnderTheTable? " + teamMatch.isUnderTable());
+                }
+                else if(response.getStatusLine().getStatusCode() == 503) {
+                    System.out.println("got 503");
+                    teamMatch = null;
+                }
+                else {
+                    System.out.println("Got something else");
+                }
+            }
+            else
+                result = "Did not work!";
+            //System.out.println("result " + result);
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -206,4 +228,116 @@ public class MatchServiceData implements MatchService {
         return teamMatch;
     }
 
+    @Override
+    public ExhibitionMatch registerExhibitionMatch(ExhibitionMatch exhibitionMatch, String token){
+        final String url = "/pickupmatch/registerquickmatch";
+        HttpPost httpPost = new HttpPost(BASE_URL + url);
+        ObjectMapper mapper = new ObjectMapper();
+        String result = null;
+        HttpResponse response = null;
+
+        String jsonString = null;
+        try {
+            //HARDCODED TOKEN
+            token = ",\"token\": \"" + token + "\"}";
+            jsonString = mapper.writeValueAsString(exhibitionMatch);
+            String regex = "\\}";
+            jsonString = jsonString.replaceAll(regex, token);
+            System.out.println(jsonString);
+            StringEntity se = new StringEntity(jsonString);
+            httpPost.setEntity(se);
+
+            // 7. Set some headers to inform server about the type of the content
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+
+            // 8. Execute POST request to the given URL
+            response = client.execute(httpPost);
+
+            InputStream inputStream = response.getEntity().getContent();
+
+            // 10. convert inputstream to string
+            if (inputStream != null) {
+                result = converter.convertInputStreamToString(inputStream);
+                //System.out.println("result: " + result);
+                if(response.getStatusLine().getStatusCode() == 201) {
+                    //System.out.println("got 201");
+                    exhibitionMatch = mapper.readValue(result, ExhibitionMatch.class);
+                    System.out.println("qui: " + exhibitionMatch.getId() + " Winners: " + exhibitionMatch.getWinners() + " Losers: " + exhibitionMatch.getLosers()+ " UnderTheTable? " + exhibitionMatch.isUnderTable());
+                }
+                else if(response.getStatusLine().getStatusCode() == 503) {
+                    System.out.println("got 503");
+                    exhibitionMatch = null;
+                }
+                else {
+                    System.out.println("Got something else");
+                }
+            }
+            else
+                result = "Did not work!";
+            //System.out.println("result " + result);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return exhibitionMatch;
+    }
+
+    @Override
+    public QuickMatch confirmPickup(String token) {
+        final String url = "/pickupmatch/confirmpickup";
+        HttpPost httpPost = new HttpPost(BASE_URL + url);
+        ObjectMapper mapper = new ObjectMapper();
+        String result = null;
+        HttpResponse response = null;
+        QuickMatch quickMatch = new QuickMatch();
+
+        String jsonString = null;
+        try {
+            token = "{\"token\": \"" + token + "\"}";
+            System.out.println(token);
+            StringEntity se = new StringEntity(token);
+            httpPost.setEntity(se);
+
+            // 7. Set some headers to inform server about the type of the content
+            httpPost.setHeader("Accept", "application/json");
+            httpPost.setHeader("Content-type", "application/json");
+
+            // 8. Execute POST request to the given URL
+            response = client.execute(httpPost);
+
+            System.out.println(response);
+
+            // 9. receive response as inputStream
+            InputStream inputStream = response.getEntity().getContent();
+
+            // 10. convert inputstream to string
+            if (inputStream != null) {
+                result = converter.convertInputStreamToString(inputStream);
+                //System.out.println("result: " + result);
+                if(response.getStatusLine().getStatusCode() == 201) {
+                    System.out.println("got 201");
+                    quickMatch = mapper.readValue(result, QuickMatch.class);
+                    System.out.println("qui: " + quickMatch.getId() + " " + quickMatch.getVersion() + " " + quickMatch.isFull() + " " + quickMatch.getPlayers());
+                }
+                else if(response.getStatusLine().getStatusCode() == 503) {
+                    System.out.println("got 503");
+                    quickMatch = null;
+                }
+                else {
+                    System.out.println("Got something else");
+                }
+            }
+            else
+                result = "Did not work!";
+            //System.out.println("result " + result);
+
+        } catch (Exception e) {
+            Log.d("InputStream", e.getLocalizedMessage());
+        }
+        // 11. return result
+        //System.out.println("status " + response.getStatusLine().getStatusCode());
+        return quickMatch;
+    }
 }

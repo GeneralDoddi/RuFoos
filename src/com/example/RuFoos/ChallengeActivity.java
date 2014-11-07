@@ -24,7 +24,7 @@ public class ChallengeActivity extends Activity {
         int id = button.getId();
 
         if (id == R.id.challengePlayer) {
-
+            startActivity(new Intent(this, ExhibitionRegistrationActivity.class));
         }
         else if (id == R.id.challengeTeam) {
             startActivity(new Intent(this, TeamMatchRegistrationActivity.class));
