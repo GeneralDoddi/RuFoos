@@ -52,6 +52,10 @@ public class TeamMatchRegistrationActivity extends Activity {
                     newMatch.setUnderTable(underTable.isChecked());
 
                     matchService = new MatchServiceData();
+                    UserService userservice = new UserServiceData();
+                    MatchService service = new MatchServiceData();
+                    // TODO: Make right user leave (logged in user)
+                    System.out.println(newMatch);
                     matchService.registerTeamMatch(newMatch);
                 }
             }).start();

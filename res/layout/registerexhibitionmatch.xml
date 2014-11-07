@@ -22,13 +22,14 @@
                 android:layout_weight="0.3"
                 android:id="@+id/textView2"/>
 
-        <Spinner
-                android:layout_width="0dip"
+        <EditText
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/WinningTeam"
-                android:background="@drawable/flat_selector"
-                android:textColor="#ffffff"
-                android:layout_weight="0.7"/>
+                android:id="@+id/editText1" android:layout_gravity="center_vertical" android:layout_weight="0.47"/>
+        <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText2" android:layout_gravity="center_vertical" android:layout_weight="0.59"/>
     </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
@@ -48,13 +49,14 @@
                 android:layout_weight="0.3"
                 android:id="@+id/textView3"/>
 
-        <Spinner
-                android:layout_width="0dip"
+        <EditText
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/LosingTeam"
-                android:background="@drawable/flat_selector"
-                android:textColor="#ffffff"
-                android:layout_weight="0.7"/>
+                android:id="@+id/editText3" android:layout_gravity="center_vertical" android:layout_weight="0.71"/>
+        <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editText4" android:layout_gravity="center_vertical" android:layout_weight="0.83"/>
     </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
@@ -67,7 +69,7 @@
                 android:layout_height="wrap_content"
                 android:text="Under the table?"
                 android:id="@+id/underTheTable"/>
-        </LinearLayout>
+    </LinearLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dip"
