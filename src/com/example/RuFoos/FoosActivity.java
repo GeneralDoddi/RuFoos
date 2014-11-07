@@ -86,9 +86,7 @@ public class FoosActivity extends Activity{
         else if(id == R.id.teams) {
 
         }
-        else if(id == R.id.competitions) {
 
-        }
         else if(id == R.id.settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         }

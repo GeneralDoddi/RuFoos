@@ -41,58 +41,63 @@ public class TeamMatchRegistrationActivity extends Activity {
         setContentView(R.layout.registerteammatch);
 
         new loadDataTask().execute();
-
-
-        registerMatch = (Button)findViewById(R.id.registerMatch);
+        registerMatch = (Button) findViewById(R.id.registerMatch);
     }
 
     public void buttonClick(View view) {
 
-       // MatchService service = new MatchServiceData();
+        String errormsg = "Team field cannot be left blank";
         Button button = (Button) view;
         int id = button.getId();
+        boolean invalid = false;
+        if (id == R.id.registerMatch) {
 
-        if(id == R.id.registerMatch){
+            if (((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem().toString() == "Select team") {
+                invalid = true;
+                Toast.makeText(getApplicationContext(), errormsg, Toast.LENGTH_SHORT).show();
+            } else if (((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem().toString() == "Select team") {
+                invalid = true;
+                Toast.makeText(getApplicationContext(), errormsg, Toast.LENGTH_SHORT).show();
+            } else if (invalid == false) {
 
-           final boolean error = false;
+                final boolean error = false;
 
-            new Thread(new Runnable() {
-                public void run() {
-                    TeamMatch newMatch = new TeamMatch();
-                    String t1 =  ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem().toString();
-                    String t2 =  ((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem().toString();
+                new Thread(new Runnable() {
+                    public void run() {
+                        TeamMatch newMatch = new TeamMatch();
+                        String t1 = ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem().toString();
+                        String t2 = ((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem().toString();
 
-                   /* String t1 = "winningteam";
-                    String t2 = "losingteam";*/
-                    System.out.println(t1 + " - " + t2);
-                    newMatch.setWinnerteam(t1);
-                    newMatch.setLoserteam(t2);
-                    newMatch.setUnderTable(underTable.isChecked());
-                    System.out.println("checked? " +  underTable.isChecked());
 
-                    SharedPreferences sharedPreferences = getSharedPreferences
-                            (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-                    String token = sharedPreferences.getString("token", "error");
-                    System.out.println("token " + token);
-                    if(token != "error") {
-                        _matchService = new MatchServiceData();
-                        UserService userservice = new UserServiceData();
-                        MatchService service = new MatchServiceData();
-                        _matchService.registerTeamMatch(newMatch, token);
+                        System.out.println(t1 + " - " + t2);
+                        newMatch.setWinnerteam(t1);
+                        newMatch.setLoserteam(t2);
+                        newMatch.setUnderTable(underTable.isChecked());
+                        System.out.println("checked? " + underTable.isChecked());
+
+                        SharedPreferences sharedPreferences = getSharedPreferences
+                                (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
+                        String token = sharedPreferences.getString("token", "error");
+                        System.out.println("token " + token);
+                        if (token != "error") {
+                            _matchService = new MatchServiceData();
+                            UserService userservice = new UserServiceData();
+                            MatchService service = new MatchServiceData();
+                            _matchService.registerTeamMatch(newMatch, token);
+                        }
                     }
-                }
-            }).start();
+                }).start();
 
-            CharSequence text = null;
-            if(!error)            {
-                text = "Results have been posted";
+                CharSequence text = null;
+                if (!error) {
+                    text = "Results have been posted";
+                } else {
+                    text = "Error posting results";
+                }
+                int duration = Toast.LENGTH_SHORT;
+                Toast.makeText(TeamMatchRegistrationActivity.this, text, duration).show();
+                TeamMatchRegistrationActivity.this.finish();
             }
-            else{
-                text = "Error posting results";
-            }
-            int duration = Toast.LENGTH_SHORT;
-            Toast.makeText(TeamMatchRegistrationActivity.this, text, duration).show();
-            TeamMatchRegistrationActivity.this.finish();
         }
 
     }
@@ -105,9 +110,6 @@ public class TeamMatchRegistrationActivity extends Activity {
             return null;
         }
 
-        protected void onProgressUpdate(Integer... progress) {
-
-        }
 
         protected void onPostExecute(Long result) {
 
@@ -148,8 +150,6 @@ public class TeamMatchRegistrationActivity extends Activity {
             loseTeam.setSelection(adapter.getCount()); //display hint
         }
     }
-
-
 
 
 }

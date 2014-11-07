@@ -2,7 +2,6 @@ package com.example.RuFoos.team;
 
 import android.util.Log;
 import com.example.RuFoos.domain.Team;
-import com.example.RuFoos.domain.User;
 import com.example.RuFoos.extentions.StreamConverter;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -142,5 +141,35 @@ public class TeamServiceData implements TeamService {
             }
             return teams;
 
+    }
+    @Override
+    public ArrayList<Team> getMyTeams(String username){
+        ArrayList<Team> teams = new ArrayList<Team>();
+        final String url = "/users/" + username + "/teams";
+        StreamConverter converter = new StreamConverter();
+        HttpClient client = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(BASE_URL + url);
+
+        try {
+            HttpResponse response = client.execute(httpGet);
+            StatusLine statusLine = response.getStatusLine();
+            int statusCode = statusLine.getStatusCode();
+
+            if (statusCode == 200 || statusCode == 201) {
+                HttpEntity entity = response.getEntity();
+                InputStream content = entity.getContent();
+                String jsonResponse = converter.convertInputStreamToString(content);
+                if (jsonResponse.contentEquals("null")) {
+                    return null;
+                }
+                teams = mapper.readValue(jsonResponse, mapper.getTypeFactory().constructCollectionType(List.class, Team.class));
+                System.out.println("System " + teams);
+            }
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return teams;
     }
 }

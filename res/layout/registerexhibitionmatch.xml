@@ -116,7 +116,7 @@
                 android:layout_width="0dip"
                 android:layout_height="60dip"
                 android:text="Register match"
-                android:id="@+id/registerMatch"
+                android:id="@+id/registerQuickMatch"
                 android:onClick="buttonClick"
 
                 android:background="@drawable/flat_selector"
