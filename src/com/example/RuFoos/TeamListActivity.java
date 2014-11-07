@@ -10,9 +10,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import com.example.RuFoos.domain.Match;
+import com.example.RuFoos.domain.Team;
 import com.example.RuFoos.extentions.MyAdapter;
+import com.example.RuFoos.extentions.TeamAdapter;
 import com.example.RuFoos.match.MatchService;
 import com.example.RuFoos.match.MatchServiceData;
+import com.example.RuFoos.team.TeamService;
+import com.example.RuFoos.team.TeamServiceData;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,9 +27,8 @@ import java.util.List;
  */
 public class TeamListActivity extends Activity {
 
-    private List<String> matchlist = new ArrayList<String>();
-    private String[] test = {"asdf", "asdæfkj", "asdlfjaweio"};
-    private ArrayList<Match> displayMatches = new ArrayList<Match>();
+    private List<String> teamlist = new ArrayList<String>();
+    private ArrayList<Team> displayTeams = new ArrayList<Team>();
     private Context context;
 
     /**
@@ -34,37 +37,19 @@ public class TeamListActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.matchlist);
+        setContentView(R.layout.teamlist);
 
-        generateMatches();
+        generateTeams();
         context = this;
     }
 
-    private ArrayList<Match> generateData(){
-        ArrayList<Match> theseMatches = new ArrayList<Match>();
-        List<String> winners = new ArrayList<String>();
-        winners.add("gadi");
-        winners.add("doddi");
-        List<String> losers = new ArrayList<String>();
-        losers.add("marino");
-        losers.add("oli");
-        theseMatches.add(new Match("1",4,winners,losers, new Date(),true,"winnerteam","loserteam"));
-        theseMatches.add(new Match("1",4,losers,winners, new Date(),true,"winnerteam","loserteam"));
-        return theseMatches;
+    private void generateTeams(){
+        AsyncRunner getTeamsTask = new AsyncRunner();
+        getTeamsTask.execute();
     }
 
-    private void displayMatches2() {
-
-    }
-
-    private void generateMatches(){
-        AsyncRunner getMatchesTask = new AsyncRunner();
-        getMatchesTask.execute();
-    }
-
-    private ArrayList<Match> getMatches() {
-        System.out.println("display3" + displayMatches);
-        return displayMatches;
+    private ArrayList<Team> getTeams() {
+        return displayTeams;
     }
 
     public void buttonClick(View view) {
@@ -73,8 +58,8 @@ public class TeamListActivity extends Activity {
     }
 
     private class AsyncRunner extends AsyncTask<String, Void, List<String>> {
-        String mTAG = "getMatchesTask";
-        ArrayList<Match> matches = new ArrayList<Match>();
+        String mTAG = "getTeamsTask";
+        ArrayList<Team> teams = new ArrayList<Team>();
 
         @Override
         protected void onPreExecute() {
@@ -84,52 +69,29 @@ public class TeamListActivity extends Activity {
         protected List<String> doInBackground(String...arg) {
             Log.d(mTAG, "Fetching matches");
 
-            MatchService service = new MatchServiceData();
+            TeamService service = new TeamServiceData();
 
             SharedPreferences sharedpreferences = getSharedPreferences
                     (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedpreferences.edit();
 
             String userName = sharedpreferences.getString("username", "error");
             if(userName != "error") {
-                matches = service.getMatches(userName);
+                teams = service.getMyTeams(userName);
             }
 
-            String username = sharedpreferences.getString("username","error");
-            if(matches != null) {
-                //matchlist = new String[matches.size()];
-                for(int i = 0; i < matches.size(); i++) {
-                    //if(matches.get(i).getWinnerteam() != null){
-                        matchlist.add(matches.get(i).getWinners().get(0) + " and " +
-                                      matches.get(i).getWinners().get(1) + " vs. " +
-                                      matches.get(i).getLosers().get(0) + " and " +
-                                      matches.get(i).getLosers().get(1));
-                    //}
-                }
-            }
-            displayMatches = matches;
-            System.out.println("display 2 " + displayMatches);
-            return matchlist;
+
+            displayTeams = teams;
+            System.out.println("display 2 " + displayTeams);
+            return teamlist;
         }
 
         @Override
         protected void onPostExecute(List<String> strings) {
             super.onPostExecute(strings);
-            MyAdapter adapter = new MyAdapter(context, getMatches());
-            ListView listView = (ListView) findViewById(R.id.listview);
+             //TODO: make new myadapter
+            TeamAdapter adapter = new TeamAdapter(context, getTeams());
+            ListView listView = (ListView) findViewById(R.id.teamview);
             listView.setAdapter(adapter);
-            //displayMatches(strings);
         }
     }
-
-    public void displayMatches(List<String> strings){
-        System.out.println("Strings " + strings);
-        /*ArrayAdapter adapter = new ArrayAdapter<String>(this,
-                R.layout.matches, strings);
-
-        ListView listView = (ListView) findViewById(R.id.match_list);
-        listView.setAdapter(adapter);*/
-    }
-
-
 }

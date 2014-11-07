@@ -65,13 +65,25 @@
             android:layout_height="0dip"
             android:orientation="horizontal"
             android:layout_weight="0.4" >
-
         <Button
+                android:layout_width="0dip"
+                android:layout_height="match_parent"
+                android:text="Create Team"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/createTeam"
+                android:onClick="buttonClick"
+                android:background="@drawable/flat_selector"
+                android:layout_margin="1dp"
+                android:textColor="#ffffff"
+                android:layout_weight="0.5"/>
+
+
+    <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
                 android:text="My Teams"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/teams"
+                android:id="@+id/myTeams"
                 android:onClick="buttonClick"
                 android:background="@drawable/flat_selector"
                 android:layout_margin="1dp"
@@ -88,7 +100,7 @@
        <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:text="Settings"
+                android:text="Rules"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/settings"
                 android:onClick="buttonClick"
@@ -110,8 +122,6 @@
                 android:paddingTop="10dip"
                 android:textColor="#ffffff"
                 android:layout_weight="1" />
-
-
     </LinearLayout>
 </LinearLayout>
 
