@@ -290,8 +290,8 @@ public class MatchServiceData implements MatchService {
     }
 
     @Override
-    public List<Match> getMatches(String username){
-        List<Match> matches = new ArrayList<Match>();
+    public ArrayList<Match> getMatches(String username){
+        ArrayList<Match> matches = new ArrayList<Match>();
         final String url = "/users/" + username + "/matches";
         StreamConverter converter = new StreamConverter();
         HttpClient client = new DefaultHttpClient();
@@ -309,7 +309,7 @@ public class MatchServiceData implements MatchService {
                 if (jsonResponse.contentEquals("null")) {
                     return null;
                 }
-                matches = mapper.readValue(jsonResponse, mapper.getTypeFactory().constructCollectionType(List.class, Match.class));
+                matches = mapper.readValue(jsonResponse, mapper.getTypeFactory().constructCollectionType(ArrayList.class, Match.class));
                 System.out.println("System " + matches);
             }
         } catch (ClientProtocolException e) {
