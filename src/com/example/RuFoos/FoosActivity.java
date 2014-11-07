@@ -49,7 +49,7 @@ public class FoosActivity extends Activity{
             public void run() {
                 MatchService service = new MatchServiceData();
                 UserService userservice = new UserServiceData();
-                // TODO: sign up logged in user
+
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 String username = sharedPreferences.getString("username", "error");

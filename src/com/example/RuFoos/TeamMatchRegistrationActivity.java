@@ -74,16 +74,10 @@ public class TeamMatchRegistrationActivity extends Activity {
                             (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                     String token = sharedPreferences.getString("token", "error");
                     System.out.println("token " + token);
-                    if(token == "error") {
-                        //error = true;
-                        // TODO: throw error
-                    }
-                    else {
+                    if(token != "error") {
                         _matchService = new MatchServiceData();
                         UserService userservice = new UserServiceData();
                         MatchService service = new MatchServiceData();
-                        // TODO: Make right user leave (logged in user)
-                        System.out.println(newMatch);
                         _matchService.registerTeamMatch(newMatch, token);
                     }
                 }

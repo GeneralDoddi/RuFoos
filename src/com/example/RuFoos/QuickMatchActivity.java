@@ -46,7 +46,6 @@ public class QuickMatchActivity extends Activity{
         dialog.setTitle("QuickMatch ready");
         dialog.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                // TODO: post to api
                 confirmed = true;
                 confirmReady();
             }
@@ -90,11 +89,13 @@ public class QuickMatchActivity extends Activity{
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         String id = sharedpreferences.getString("matchId", "error");
+
         if(id != "error") {
             pickupSignup.execute(id);
         }
         if(isFull){
             if(!confirmed) {
+                //TODO: check if vibration is turned on in settings
                 if(v.hasVibrator()){
                     v.vibrate(500);
                 }
@@ -114,10 +115,7 @@ public class QuickMatchActivity extends Activity{
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 String token = sharedPreferences.getString("token", "error");
-                if(token == "error") {
-                    // TODO: throw error
-                }
-                else {
+                if(token != "error") {
                     QuickMatch quickMatch = service.confirmPickup(token);
                 }
             }
@@ -135,11 +133,11 @@ public class QuickMatchActivity extends Activity{
         new Thread(new Runnable() {
             public void run() {
                 MatchService service = new MatchServiceData();
-                // TODO: remove matchId from sharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("quickedUp", false);
+                editor.putString("matchId", "");
                 editor.commit();
                 boolean bool = sharedPreferences.getBoolean("quickedUp", true);
                 System.out.println("WORKING?? " + bool);
@@ -228,40 +226,32 @@ public class QuickMatchActivity extends Activity{
     }
 
     public void onCheckboxClicked(View view) {
-        // Is the view now checked?
         boolean checked = ((CheckBox) view).isChecked();
 
-        // Check which checkbox was clicked
         switch(view.getId()) {
             case R.id.checkbox_p1:
                 if(checked) {
-                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[0]);
                 }
                 else{
-                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[0]);
                     winners.remove(location);
                 }
                 break;
             case R.id.checkbox_p2:
                 if(checked) {
-                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[1]);
                 }
                 else{
-                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[1]);
                     winners.remove(location);
                 }
                 break;
             case R.id.checkbox_p3:
                 if(checked) {
-                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[2]);
                 }
                 else{
-                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[2]);
                     winners.remove(location);
                 }
@@ -304,10 +294,7 @@ public class QuickMatchActivity extends Activity{
                             (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                     String token = sharedPreferences.getString("token", "error");
                     String matchId = sharedPreferences.getString("matchId", "error");
-                    if(token == "error" || matchId == "error") {
-                        // TODO: throw error
-                    }
-                    else {
+                    if(token != "error" && matchId != "error") {
                         match = service.registerExhibitionMatch(match, token, matchId);
                     }
 
