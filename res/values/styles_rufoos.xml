@@ -81,4 +81,7 @@
     <color name="gray">#eaeaea</color>
     <color name="titlebackgroundcolor">#00abd7</color>
     <color name="titlecolor">#666666</color>
+    <color name="winner">#276D1F</color>
+    <color name="loser">#A31208</color>
+    <color name="wentunder">#FF0000</color>
 </resources>

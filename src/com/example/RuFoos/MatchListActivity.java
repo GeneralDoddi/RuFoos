@@ -28,6 +28,7 @@ public class MatchListActivity extends Activity {
     private List<String> matchlist = new ArrayList<String>();
     private String[] test = {"asdf", "asdæfkj", "asdlfjaweio"};
     private ArrayList<Match> displayMatches = new ArrayList<Match>();
+    private Context context;
 
     /**
      * Called when the activity is first created.
@@ -38,10 +39,7 @@ public class MatchListActivity extends Activity {
         setContentView(R.layout.matchlist);
 
         generateMatches();
-
-        MyAdapter adapter = new MyAdapter(this, getMatches());
-        ListView listView = (ListView) findViewById(R.id.listview);
-        listView.setAdapter(adapter);
+        context = this;
     }
 
     private ArrayList<Match> generateData(){
@@ -57,26 +55,13 @@ public class MatchListActivity extends Activity {
         return theseMatches;
     }
 
+    private void displayMatches2() {
+
+    }
+
     private void generateMatches(){
         AsyncRunner getMatchesTask = new AsyncRunner();
         getMatchesTask.execute();
-
-        /*new Thread(new Runnable() {
-            public void run() {
-                MatchService service = new MatchServiceData();
-
-                SharedPreferences sharedpreferences = getSharedPreferences
-                        (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedpreferences.edit();
-
-                String userName = sharedpreferences.getString("username", "error");
-                if(userName != "error") {
-                    List<Match> matches = service.getMatches(userName);
-                    System.out.println("here " + matches);
-                }
-            }
-        }).start();*/
-        System.out.println("displayMatches1 " + displayMatches);
     }
 
     private ArrayList<Match> getMatches() {
@@ -132,7 +117,10 @@ public class MatchListActivity extends Activity {
         @Override
         protected void onPostExecute(List<String> strings) {
             super.onPostExecute(strings);
-            displayMatches(strings);
+            MyAdapter adapter = new MyAdapter(context, getMatches());
+            ListView listView = (ListView) findViewById(R.id.listview);
+            listView.setAdapter(adapter);
+            //displayMatches(strings);
         }
     }
 
