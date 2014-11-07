@@ -37,9 +37,7 @@ public class QuickMatchActivity extends Activity{
     private List<String> losers = new ArrayList<String>();
     private String[] matchPlayers;
     private boolean underTable = false;
-    /**
-     * Called when the activity is first created.
-     */
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,7 +74,7 @@ public class QuickMatchActivity extends Activity{
                     }
                 });
             }
-        }, 0, 2000); // updates every 2 seconds
+        }, 0, 5000); // updates every 5 seconds
     }
 
     @Override
@@ -96,19 +94,15 @@ public class QuickMatchActivity extends Activity{
             pickupSignup.execute(id);
         }
         if(isFull){
-            //autoUpdate.cancel();
-
-            if(!confirmed && !hasPopped) {
+            if(!confirmed) {
                 if(v.hasVibrator()){
                     v.vibrate(500);
                 }
                 dialog.show();
-                hasPopped = true;
             }
         }
 
         if(isReady){
-            System.out.println("You're ready now!");
             autoUpdate.cancel();
         }
     }
@@ -117,16 +111,13 @@ public class QuickMatchActivity extends Activity{
         new Thread(new Runnable() {
             public void run() {
                 MatchService service = new MatchServiceData();
-                // TODO: sign up logged in user
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 String token = sharedPreferences.getString("token", "error");
-                System.out.println("token " + token);
                 if(token == "error") {
                     // TODO: throw error
                 }
                 else {
-                    System.out.println("Token " + token);
                     QuickMatch quickMatch = service.confirmPickup(token);
                 }
             }
@@ -137,31 +128,25 @@ public class QuickMatchActivity extends Activity{
 
     @Override
     public void onBackPressed(){
-        //isReady = false;
-        //leaveQuickMatch();
         QuickMatchActivity.this.finish();
     }
 
     public void leaveQuickMatch() {
         new Thread(new Runnable() {
             public void run() {
-                UserService userservice = new UserServiceData();
                 MatchService service = new MatchServiceData();
-                // TODO: Make right user leave (logged in user)
                 // TODO: remove matchId from sharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putBoolean("quickedUp", false);
                 editor.commit();
-                boolean bool =sharedPreferences.getBoolean("quickedUp", true);
+                boolean bool = sharedPreferences.getBoolean("quickedUp", true);
                 System.out.println("WORKING?? " + bool);
                 String token = sharedPreferences.getString("token", "error");
                 if(token != "error") {
-                    System.out.println("Token " + token);
                     QuickMatch quickMatch = service.leaveQuickMatch(token);
                 }
-                // QuickMatch quickMatch = service.leaveQuickMatch(userservice.getUserByUsername(username));
             }
         }).start();
         Context context = getApplicationContext();
@@ -193,31 +178,31 @@ public class QuickMatchActivity extends Activity{
             }
             else {
                 System.out.println("quickmatch get is all good");
-                System.out.println("getByIdResult: " + quickMatch.getId() + " " + quickMatch.getPlayers() + " " + quickMatch.getVersion() + " " + quickMatch.isFull());
-            }
+                //System.out.println("getByIdResult: " + quickMatch.getId() + " " + quickMatch.getPlayers() + " " + quickMatch.getVersion() + " " + quickMatch.isFull());
 
-            System.out.println("players in quickmatch " + quickMatch.getPlayers());
-            String[] players = new String[4];
-            matchPlayers = quickMatch.getPlayers();
-            for(int i = 0; i < quickMatch.getPlayers().length; i++) {
-                players[i] = i+1 + ". " + quickMatch.getPlayers()[i];
-                System.out.println("player " + players[i]);
-            }
-            if(quickMatch.isFull()){
-                isFull = true;
-                System.out.println("match is full man");
-            }
-            else {
-                for(int i = quickMatch.getPlayers().length; i < 4; i++) {
-                    players[i]= i+1 + ". Waiting for player...";
+                String[] players = new String[4];
+                matchPlayers = quickMatch.getPlayers();
+                for(int i = 0; i < quickMatch.getPlayers().length; i++) {
+                    players[i] = i+1 + ". " + quickMatch.getPlayers()[i];
+                    //System.out.println("player " + players[i]);
                 }
+                if(quickMatch.isFull()){
+                    isFull = true;
+                    //System.out.println("match is full man");
+                }
+                else {
+                    for(int i = quickMatch.getPlayers().length; i < 4; i++) {
+                        players[i]= i+1 + ". Waiting for player...";
+                    }
+                }
+                System.out.println("IsReady? " + quickMatch.getReady().length);
+                if(quickMatch.getReady().length >= 4) {
+                    System.out.println("Ready!");
+                    isReady = true;
+                }
+                return players;
             }
-            System.out.println("IsReady? " + quickMatch.getReady().length);
-            if(quickMatch.getReady().length >= 4) {
-                System.out.println("Ready!");
-                isReady = true;
-            }
-            return players;
+            return null;
         }
 
         @Override
@@ -250,44 +235,44 @@ public class QuickMatchActivity extends Activity{
         switch(view.getId()) {
             case R.id.checkbox_p1:
                 if(checked) {
-                    System.out.println("Adding p1 to winners.");
+                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[0]);
                 }
                 else{
-                    System.out.println("removing p1");
+                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[0]);
                     winners.remove(location);
                 }
                 break;
             case R.id.checkbox_p2:
                 if(checked) {
-                    System.out.println("Adding p1 to winners.");
+                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[1]);
                 }
                 else{
-                    System.out.println("removing p1");
+                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[1]);
                     winners.remove(location);
                 }
                 break;
             case R.id.checkbox_p3:
                 if(checked) {
-                    System.out.println("Adding p1 to winners.");
+                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[2]);
                 }
                 else{
-                    System.out.println("removing p1");
+                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[2]);
                     winners.remove(location);
                 }
                 break;
             case R.id.checkbox_p4:
                 if(checked) {
-                    System.out.println("Adding p1 to winners.");
+                    //System.out.println("Adding p1 to winners.");
                     winners.add(matchPlayers[3]);
                 }
                 else{
-                    System.out.println("removing p1");
+                    //System.out.println("removing p1");
                     int location = winners.indexOf(matchPlayers[3]);
                     winners.remove(location);
                 }
@@ -307,8 +292,6 @@ public class QuickMatchActivity extends Activity{
                 }
             }
             autoUpdate.cancel();
-            System.out.println("Winners " + winners);
-            System.out.println("Losers " + losers);
 
             new Thread(new Runnable() {
                 public void run() {
@@ -321,12 +304,10 @@ public class QuickMatchActivity extends Activity{
                             (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                     String token = sharedPreferences.getString("token", "error");
                     String matchId = sharedPreferences.getString("matchId", "error");
-                    System.out.println("token " + token);
                     if(token == "error" || matchId == "error") {
                         // TODO: throw error
                     }
                     else {
-                        System.out.println("Token " + token);
                         match = service.registerExhibitionMatch(match, token, matchId);
                     }
 

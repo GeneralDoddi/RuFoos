@@ -1,6 +1,7 @@
 package com.example.RuFoos.domain;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Domain class for matches in ruFoos
@@ -8,82 +9,45 @@ import java.util.Date;
  */
 public class Match {
 
-    protected String team1;
-    protected String team2;
-    protected int team1Score;
-    protected int team2Score;
-    protected Date date;
-    protected int competitionId;
+    // Exhibition match objects
+    private String id;
+    private int version;
+    private List<String> winners;
+    private List<String> losers;
+    private Date date;
+    private String winnerteam;
+    private String loserteam;
+    private boolean underTable;
 
     public Match() {
     }
 
-    public Match(String team1, String team2, int team1Score, int team2Score, Date date, int competitionId) {
-        this.team1 = team1;
-        this.team2 = team2;
-        this.team1Score = team1Score;
-        this.team2Score = team2Score;
+
+/*    @JsonCreator
+    public TeamMatch(@JsonProperty("_id")String id,@JsonProperty("__v") int version,@JsonProperty("winnerteam") String winnerteam,@JsonProperty("loserteam") String loserteam,@JsonProperty("undertable") boolean underTable) {
+*/
+        // Exhibition match
+    public Match(String id, int version, List<String> winners, List<String> losers, Date date, boolean underTable) {
+        this.id = id;
+        this.version = version;
+        this.winners = winners;
+        this.losers = losers;
         this.date = date;
-        this.competitionId = competitionId;
+        this.underTable = underTable;
     }
 
-    public String getTeam1() {
-        return team1;
+    // Team match
+    public Match(String id, int version, String winnerteam, String loserteam, boolean underTable) {
+        this.id = id;
+        this.version = version;
+        this.winnerteam = winnerteam;
+        this.loserteam = loserteam;
+        this.underTable = underTable;
     }
 
-    public void setTeam1(String team1) {
-        this.team1 = team1;
-    }
 
-    public String getTeam2() {
-        return team2;
-    }
 
-    public void setTeam2(String team2) {
-        this.team2 = team2;
-    }
 
-    public int getTeam1Score() {
-        return team1Score;
-    }
 
-    public void setTeam1Score(int team1Score) {
-        this.team1Score = team1Score;
-    }
 
-    public int getTeam2Score() {
-        return team2Score;
-    }
-
-    public void setTeam2Score(int team2Score) {
-        this.team2Score = team2Score;
-    }
-
-    public Date getDate() {
-        return date;
-    }
-
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public int getCompetitionId() {
-        return competitionId;
-    }
-
-    public void setCompetitionId(int competitionId) {
-        this.competitionId = competitionId;
-    }
-
-    @Override
-    public String toString() {
-        return "Match{" +
-                "team1='" + team1 + '\'' +
-                ", team2='" + team2 + '\'' +
-                ", team1Score=" + team1Score +
-                ", team2Score=" + team2Score +
-                ", date=" + date +
-                ", competitionId=" + competitionId +
-                '}';
-    }
 }
