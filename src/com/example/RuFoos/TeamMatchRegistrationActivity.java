@@ -121,7 +121,7 @@ public class TeamMatchRegistrationActivity extends Activity {
             }
             winTeam = (Spinner) findViewById(R.id.WinningTeam);
             loseTeam = (Spinner) findViewById(R.id.LosingTeam);
-
+            underTable = (CheckBox) findViewById(R.id.underTheTable);
             ArrayAdapter<String> adapter = new ArrayAdapter<String>(TeamMatchRegistrationActivity.this,
                     android.R.layout.simple_spinner_item , teamNames);
 

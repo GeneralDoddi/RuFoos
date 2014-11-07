@@ -194,5 +194,36 @@ public class UserServiceData implements UserService {
 
         return returnUser;
     }
+
+   /* public String[] getMatches(String username){
+        String[] matches;
+        final String url = "/users/" + username + "/matches";
+        StreamConverter converter = new StreamConverter();
+        HttpClient client = new DefaultHttpClient();
+        HttpGet httpGet = new HttpGet(BASE_URL + url);
+
+        try {
+            HttpResponse response = client.execute(httpGet);
+            StatusLine statusLine = response.getStatusLine();
+            int statusCode = statusLine.getStatusCode();
+
+            if (statusCode == 200 || statusCode == 201) {
+                HttpEntity entity = response.getEntity();
+                InputStream content = entity.getContent();
+                String jsonResponse = converter.convertInputStreamToString(content);
+                if (jsonResponse.contentEquals("null")) {
+                    return null;
+                }
+                matches =
+                quickMatch = mapper.readValue(jsonResponse, QuickMatch.class);
+            }
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println("MatchServicedata quickmatch result: " + quickMatch.getId() + " " + quickMatch.getPlayers() + " " + quickMatch.getVersion() + " " + quickMatch.isFull());
+        return quickMatch;
+    }*/
 }
 
