@@ -41,8 +41,14 @@ public class TeamMatchRegistrationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registerteammatch);
 
+        winTeam = (Spinner) findViewById(R.id.WinningTeam);
+        loseTeam = (Spinner) findViewById(R.id.LosingTeam);
 
+        SpinnerAdapter adapter = new ArrayAdapter<String>(TeamMatchRegistrationActivity.this,
+                R.layout.registerexhibitionmatch, teamNames);
 
+        winTeam.setAdapter(adapter);
+        //loseTeam.setAdapter(adapter);
         //load teams
         getTeams();
 
@@ -73,7 +79,7 @@ public class TeamMatchRegistrationActivity extends Activity {
                     String token = sharedPreferences.getString("token", "error");
                     System.out.println("token " + token);
                     if(token == "error") {
-                        error = true;
+                        //error = true;
                         // TODO: throw error
                     }
                     else {
@@ -98,11 +104,11 @@ public class TeamMatchRegistrationActivity extends Activity {
             Toast.makeText(TeamMatchRegistrationActivity.this, text, duration).show();
             TeamMatchRegistrationActivity.this.finish();
         }
-        if(id == R.id.pickWinner)
+        /*if(id == R.id.pickWinner)
         {
             //Create win Dialog
             createWinDialog();
-        }
+        }*/
     }
 
     public void getTeams()
@@ -112,6 +118,12 @@ public class TeamMatchRegistrationActivity extends Activity {
                 TeamService _teamService = new TeamServiceData();
                 teamList = _teamService.getAllTeams();
                 System.out.println(teamList.size());
+
+                //Add teamnames to array of strings
+                for(Team i : teamList)
+                {
+                    teamNames.add(i.getName());
+                }
 
             }
         }).start();
