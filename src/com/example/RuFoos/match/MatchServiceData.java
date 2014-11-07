@@ -1,10 +1,7 @@
 package com.example.RuFoos.match;
 
 import android.util.Log;
-import com.example.RuFoos.domain.Match;
-import com.example.RuFoos.domain.QuickMatch;
-import com.example.RuFoos.domain.TeamMatch;
-import com.example.RuFoos.domain.User;
+import com.example.RuFoos.domain.*;
 import com.example.RuFoos.extentions.StreamConverter;
 import com.example.RuFoos.match.MatchService;
 import org.apache.http.HttpEntity;
