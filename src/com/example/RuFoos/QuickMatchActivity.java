@@ -128,8 +128,10 @@ public class QuickMatchActivity extends Activity{
                     c1.setVisibility(View.VISIBLE);
                 }
                 else{
-
+                    
                 }
+                TextView w1 = (TextView)findViewById(R.id.ready_notPlayerNumberOne);
+                w1.setVisibility(View.VISIBLE);
 
             }
 
