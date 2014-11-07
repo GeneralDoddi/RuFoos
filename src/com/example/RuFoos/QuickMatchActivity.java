@@ -126,6 +126,11 @@ public class QuickMatchActivity extends Activity{
                     //Under the Table
                     CheckBox c1 = (CheckBox)findViewById(R.id.underTable);
                     c1.setVisibility(View.VISIBLE);
+
+                    //Game lead guide
+                    TextView t = (TextView)findViewById(R.id.ready_p1_guidelines);
+                    t.setVisibility(View.VISIBLE);
+
                 }
                 else{
                     
@@ -202,7 +207,8 @@ public class QuickMatchActivity extends Activity{
             MatchService service = new MatchServiceData();
             //System.out.println("argument 0 is " + arg[0]);
             quickMatch = service.getQuickMatchById(arg[0]);
-            if(quickMatch == null){
+           if(quickMatch == null){
+
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -365,6 +371,7 @@ public class QuickMatchActivity extends Activity{
                     editor.putBoolean("quickedUp", false);
                     editor.apply();
                     QuickMatchActivity.this.finish();
+
                 }
             }).start();
 

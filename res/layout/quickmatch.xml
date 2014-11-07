@@ -87,4 +87,18 @@
             android:textColor="#ffffff"
             android:layout_margin="5dp"
             android:onClick="onButtonClick" />
+
+    <TextView android:id="@+id/ready_notPlayerNumberOne"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Game is ready, head to the BASEMENT NOW!"
+              android:layout_gravity="center_horizontal"
+              android:visibility="invisible"/>
+
+    <TextView android:id="@+id/ready_p1_guidelines"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="You are game lead. After the game, select the winners and submit the score!"
+              android:layout_gravity="center_horizontal"
+              android:visibility="invisible"/>
 </LinearLayout>
