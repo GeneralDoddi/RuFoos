@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+        >
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="fill_parent"
+                  android:orientation="vertical">
+            <TextView
+                    android:id="@+id/winners"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="20sp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingBottom="3dp"
+                    android:textColor="#000000">
+                    </TextView>
+        <TextView
+                android:id="@+id/losers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:padding="10dp"
+                android:textColor="#000000">
+
+            </TextView>
+        <TextView
+                android:id="@+id/time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/label"
+                android:textSize="15sp"
+                android:paddingLeft="5dp"
+                android:textColor="@color/titlecolor">
+                </TextView>
+        <TextView
+                android:id="@+id/wentunder"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/label"
+                android:textSize="12sp"
+                android:paddingLeft="5dp"
+                android:textColor="@color/wentunder"
+                >
+        </TextView>
+
+
+    </LinearLayout>
+
+</RelativeLayout>
