@@ -55,7 +55,7 @@ public class ExhibitionRegistrationActivity extends Activity {
 
     public void addItemOnSpinners() {
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ExhibitionRegistrationActivity.this, android.R.layout.simple_spinner_item) {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
