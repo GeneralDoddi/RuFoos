@@ -91,6 +91,8 @@ public class LoginActivity extends Activity {
             loginUser.setToken(user.getToken());
             loginUser.setResponse(user.getResponse());
 
+            System.out.println("LoginUser username " + loginUser.getUserName());
+
             return user;
         }
 
@@ -106,11 +108,11 @@ public class LoginActivity extends Activity {
                 error = true;
                 Toast.makeText(getApplicationContext(), "Invalid password", Toast.LENGTH_SHORT).show();
             }
-            else{
+            else {
                 SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", LoginActivity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("token", resultUser.getToken());
-                editor.putString("username", resultUser.getUserName());
+                editor.putString("username", loginUser.getUserName());
                 editor.putBoolean("quickedUp", false);
                 editor.commit();
                 startActivity(new Intent(getApplicationContext(), FoosActivity.class));

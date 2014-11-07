@@ -4,6 +4,7 @@ import com.example.RuFoos.domain.User;
 
 import java.util.List;
 
+
 /**
  * Created by BearThor on 3.11.2014.
  */
@@ -14,4 +15,5 @@ public interface UserService {
     public List<User> getAllUsers();
     public int updateUser(User User);
     public User loginUser(User User);
+    //public ExhibitionMatch
 }

@@ -276,7 +276,7 @@ module.exports = function(router) {
 	});
 
 	router.post('/pickupmatch/removesignup', function(req, res){
-		user.findOne({'token': req.body.token},'Player', function(err, response){
+		user.findOne({'token': req.body.token}, function(err, response){
 			if(err || response == null){
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
@@ -285,19 +285,21 @@ module.exports = function(router) {
 				console.log(req.body);
 				console.log(response);
 				console.log(response.userName);
-				pickup.findOne({'players': response.userName}, function(err, response){
-					if(err || response == null){
+				var username = response.userName;
+				pickup.findOne({'players': response.userName}, function(err, found){
+					if(err || found == null){
 						console.log(err);
 						res.status(503).send(err);
 					}
 					else{
-						console.log(response);
-						var index = response.players.indexOf(req.body.userName);
+						console.log(found);
+						console.log(username);
+						var index = found.players.indexOf(username);
 						//console.log(index);
-						response.players.splice(index,1);
-						response.ready = [];
-						response.full = false;
-						response.save(function(err,b){
+						found.players.splice(index,1);
+						found.ready = [];
+						found.full = false;
+						found.save(function(err,b){
 							if(err){
 									console.log(err);
 									res.status(503).send(err);

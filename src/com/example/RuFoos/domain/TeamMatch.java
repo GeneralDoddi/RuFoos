@@ -15,17 +15,19 @@ public class TeamMatch {
     private String winnerteam;
     private String loserteam;
     private boolean underTable;
+    private Date date;
 
     public TeamMatch() {
     }
 
     @JsonCreator
-    public TeamMatch(@JsonProperty("_id")String id,@JsonProperty("__v") int version,@JsonProperty("winnerteam") String winnerteam,@JsonProperty("loserteam") String loserteam,@JsonProperty("undertable") boolean underTable) {
+    public TeamMatch(@JsonProperty("_id")String id,@JsonProperty("__v") int version,@JsonProperty("winnerteam") String winnerteam,@JsonProperty("loserteam") String loserteam,@JsonProperty("undertable") boolean underTable, @JsonProperty("date") Date date) {
         this.id = id;
         this.winnerteam = winnerteam;
         this.loserteam = loserteam;
         this.underTable = underTable;
         this.version = version;
+        this.date = date;
     }
 
     public TeamMatch(String winnerteam, String loserteam, boolean underTable) {

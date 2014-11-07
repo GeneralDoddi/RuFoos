@@ -56,16 +56,10 @@ public class FoosActivity extends Activity{
                 String token = sharedPreferences.getString("token", "error");
                 boolean quickedUp = sharedPreferences.getBoolean("quickedUp", false);
 
-                System.out.println("Token: " + token);
                 if(username != "error"){
-                    // TODO: delete leaveQuickMatch from here
-
-                    //service.leaveQuickMatch(token);
-                    //service.leaveQuickMatch(userservice.getUserByUsername(username));
                     System.out.println("Quicked up " + quickedUp);
                     if(!quickedUp) {
                         QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername(username), token);
-                        //QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername(username));
 
                         if(quickMatch != null) {
                             SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -87,7 +81,7 @@ public class FoosActivity extends Activity{
             startActivity(new Intent(this, ChallengeActivity.class));
         }
         else if(id == R.id.matches) {
-
+            startActivity(new Intent(this, MatchListActivity.class));
         }
         else if(id == R.id.teams) {
 
