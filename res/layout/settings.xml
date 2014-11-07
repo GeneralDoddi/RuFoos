@@ -32,7 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="2. Don't score at first "
+                    android:text="2. Don't score at first touch"
                     android:padding="10dp"
                     android:id="@+id/textView" android:layout_gravity="center_horizontal"/>
         </LinearLayout>
