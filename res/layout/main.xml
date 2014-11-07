@@ -14,7 +14,7 @@
         <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:text="Pickup Match"
+                android:text="Quick Match"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/pickupMatch"
                 android:onClick="signUpForPickup"
@@ -65,22 +65,11 @@
             android:layout_height="0dip"
             android:orientation="horizontal"
             android:layout_weight="0.4" >
-        <Button
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:text="Competitions"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:id="@+id/competitions"
-                android:onClick="buttonClick"
-                android:background="@drawable/flat_selector"
-                android:layout_margin="1dp"
-                android:textColor="#ffffff"
-                android:layout_weight="0.5" />
 
         <Button
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:text="Teams"
+                android:text="My Teams"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:id="@+id/teams"
                 android:onClick="buttonClick"
@@ -123,19 +112,6 @@
                 android:layout_weight="1" />
 
 
-        <!--
-        android:layout_alignBottom="@+id/imageButton"-->
-        <!--<Button
-                android:layout_width="0dip"
-                android:layout_height="match_parent"
-                android:text="Settings"
-                android:drawableTop="@drawable/ic_action_settings"
-                android:id="@+id/settings"
-                android:onClick="buttonClick"
-                android:background="@drawable/flat_selector"
-                android:layout_margin="5dp"
-                android:textColor="#ffffff"
-                android:layout_weight="1" /> -->
     </LinearLayout>
 </LinearLayout>
 

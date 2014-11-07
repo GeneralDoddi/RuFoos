@@ -7,11 +7,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import com.example.RuFoos.domain.Match;
-import com.example.RuFoos.domain.QuickMatch;
 import com.example.RuFoos.extentions.MyAdapter;
 import com.example.RuFoos.match.MatchService;
 import com.example.RuFoos.match.MatchServiceData;
@@ -23,7 +21,7 @@ import java.util.List;
 /**
  * Created by Gadi on 2.11.2014.
  */
-public class MatchListActivity extends Activity {
+public class TeamListActivity extends Activity {
 
     private List<String> matchlist = new ArrayList<String>();
     private String[] test = {"asdf", "asdæfkj", "asdlfjaweio"};

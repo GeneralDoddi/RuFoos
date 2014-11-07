@@ -349,11 +349,11 @@ public class QuickMatchActivity extends Activity{
                     editor.putString("matchId", null);
                     editor.putBoolean("quickedUp", false);
                     editor.apply();
-
+                    QuickMatchActivity.this.finish();
                 }
             }).start();
 
-            QuickMatchActivity.this.finish();
+
         }
         else {
             Context context = getApplicationContext();

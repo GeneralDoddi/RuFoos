@@ -13,8 +13,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/username"
                 android:hint="Username"
-                android:layout_above="@+id/password"
-                android:layout_alignParentStart="true"/>
+                android:layout_centerVertical="true" android:layout_alignParentStart="true"/>
         <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -22,19 +21,16 @@
                 android:ems="10"
                 android:id="@+id/password"
                 android:hint="password"
-                android:layout_above="@+id/login"
-                android:layout_alignParentStart="true"/>
+                android:layout_below="@+id/username" android:layout_alignParentStart="true"/>
         <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="Login"
                 android:id="@+id/login"
                 android:onClick="login"
-                android:layout_above="@+id/signup"
                 android:textColor="#ffffff"
                 android:background="@drawable/flat_selector"
-                android:layout_alignParentStart="true"
-                android:layout_marginBottom="97dp"/>
+                android:layout_alignParentBottom="true" android:layout_alignParentStart="true"/>
         <Button
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -42,9 +38,8 @@
                 android:id="@+id/signup"
                 android:onClick="signUp"
                 android:textColor="#ffffff"
-                android:layout_alignParentBottom="true"
                 android:background="@drawable/flat_selector"
-                android:layout_alignParentStart="true"/>
+                android:layout_above="@+id/login" android:layout_alignParentStart="true"/>
 
         <ImageView
                 android:layout_width="wrap_content"
@@ -63,9 +58,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="Not already a user? Sign up!"
                 android:id="@+id/textView"
-                android:layout_above="@+id/signup"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"/>
+                android:layout_above="@+id/signup" android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 </LinearLayout>
 

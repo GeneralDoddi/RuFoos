@@ -84,11 +84,9 @@ public class FoosActivity extends Activity{
             startActivity(new Intent(this, MatchListActivity.class));
         }
         else if(id == R.id.teams) {
-
+            startActivity(new Intent(this, TeamListActivity.class));
         }
-        else if(id == R.id.competitions) {
 
-        }
         else if(id == R.id.settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         }
