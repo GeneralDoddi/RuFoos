@@ -35,7 +35,7 @@ public class TeamAdapter extends ArrayAdapter<Team> {
         View rowView = inflater.inflate(R.layout.teamrow, parent, false);
 
         // 3. Get the two text view from the rowView
-        TextView team = (TextView) rowView.findViewById(R.id.teamname);
+        /*TextView team = (TextView) rowView.findViewById(R.id.teamname);
         TextView players = (TextView) rowView.findViewById(R.id.p);
         TextView wins = (TextView) rowView.findViewById(R.id.wins);
         TextView losses = (TextView) rowView.findViewById(R.id.losses);
@@ -54,7 +54,7 @@ public class TeamAdapter extends ArrayAdapter<Team> {
 
 
 
-        // 5. retrn rowView
+        // 5. retrn rowView*/
         return rowView;
     }
 }
