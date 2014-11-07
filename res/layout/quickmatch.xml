@@ -60,6 +60,11 @@
                   android:paddingBottom="20dip"
                   android:onClick="onCheckboxClicked"
                   android:layout_gravity="right"/>
+        <CheckBox android:id="@+id/underTable"
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:text="Under the table?"
+                      android:onClick="onCheckboxClicked"/>
     </LinearLayout>
 </LinearLayout>
 

@@ -209,7 +209,7 @@ module.exports = function(router) {
 	});
 	
 	router.post('/pickupmatch/signup', function(req, res){
-		user.findOne({'userName': req.body.userName},'Player', function(err, response){
+		user.findOne({'token': req.body.token},'Player', function(err, response){
 			if(err || response == null){
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
@@ -281,44 +281,36 @@ module.exports = function(router) {
 	});
 
 	router.post('/pickupmatch/removesignup', function(req, res){
-		user.findOne({'userName': req.body.userName},'Player', function(err, response){
+		user.findOne({'token': req.body.token},'Player', function(err, response){
 			if(err || response == null){
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
 			}
 			else{
-				user.findOne({'userName': req.body.userName}, function(err, response){
+				pickup.findOne({'players': response.userName}, function(err, response){
 					if(err || response == null){
 						console.log(err);
 						res.status(503).send(err);
 					}
 					else{
-						pickup.findOne({'players': req.body.userName}, function(err, response){
-							if(err || response == null){
-								console.log(err);
-								res.status(503).send(err);
-							}
-							else{
-								console.log(response);
-								var index = response.players.indexOf(req.body.userName);
-								//console.log(index);
-								response.players.splice(index,1);
-								response.ready = [];
-								response.full = false;
-								response.save(function(err,b){
-									if(err){
-											console.log(err);
-											res.status(503).send(err);
-										}
-										else{
-											console.log(b);
-											res.status(201).send(b);
-										}
-								});
-						}
-					});
+						console.log(response);
+						var index = response.players.indexOf(req.body.userName);
+						//console.log(index);
+						response.players.splice(index,1);
+						response.ready = [];
+						response.full = false;
+						response.save(function(err,b){
+							if(err){
+									console.log(err);
+									res.status(503).send(err);
+								}
+								else{
+									console.log(b);
+									res.status(201).send(b);
+								}
+						});
 					}
-			  	});
+				});
 			}
 		});
 	});

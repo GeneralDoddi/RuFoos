@@ -277,10 +277,10 @@ public class QuickMatchActivity extends Activity{
                     winners.remove(location);
                 }
                 break;
-            case R.id.underTable:
+            /*case R.id.underTable:
                 underTable = true;
                 break;
-
+            */
         }
     }
 
