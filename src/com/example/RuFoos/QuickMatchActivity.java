@@ -98,7 +98,7 @@ public class QuickMatchActivity extends Activity{
         if(isFull){
             //autoUpdate.cancel();
 
-            if(!confirmed) {
+            if(!confirmed && !hasPopped) {
                 if(v.hasVibrator()){
                     v.vibrate(500);
                 }
@@ -277,10 +277,10 @@ public class QuickMatchActivity extends Activity{
                     winners.remove(location);
                 }
                 break;
-            case R.id.underTable:
+            /*case R.id.underTable:
                 underTable = true;
                 break;
-
+            */
         }
     }
 

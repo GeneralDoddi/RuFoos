@@ -1,7 +1,6 @@
 package com.example.RuFoos;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -15,9 +14,6 @@ import com.example.RuFoos.user.UserServiceData;
  * Created by Gadi on 2.11.2014.
  */
 public class SignUpActivity extends Activity {
-
-    private AlertDialog.Builder dialog;
-
 
     private EditText username;
     private EditText email;
