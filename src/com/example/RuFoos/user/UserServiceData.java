@@ -20,6 +20,7 @@ import org.codehaus.jackson.type.TypeReference;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,11 +74,12 @@ public class UserServiceData implements UserService {
         User user = new User();
         final String url = "/users/getuserbyname/";
         StreamConverter converter = new StreamConverter();
+        URI uri = null;
+       try {
+            uri = new URI(username.replace(' ', '+'));
+            HttpClient client = new DefaultHttpClient();
+            HttpGet httpGet = new HttpGet(BASE_URL + url + uri);
 
-        HttpClient client = new DefaultHttpClient();
-        HttpGet httpGet = new HttpGet(BASE_URL + url + username);
-
-        try {
             HttpResponse response = client.execute(httpGet);
             StatusLine statusLine = response.getStatusLine();
             int statusCode = statusLine.getStatusCode();
@@ -194,5 +196,6 @@ public class UserServiceData implements UserService {
 
         return returnUser;
     }
+
 }
 

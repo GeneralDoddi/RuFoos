@@ -50,12 +50,42 @@ public class ExhibitionRegistrationActivity extends Activity {
 
     public void buttonClick(View view) {
 
+        Button button = (Button) view;
+        int id = button.getId();
 
+        if (id == R.id.registerQuickMatch) {
+
+            String ble = ((Spinner) findViewById(R.id.winningUser2)).getSelectedItem().toString();
+            String errormsg = "User field cannot be left blank";
+            boolean error = false;
+
+            if(((Spinner) findViewById(R.id.winningUser1)).getSelectedItem().toString() == "Select username") {
+                error = true;
+                Toast.makeText(ExhibitionRegistrationActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            }
+            else if(((Spinner) findViewById(R.id.winningUser2)).getSelectedItem().toString() == "Select username") {
+                error = true;
+                Toast.makeText(ExhibitionRegistrationActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            }
+            else if(((Spinner) findViewById(R.id.losingUser1)).getSelectedItem().toString() == "Select username") {
+                error = true;
+                Toast.makeText(ExhibitionRegistrationActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            }
+            else if(((Spinner) findViewById(R.id.losingUser2)).getSelectedItem().toString().equals("Select username") ) {
+                error = true;
+                Toast.makeText(ExhibitionRegistrationActivity.this, errormsg, Toast.LENGTH_SHORT).show();
+            }
+            else if(error == false){
+                PostAsyncRunner runner = new PostAsyncRunner();
+                runner.execute();
+            }
+
+        }
     }
 
     public void addItemOnSpinners() {
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item) {
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(ExhibitionRegistrationActivity.this, android.R.layout.simple_spinner_item) {
 
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
@@ -90,9 +120,11 @@ public class ExhibitionRegistrationActivity extends Activity {
         loser2.setAdapter(adapter);
         loser2.setSelection(adapter.getCount()); //display hint
 
+
+
     }
 
-    public class AsyncRunner1 extends AsyncTask<String, Void, ExhibitionMatch> {
+    public class PostAsyncRunner extends AsyncTask<String, Void, ExhibitionMatch> {
         List<String> winners = new ArrayList<String>();
         List<String> losers = new ArrayList<String>();
         ExhibitionMatch exhibitionMatch = new ExhibitionMatch();
@@ -101,20 +133,23 @@ public class ExhibitionRegistrationActivity extends Activity {
         protected void onPreExecute() {
             super.onPreExecute();
 
-           /* winners.add(winner1.getText().toString());
-            winners.add(winner2.getText().toString());
+
+            winners.add(((Spinner) findViewById(R.id.winningUser1)).getSelectedItem().toString());
+            winners.add(((Spinner) findViewById(R.id.winningUser2)).getSelectedItem().toString());
             exhibitionMatch.setWinners(winners);
 
-            losers.add(loser1.getText().toString());
-            losers.add(loser2.getText().toString());
+            losers.add(((Spinner) findViewById(R.id.losingUser1)).getSelectedItem().toString());
+            losers.add(((Spinner) findViewById(R.id.losingUser2)).getSelectedItem().toString());
             exhibitionMatch.setLosers(losers);
-            */
+
             exhibitionMatch.setUnderTable(underTable.isChecked());
 
         }
 
         @Override
         protected ExhibitionMatch doInBackground(String... args) {
+
+
             SharedPreferences sharedPreferences = getSharedPreferences
                     (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
             String token = sharedPreferences.getString("token", "error");
