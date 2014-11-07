@@ -1,7 +1,9 @@
 package com.example.RuFoos;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -32,20 +34,23 @@ public class TeamMatchRegistrationActivity extends Activity {
     private MatchService _matchService;
     private TeamService _teamService;
     private List<Team> teamList;
+    private ArrayList<String> teamNames;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registerteammatch);
 
-        //load teams
-        getTeams();
-
-        //Get spinners
         winTeam = (Spinner) findViewById(R.id.WinningTeam);
         loseTeam = (Spinner) findViewById(R.id.LosingTeam);
 
-//        ArrayAdapter<Team> = ArrayAdapter.createFromResource(this, teamList, android.R.layout.simple_spinner_item);
+        SpinnerAdapter adapter = new ArrayAdapter<String>(TeamMatchRegistrationActivity.this,
+                R.layout.registerexhibitionmatch, teamNames);
+
+        winTeam.setAdapter(adapter);
+        //loseTeam.setAdapter(adapter);
+        //load teams
+        getTeams();
 
         registerMatch = (Button)findViewById(R.id.registerMatch);
     }
@@ -58,12 +63,15 @@ public class TeamMatchRegistrationActivity extends Activity {
 
         if(id == R.id.registerMatch){
 
+           final boolean error = false;
+
             new Thread(new Runnable() {
                 public void run() {
                     TeamMatch newMatch = new TeamMatch();
-
-                    /*newMatch.setWinnerteam(winTeam.getText().toString());
-                    newMatch.setLoserteam(loseTeam.get*/
+                    //Team t1 = (Team) ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem();
+                    Team t2 = (Team) ((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem();
+                    //newMatch.setWinnerteam(t1.getName());
+                    newMatch.setLoserteam(t2.getName());
                     newMatch.setUnderTable(underTable.isChecked());
 
                     SharedPreferences sharedPreferences = getSharedPreferences
@@ -71,6 +79,7 @@ public class TeamMatchRegistrationActivity extends Activity {
                     String token = sharedPreferences.getString("token", "error");
                     System.out.println("token " + token);
                     if(token == "error") {
+                        //error = true;
                         // TODO: throw error
                     }
                     else {
@@ -83,7 +92,23 @@ public class TeamMatchRegistrationActivity extends Activity {
                     }
                 }
             }).start();
+
+            CharSequence text = null;
+            if(!error)            {
+                text = "Results have been posted";
+            }
+            else{
+                text = "Error posting results";
+            }
+            int duration = Toast.LENGTH_SHORT;
+            Toast.makeText(TeamMatchRegistrationActivity.this, text, duration).show();
+            TeamMatchRegistrationActivity.this.finish();
         }
+        /*if(id == R.id.pickWinner)
+        {
+            //Create win Dialog
+            createWinDialog();
+        }*/
     }
 
     public void getTeams()
@@ -92,14 +117,21 @@ public class TeamMatchRegistrationActivity extends Activity {
             public void run() {
                 TeamService _teamService = new TeamServiceData();
                 teamList = _teamService.getAllTeams();
-                ArrayList<String> teamNames = new ArrayList<String>();
+                System.out.println(teamList.size());
 
+                //Add teamnames to array of strings
                 for(Team i : teamList)
                 {
-
+                    teamNames.add(i.getName());
                 }
+
             }
         }).start();
+    }
+
+    public void createWinDialog()
+    {
+
     }
 
 
