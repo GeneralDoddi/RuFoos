@@ -57,13 +57,14 @@ public class FoosActivity extends Activity{
                 boolean quickedUp = sharedPreferences.getBoolean("quickedUp", false);
 
                 System.out.println("Token: " + token);
-                //if(username != "error"){
+                if(username != "error"){
                     // TODO: delete leaveQuickMatch from here
 
                     //service.leaveQuickMatch(token);
                     //service.leaveQuickMatch(userservice.getUserByUsername(username));
+                    System.out.println("Quicked up " + quickedUp);
                     if(!quickedUp) {
-                        QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername("marino"), token);
+                        QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername(username), token);
                         //QuickMatch quickMatch = service.quickMatchSignUp(userservice.getUserByUsername(username));
 
                         if(quickMatch != null) {
@@ -73,7 +74,7 @@ public class FoosActivity extends Activity{
                             editor.commit();
                         }
                     }
-                //}
+                }
             }
         }).start();
         startActivity(new Intent(this, QuickMatchActivity.class));

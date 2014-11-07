@@ -137,7 +137,8 @@ public class QuickMatchActivity extends Activity{
 
     @Override
     public void onBackPressed(){
-        leaveQuickMatch();
+        //isReady = false;
+        //leaveQuickMatch();
         QuickMatchActivity.this.finish();
     }
 
@@ -291,16 +292,15 @@ public class QuickMatchActivity extends Activity{
                     winners.remove(location);
                 }
                 break;
-            /*case R.id.underTable:
+            case R.id.underTable:
                 underTable = true;
                 break;
-            */
+
         }
     }
 
     public void submitResults(View view){
         if(winners.size() == 2){
-            // TODO: post results
             for(int i = 0; i < matchPlayers.length; i++) {
                 if(!winners.contains(matchPlayers[i])){
                     losers.add(matchPlayers[i]);
@@ -320,18 +320,19 @@ public class QuickMatchActivity extends Activity{
                     SharedPreferences sharedPreferences = getSharedPreferences
                             (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                     String token = sharedPreferences.getString("token", "error");
+                    String matchId = sharedPreferences.getString("matchId", "error");
                     System.out.println("token " + token);
-                    if(token == "error") {
+                    if(token == "error" || matchId == "error") {
                         // TODO: throw error
                     }
                     else {
                         System.out.println("Token " + token);
-                        match = service.registerExhibitionMatch(match, token);
+                        match = service.registerExhibitionMatch(match, token, matchId);
                     }
 
                 }
             }).start();
-
+            QuickMatchActivity.this.finish();
         }
         else {
             Context context = getApplicationContext();
@@ -341,5 +342,6 @@ public class QuickMatchActivity extends Activity{
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
+
     }
 }
