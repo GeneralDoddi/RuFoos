@@ -216,13 +216,8 @@ module.exports = function(router) {
 			}
 			else{
 				var newPickup = new pickup();
-					user.find({'userName': req.body.userName}, function(err, response){
-						if(err){
-							console.log("Error: " + err);
-							res.status(503).send(err);
-						}
-						else{
-							pickup.find('',function(err,response){
+				
+						pickup.find('',function(err,response){
 							if(err){
 								console.log("Error: " + err);
 								res.status(503).send(err);
@@ -274,8 +269,8 @@ module.exports = function(router) {
 								}
 							}
 					  	});
-					}
-				});
+					
+			
 			}
 		});
 	});
@@ -287,6 +282,9 @@ module.exports = function(router) {
 				res.status(401).send("Unauthorized access");
 			}
 			else{
+				console.log(req.body);
+				console.log(response);
+				console.log(response.userName);
 				pickup.findOne({'players': response.userName}, function(err, response){
 					if(err || response == null){
 						console.log(err);

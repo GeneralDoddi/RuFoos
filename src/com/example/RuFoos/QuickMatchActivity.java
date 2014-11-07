@@ -135,6 +135,13 @@ public class QuickMatchActivity extends Activity{
         button.setVisibility(View.INVISIBLE);
     }
 
+    @Override
+    public void onBackPressed(){
+        //isReady = false;
+        //leaveQuickMatch();
+        QuickMatchActivity.this.finish();
+    }
+
     public void leaveQuickMatch() {
         new Thread(new Runnable() {
             public void run() {
@@ -144,8 +151,16 @@ public class QuickMatchActivity extends Activity{
                 // TODO: remove matchId from sharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-                //String username = sharedPreferences.getString("name", "error");
-                QuickMatch quickMatch = service.leaveQuickMatch(userservice.getUserByUsername("gadi"));
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("quickedUp", false);
+                editor.commit();
+                boolean bool =sharedPreferences.getBoolean("quickedUp", true);
+                System.out.println("WORKING?? " + bool);
+                String token = sharedPreferences.getString("token", "error");
+                if(token != "error") {
+                    System.out.println("Token " + token);
+                    QuickMatch quickMatch = service.leaveQuickMatch(token);
+                }
                 // QuickMatch quickMatch = service.leaveQuickMatch(userservice.getUserByUsername(username));
             }
         }).start();
@@ -277,16 +292,15 @@ public class QuickMatchActivity extends Activity{
                     winners.remove(location);
                 }
                 break;
-            /*case R.id.underTable:
+            case R.id.underTable:
                 underTable = true;
                 break;
-            */
+
         }
     }
 
     public void submitResults(View view){
         if(winners.size() == 2){
-            // TODO: post results
             for(int i = 0; i < matchPlayers.length; i++) {
                 if(!winners.contains(matchPlayers[i])){
                     losers.add(matchPlayers[i]);
@@ -306,18 +320,19 @@ public class QuickMatchActivity extends Activity{
                     SharedPreferences sharedPreferences = getSharedPreferences
                             (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
                     String token = sharedPreferences.getString("token", "error");
+                    String matchId = sharedPreferences.getString("matchId", "error");
                     System.out.println("token " + token);
-                    if(token == "error") {
+                    if(token == "error" || matchId == "error") {
                         // TODO: throw error
                     }
                     else {
                         System.out.println("Token " + token);
-                        match = service.registerExhibitionMatch(match, token);
+                        match = service.registerExhibitionMatch(match, token, matchId);
                     }
 
                 }
             }).start();
-
+            QuickMatchActivity.this.finish();
         }
         else {
             Context context = getApplicationContext();
@@ -327,5 +342,6 @@ public class QuickMatchActivity extends Activity{
             Toast toast = Toast.makeText(context, text, duration);
             toast.show();
         }
+
     }
 }

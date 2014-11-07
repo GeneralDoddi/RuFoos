@@ -43,11 +43,6 @@ public class TeamMatchRegistrationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.registerteammatch);
 
-
-        //load teams
-        /*getTeams();
-        loadItemsOnSpinner();*/
-
         new loadDataTask().execute();
 
 
@@ -67,10 +62,10 @@ public class TeamMatchRegistrationActivity extends Activity {
             new Thread(new Runnable() {
                 public void run() {
                     TeamMatch newMatch = new TeamMatch();
-                    //Team t1 = (Team) ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem();
-                    Team t2 = (Team) ((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem();
-                    //newMatch.setWinnerteam(t1.getName());
-                    newMatch.setLoserteam(t2.getName());
+                    String t1 =  ((Spinner) findViewById(R.id.WinningTeam)).getSelectedItem().toString();
+                    String t2 =  ((Spinner) findViewById(R.id.LosingTeam)).getSelectedItem().toString();
+                    newMatch.setWinnerteam(t1);
+                    newMatch.setLoserteam(t2);
                     newMatch.setUnderTable(underTable.isChecked());
 
                     SharedPreferences sharedPreferences = getSharedPreferences
