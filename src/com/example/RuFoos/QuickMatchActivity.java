@@ -135,6 +135,12 @@ public class QuickMatchActivity extends Activity{
         button.setVisibility(View.INVISIBLE);
     }
 
+    @Override
+    public void onBackPressed(){
+        leaveQuickMatch();
+        QuickMatchActivity.this.finish();
+    }
+
     public void leaveQuickMatch() {
         new Thread(new Runnable() {
             public void run() {
@@ -144,8 +150,16 @@ public class QuickMatchActivity extends Activity{
                 // TODO: remove matchId from sharedPreferences
                 SharedPreferences sharedPreferences = getSharedPreferences
                         (LoginActivity.MyPREFERENCES, Context.MODE_PRIVATE);
-                //String username = sharedPreferences.getString("name", "error");
-                QuickMatch quickMatch = service.leaveQuickMatch(userservice.getUserByUsername("gadi"));
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putBoolean("quickedUp", false);
+                editor.commit();
+                boolean bool =sharedPreferences.getBoolean("quickedUp", true);
+                System.out.println("WORKING?? " + bool);
+                String token = sharedPreferences.getString("token", "error");
+                if(token != "error") {
+                    System.out.println("Token " + token);
+                    QuickMatch quickMatch = service.leaveQuickMatch(token);
+                }
                 // QuickMatch quickMatch = service.leaveQuickMatch(userservice.getUserByUsername(username));
             }
         }).start();
