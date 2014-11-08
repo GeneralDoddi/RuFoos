@@ -39,6 +39,7 @@ module.exports = function(router) {
         		var userName = req.body.userName;
 			
 		register.register(email,password,userName,function (found) {
+			console.log(new Date());
 			console.log(found);
 			res.json(found);
 		});		
@@ -51,6 +52,7 @@ module.exports = function(router) {
 		var npass = req.body.newpass;
 
 		chgpass.cpass(id,opass,npass,function(found){
+			console.log(new Date());
 			console.log(found);
 			res.json(found);
 		});	
@@ -62,6 +64,7 @@ module.exports = function(router) {
 		var email = req.body.email;
 		
 		chgpass.respass_init(email,function(found){
+			console.log(new Date());
 			console.log(found);
 			res.json(found);
 		});		
@@ -74,7 +77,8 @@ module.exports = function(router) {
 		var code = req.body.code;
 		var npass = req.body.newpass;
 		
-		chgpass.respass_chg(email,code,npass,function(found){			
+		chgpass.respass_chg(email,code,npass,function(found){
+			console.log(new Date());			
 			console.log(found);
 			res.json(found);
 		});		
@@ -83,12 +87,11 @@ module.exports = function(router) {
 	router.post('/users/playerupdate', function(req,res){
 		user.findOne({'token': req.body.token},'Player', function(err, response){
 			if(err){
+				console.log(new Date());
 				console.log("Error: " + err);
 				res.status(503).send(err);
 			}
 			else{
-				console.log(response);
-				//var parsedResponse = JSON.parse(response[0]);
 				if(req.body.win != 0){
 					response.Player.wins = response.Player.wins + 1;
 				}
@@ -101,10 +104,12 @@ module.exports = function(router) {
 				}
 				response.save(function(err,b){
 					if(err){
+						console.log(new Date());
 						console.log(err);
 						res.status(503).send(err);
 					}
 					else{
+						console.log(new Date());
 						console.log(b);
 						res.status(201).send(b);
 					}
@@ -117,19 +122,21 @@ module.exports = function(router) {
 	router.post('/teams/addteam', function(req,res){
 		user.findOne({'token': req.body.token},'Player', function(err, found){
 			if(err || found == null){
+				console.log(new Date());
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
 			}
 			else{
 				var newTeam = new team();
-				console.log(req.body);
 
 					if(req.body.p1 === req.body.p2){
+						console.log(new Date());
 						res.status(503).send("The same player cannot be signed to the same team");
 					}
 					else{
 						user.find({'userName': req.body.p1},'userName, Player', function(err, response){
 							if(err){
+								console.log(new Date());
 								console.log("Error: " + err);
 								res.status(503).send(err);
 							}
@@ -139,6 +146,7 @@ module.exports = function(router) {
 
 								user.find({'userName': req.body.p2},'userName, Player', function(err, response){
 									if(err){
+										console.log(new Date());
 										console.log("Error: " + err);
 										res.status(503).send(err);
 									}
@@ -153,10 +161,12 @@ module.exports = function(router) {
 											
 										newTeam.save(function(err,b){
 											if(err){
+												console.log(new Date());
 												console.log(err);
 												res.status(503).send(err);
 											}
 											else{
+												console.log(new Date());
 												console.log(b);
 												res.status(201).send(b);
 											}
@@ -173,12 +183,14 @@ module.exports = function(router) {
 	router.post('/teams/teamupdate', function(req,res){
 		user.findOne({'token': req.body.token},'Player', function(err, response){
 			if(err || response == null){
+				console.log(new Date());
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
 			}
 			else{
 				team.findOne({'name': req.body.name}, function(err, response){
 					if(err){
+						console.log(new Date());
 						console.log("Error: " + err);
 						res.status(503).send(err);
 					}
@@ -194,10 +206,12 @@ module.exports = function(router) {
 						}
 						response.save(function(err,b){
 							if(err){
+								console.log(new Date());
 								console.log(err);
 								res.status(503).send(err);
 							}
 							else{
+								console.log(new Date());
 								console.log(b);
 								res.status(201).send(b);
 							}
@@ -211,6 +225,7 @@ module.exports = function(router) {
 	router.post('/pickupmatch/signup', function(req, res){
 		user.findOne({'token': req.body.token},'Player', function(err, response){
 			if(err || response == null){
+				console.log(new Date());
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
 			}
@@ -219,6 +234,7 @@ module.exports = function(router) {
 				
 						pickup.find('',function(err,response){
 							if(err){
+								console.log(new Date());
 								console.log("Error: " + err);
 								res.status(503).send(err);
 							}
@@ -231,7 +247,6 @@ module.exports = function(router) {
 										service.setFound(true);
 									}
 									else{
-										//console.log(pickupMatch.players.length)
 										if(pickupMatch.players.length < 4){
 											pickupMatch.players.push(req.body.userName);
 											if(pickupMatch.players.length == 4){
@@ -241,10 +256,12 @@ module.exports = function(router) {
 											service.setFound(true);
 											pickupMatch.save(function(err, b){
 												if(err){
+													console.log(new Date());
 													console.log(err);
 													res.status(503).send(err);
 												}
 												else{
+													console.log(new Date());
 													console.log(b);
 													res.status(201).send(b);
 												}
@@ -252,16 +269,16 @@ module.exports = function(router) {
 										}
 											
 								});
-								//console.log(service.getFound())
 								if(!service.getFound()){
-									console.log("inserting");
 									newPickup.players.push(req.body.userName);
 									newPickup.save(function(err, b){
 										if(err){
+											console.log(new Date());
 											console.log(err);
 											res.status(503).send(err);
 										}
 										else{
+											console.log(new Date());
 											console.log(b);
 											res.status(201).send(b);
 										}
@@ -278,33 +295,32 @@ module.exports = function(router) {
 	router.post('/pickupmatch/removesignup', function(req, res){
 		user.findOne({'token': req.body.token}, function(err, response){
 			if(err || response == null){
+				console.log(new Date());
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
 			}
 			else{
-				console.log(req.body);
-				console.log(response);
-				console.log(response.userName);
 				var username = response.userName;
 				pickup.findOne({'players': response.userName}, function(err, found){
 					if(err || found == null){
+						console.log(new Date());
 						console.log(err);
 						res.status(503).send(err);
 					}
 					else{
-						console.log(found);
-						console.log(username);
+
 						var index = found.players.indexOf(username);
-						//console.log(index);
 						found.players.splice(index,1);
 						found.ready = [];
 						found.full = false;
 						found.save(function(err,b){
 							if(err){
+								    console.log(new Date());
 									console.log(err);
 									res.status(503).send(err);
 								}
 								else{
+									console.log(new Date());
 									console.log(b);
 									res.status(201).send(b);
 								}
@@ -318,12 +334,14 @@ module.exports = function(router) {
 	router.post('/pickupmatch/confirmpickup', function(req,res){
 		user.findOne({'token': req.body.token},'Player', function(err, response){
 			if(err || response == null){
+				console.log(new Date());
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
 			}
 			else{
 				pickup.findOne(req.body.pickupid, function(err, response){
 					if(err){
+						console.log(new Date());
 						console.log(err);
 						res.status(503).send(err);
 					}
@@ -331,10 +349,12 @@ module.exports = function(router) {
 						response.ready.push(true);
 						response.save(function(err,b){
 							if(err){
+								console.log(new Date());
 								console.log(err);
 								res.status(503).send(err);
 							}
 							else{
+								console.log(new Date());
 								console.log(b);
 								res.status(201).send(b);
 							}
@@ -348,6 +368,7 @@ module.exports = function(router) {
 	router.post('/pickupmatch/registerteammatch', function(req, res){
 		user.findOne({'token': req.body.token},'Player', function(err, response){
 			if(err || response == null){
+				console.log(new Date());
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
 			}
@@ -355,6 +376,7 @@ module.exports = function(router) {
 				newMatch = new pickupmatch();
 					team.findOne({'name': req.body.winnerteam}, function(err, response){
 						if(err){
+							console.log(new Date());
 							console.log(err);
 							res.status(503).send(err);
 						}
@@ -362,8 +384,9 @@ module.exports = function(router) {
 							newMatch.winners.push(response.p1);
 							user.findOne({'userName' : response.p1}, function(err,p1){
 								if(err){
-								console.log(err);
-								res.status(503).send(err);
+									console.log(new Date());
+									console.log(err);
+									res.status(503).send(err);
 								}
 								else{
 									p1.Player.wins = p1.Player.wins + 1;
@@ -373,8 +396,9 @@ module.exports = function(router) {
 							newMatch.winners.push(response.p2);
 							user.findOne({'userName' : response.p2}, function(err,p2){
 								if(err){
-								console.log(err);
-								res.status(503).send(err);
+									console.log(new Date());
+									console.log(err);
+									res.status(503).send(err);
 								}
 								else{
 									p2.Player.wins = p2.Player.wins + 1;
@@ -387,6 +411,7 @@ module.exports = function(router) {
 							response.save(function(){
 								team.findOne({'name': req.body.loserteam}, function(err,response){
 									if(err){
+										console.log(new Date());
 										console.log(err);
 										res.status(503).send(err);
 									}
@@ -394,6 +419,7 @@ module.exports = function(router) {
 										newMatch.losers.push(response.p1);
 										user.findOne({'userName' : response.p1}, function(err,p1){
 											if(err){
+												console.log(new Date());
 												console.log(err);
 												res.status(503).send(err);
 											}
@@ -409,6 +435,7 @@ module.exports = function(router) {
 										newMatch.losers.push(response.p2);
 										user.findOne({'userName' : response.p2}, function(err,p2){
 											if(err){
+												console.log(new Date());
 												console.log(err);
 												res.status(503).send(err);
 											}
@@ -428,6 +455,7 @@ module.exports = function(router) {
 										}
 										response.save(function(err){
 											if(err){
+												console.log(new Date());
 												console.log(err);
 												res.status(503).send(err);
 											}
@@ -435,10 +463,12 @@ module.exports = function(router) {
 												newMatch.date = new Date();
 												newMatch.save(function(err,b){
 													if(err){
+														console.log(new Date());
 														console.log(err);
 														res.status(503).send(err);
 													}
 													else{
+														console.log(new Date());
 														console.log(b);
 														res.status(201).send(b);
 													}
@@ -457,6 +487,7 @@ module.exports = function(router) {
 	router.post('/pickupmatch/registerquickmatch', function(req,res){
 		user.findOne({'token': req.body.token},'Player', function(err, response){
 			if(err || response == null){
+				console.log(new Date());
 				console.log("User not signed up");
 				res.status(401).send("Unauthorized access");
 			}
@@ -464,55 +495,56 @@ module.exports = function(router) {
 				newMatch = new pickupmatch();
 				user.findOne({'userName' : req.body.winners[0]}, function(err,response){
 					if(err){
+						console.log(new Date());
 						console.log(err);
 						res.status(503).send(err);
 					}
 					else{
 						newMatch.winners.push(req.body.winners[0]);
-						console.log(newMatch.winners);
 						response.Player.wins = response.Player.wins + 1;
 						response.save(function(){
 							user.findOne({'userName' : req.body.winners[1]}, function(err,response){
 								if(err){
+									console.log(new Date());
 									console.log(err);
 									res.status(503).send(err);
 								}
 								else{
 									newMatch.winners.push(req.body.winners[1]);
-									console.log(newMatch.winners);
 									response.Player.wins = response.Player.wins + 1;
 									response.save(function(){
 										user.findOne({'userName' : req.body.losers[0]}, function(err,response){
 											if(err){
+												console.log(new Date());
 												console.log(err);
 												res.status(503).send(err);
 											}
 											else{
 												newMatch.losers.push(req.body.losers[0]);
-												console.log(newMatch.losers);
 												response.Player.losses = response.Player.losses + 1;
 												response.save(function(){
 													user.findOne({'userName' : req.body.losers[1]}, function(err,response){
 														if(err){
+															console.log(new Date());
 															console.log(err);
 															res.status(503).send(err);
 														}
 														else{
 															newMatch.losers.push(req.body.losers[1]);
-															console.log(newMatch.losers);
 															response.Player.losses = response.Player.losses + 1;
 															response.save(function(){
 																if(req.body.underTable === true){
 																	newMatch.underTable = true;
 																}
 																newMatch.date = new Date();
-																console.log(newMatch.winners);
 																newMatch.save(function(err,b){
 																	if(err){
+																		console.log(new Date());
 																		console.log(err);
 																		res.status(503).send(err);
 																	}
 																	else{
+																		console.log(new Date());
 																		console.log(b);
 																		res.status(201).send(b);
 																		pickup.remove({ _id: req.body.pickupId }, function(err) {
@@ -540,10 +572,12 @@ module.exports = function(router) {
 	router.get('/users/getuserbyname/:username', function(req, res){
 		user.findOne({'userName' : req.params.username},'userName email',function(err, response){
 			if(err){
+				console.log(new Date());
 				console.log("Error: " + err);
 				res.status(503).send(err);
 			}
 			else{
+				console.log(new Date());
 				console.log(response);
 				res.json(response);
 			}
@@ -553,10 +587,12 @@ module.exports = function(router) {
 	router.get('/users/getplayerinfo/:playername', function(req,res){
 		user.findOne({'userName' : req.params.playername},'Player',function(err, response){
 			if(err){
+				console.log(new Date());
 				console.log("Error: " + err);
 				res.status(503).send(err);
 			}
 			else{
+				console.log(new Date());
 				console.log(response);
 				res.json(response);
 			}
@@ -566,10 +602,12 @@ module.exports = function(router) {
 	router.get('/teams/getteambyname/:teamname', function(req, res){
 		team.findOne({'name' : req.params.teamname}, function(err,response){
 			if(err){
+				console.log(new Date());
 				console.log("Error: " + err);
 				res.status(503).send(err);
 			}
 			else{
+				console.log(new Date());
 				console.log(response);
 				res.json(response);
 			}
@@ -579,10 +617,12 @@ module.exports = function(router) {
 	router.get('/teams/getallteams', function(req, res){
 		team.find('name', function(err, response){
 			if(err){
+				console.log(new Date());
 				console.log("Error: " + err);
 				res.status(503).send(err);
 			}
 			else{
+				console.log(new Date());
 				console.log(response);
 				res.json(response);
 			}
@@ -592,10 +632,12 @@ module.exports = function(router) {
 	router.get('/users/getallusers', function(req, res){
 		user.find('userName','userName', function(err, response){
 			if(err){
+				console.log(new Date());
 				console.log("Error: " + err);
 				res.status(503).send(err);
 			}
 			else{
+				console.log(new Date());
 				console.log(response);
 				res.json(response);
 			}
@@ -605,10 +647,12 @@ module.exports = function(router) {
 	router.get('/pickupmatch/getpickupmatch/:id', function(req,res){
 		pickup.findById(req.params.id, function(err, response){
 			if(err){
+				console.log(new Date());
 				console.log("Error: " + err);
 				res.status(503).send(err);
 			}
 			else{
+				console.log(new Date());
 				console.log(response);
 				res.json(response);
 			}
@@ -619,10 +663,12 @@ module.exports = function(router) {
 	router.get('/users/:username/matches', function(req,res){
 		pickupmatch.find({ $or: [ {winners: req.params.username},{losers: req.params.username}]}, function(err, response){
 			if(err){
+				console.log(new Date());
 				console.log(err);
 				res.status(503).send(err);
 			}
 			else{
+				console.log(new Date());
 				console.log(response);
 				res.status(201).send(response);
 			}
@@ -632,10 +678,12 @@ module.exports = function(router) {
 	router.get('/users/:username/teams', function(req,res){
 		team.find({$or: [ {p1: req.params.username}, {p2: req.params.username}]},function(err,response){
 			if(err){
-			console.log(err);
-			res.status(503).send(err);
+				console.log(new Date());
+				console.log(err);
+				res.status(503).send(err);
 			}
 			else{
+				console.log(new Date());
 				console.log(response);
 				res.status(201).send(response);
 			}
