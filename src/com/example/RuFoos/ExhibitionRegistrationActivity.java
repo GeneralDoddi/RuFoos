@@ -55,7 +55,7 @@ public class ExhibitionRegistrationActivity extends Activity {
 
         if (id == R.id.registerQuickMatch) {
 
-            String ble = ((Spinner) findViewById(R.id.winningUser2)).getSelectedItem().toString();
+
             String errormsg = "User field cannot be left blank";
             boolean error = false;
 
